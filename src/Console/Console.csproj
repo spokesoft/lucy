@@ -1,5 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+  </ItemGroup>
+
   <PropertyGroup>
     <AssemblyName>Lucy.Console</AssemblyName>
     <RootNamespace>Lucy.Console</RootNamespace>
