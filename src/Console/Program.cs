@@ -1,4 +1,5 @@
-﻿using Lucy.Infrastructure;
+﻿using Lucy.Application.Interfaces;
+using Lucy.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,3 +11,9 @@ var configuration = new ConfigurationBuilder()
     .Build();
 
 services.AddInfrastructure(configuration);
+
+var provider = services.BuildServiceProvider();
+
+var migrators = provider.GetServices<IDatabaseMigrator>();
+
+await Task.WhenAll(migrators.Select(m => m.MigrateAsync()));

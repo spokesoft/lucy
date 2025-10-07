@@ -1,4 +1,5 @@
 using System.Threading.Channels;
+using Lucy.Application.Interfaces;
 using Lucy.Infrastructure.Logging.Database;
 using Lucy.Infrastructure.Logging.Options;
 using Lucy.Infrastructure.Logging.Services;
@@ -49,23 +50,19 @@ public static class LoggingExtensions
             SingleReader = true,
             SingleWriter = false
         };
+
         var channel = Channel.CreateBounded<LogEntry>(channelOptions);
         var provider = new DatabaseLoggerProvider(channel, options);
-
-        string[] connectionStrings = [
-            BuildConnectionString(options.Database, SqliteOpenMode.ReadWriteCreate),
-            BuildConnectionString(options.Database, SqliteOpenMode.ReadOnly),
-            BuildConnectionString(options.Database, SqliteOpenMode.ReadWrite),
-        ];
 
         builder.Services
             .AddSingleton(channel)
             .AddDbContext<LoggingDbContext>(config
-                => config.UseSqlite(connectionStrings[0]))
+                => config.UseSqlite(BuildConnectionString(options.Database, SqliteOpenMode.ReadWriteCreate)))
             .AddDbContext<LoggingReadContext>(config
-                => config.UseSqlite(connectionStrings[1]))
+                => config.UseSqlite(BuildConnectionString(options.Database, SqliteOpenMode.ReadOnly)))
             .AddDbContext<LoggingWriteContext>(config
-                => config.UseSqlite(connectionStrings[2]))
+                => config.UseSqlite(BuildConnectionString(options.Database, SqliteOpenMode.ReadWrite)))
+            .AddSingleton<IDatabaseMigrator, LoggingDatabaseMigrator>()
             .AddSingleton<ILoggerProvider>(provider)
             .AddSingleton<IDatabaseLoggingService, DatabaseLoggingService>();
 

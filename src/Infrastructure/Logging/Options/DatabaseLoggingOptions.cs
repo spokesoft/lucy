@@ -13,6 +13,11 @@ public sealed class DatabaseLoggingOptions : DatabaseOptionsBase
     public const string SectionName = "Database";
 
     /// <summary>
+    /// The data source (file path) for the SQLite database.
+    /// </summary>
+    public string DataSource { get; set; } = "logs.db";
+
+    /// <summary>
     /// The timeout (in seconds) to wait for the logging service to stop gracefully.
     /// </summary>
     public int StopTimeout { get; set; } = 5;

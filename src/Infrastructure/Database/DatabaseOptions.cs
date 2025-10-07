@@ -11,6 +11,11 @@ public sealed class DatabaseOptions : DatabaseOptionsBase
     /// The configuration section name for database options.
     /// </summary>
     public const string SectionName = "Database";
+
+    /// <summary>
+    /// The data source (file path) for the SQLite database.
+    /// </summary>
+    public string DataSource { get; set; } = "lucy.db";
 }
 
 /// <summary>
@@ -18,11 +23,6 @@ public sealed class DatabaseOptions : DatabaseOptionsBase
 /// </summary>
 public abstract class DatabaseOptionsBase
 {
-    /// <summary>
-    /// The data source (file path) for the SQLite database.
-    /// </summary>
-    public string DataSource { get; set; } = "lucy.db";
-
     /// <summary>
     /// The SQLite cache mode to use.
     /// </summary>
