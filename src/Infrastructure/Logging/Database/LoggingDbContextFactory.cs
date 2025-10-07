@@ -11,7 +11,7 @@ namespace Lucy.Infrastructure.Logging.Database;
 /// does not need to match the runtime configuration. It is only used to
 /// create a context for design-time operations.
 /// </remarks>
-public class LoggingContextFactory : IDesignTimeDbContextFactory<LoggingDbContext>
+public class LoggingDbContextFactory : IDesignTimeDbContextFactory<LoggingDbContext>
 {
     public LoggingDbContext CreateDbContext(string[] args)
     {

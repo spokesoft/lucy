@@ -3,16 +3,19 @@ using System;
 using Lucy.Infrastructure.Logging.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Lucy.Infrastructure.Migrations
+namespace Lucy.Infrastructure.Migrations.LoggingDb
 {
-    [DbContext(typeof(LoggingContext))]
-    partial class LoggingContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(LoggingDbContext))]
+    [Migration("20251007215734_initLogging")]
+    partial class initLogging
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.9");

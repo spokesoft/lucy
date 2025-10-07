@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Lucy.Infrastructure.Migrations
+namespace Lucy.Infrastructure.Migrations.LoggingDb
 {
     /// <inheritdoc />
     public partial class initLogging : Migration
