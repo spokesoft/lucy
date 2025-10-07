@@ -1,4 +1,4 @@
-using Lucy.Domain.Entities;
+using Lucy.Application.Projects.Repositories;
 
 namespace Lucy.Application.Interfaces;
 
@@ -10,7 +10,7 @@ public interface IUnitOfWork
     /// <summary>
     /// Repository for Project entities.
     /// </summary>
-    public IRepository<Project, long> Projects { get; }
+    public IProjectRepository Projects { get; }
 
     /// <summary>
     /// Saves all changes made in the context to the database.

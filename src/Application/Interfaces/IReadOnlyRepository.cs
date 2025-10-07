@@ -22,5 +22,5 @@ public interface IReadOnlyRepository<T, TKey>
     /// <summary>
     /// Checks if an entity exists by its identifier.
     /// </summary>
-    Task<bool> ExistsAsync(TKey id, CancellationToken token = default);
+    Task<bool> ExistsByIdAsync(TKey id, CancellationToken token = default);
 }

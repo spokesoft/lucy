@@ -17,10 +17,10 @@ public interface IRepository<T, TKey> : IReadOnlyRepository<T, TKey>
     /// <summary>
     /// Updates an existing entity in the repository.
     /// </summary>
-    Task Update(T entity);
+    void Update(T entity);
 
     /// <summary>
     /// Deletes an entity from the repository.
     /// </summary>
-    Task Delete(T entity);
+    void Remove(T entity);
 }
