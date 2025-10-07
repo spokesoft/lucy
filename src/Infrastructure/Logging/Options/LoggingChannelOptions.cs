@@ -5,7 +5,7 @@ namespace Lucy.Infrastructure.Logging.Options;
 /// <summary>
 /// Configuration options for the logging channel.
 /// </summary>
-public class LoggingChannelOptions
+public sealed class LoggingChannelOptions
 {
     /// <summary>
     /// The configuration section name.

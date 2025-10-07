@@ -89,7 +89,7 @@ public class DatabaseLoggingService(
     public Task MigrateAsync(CancellationToken token = default)
     {
         var scope = _provider.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<LoggingContext>();
+        var context = scope.ServiceProvider.GetRequiredService<LoggingDbContext>();
         return context.Database.MigrateAsync(token);
     }
 

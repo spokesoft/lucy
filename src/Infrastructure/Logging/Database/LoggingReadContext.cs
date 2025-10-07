@@ -6,7 +6,7 @@ namespace Lucy.Infrastructure.Logging.Database;
 /// Database context for reading logs only.
 /// </summary>
 public class LoggingReadContext(
-    DbContextOptions<LoggingContext> options) : LoggingContext(options)
+    DbContextOptions<LoggingDbContext> options) : LoggingDbContext(options)
 {
     private const string ReadOnlyErrorMessage = "This context is read-only and does not support saving changes.";
 

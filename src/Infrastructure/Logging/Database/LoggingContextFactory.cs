@@ -11,13 +11,13 @@ namespace Lucy.Infrastructure.Logging.Database;
 /// does not need to match the runtime configuration. It is only used to
 /// create a context for design-time operations.
 /// </remarks>
-public class LoggingContextFactory : IDesignTimeDbContextFactory<LoggingContext>
+public class LoggingContextFactory : IDesignTimeDbContextFactory<LoggingDbContext>
 {
-    public LoggingContext CreateDbContext(string[] args)
+    public LoggingDbContext CreateDbContext(string[] args)
     {
-        var builder = new DbContextOptionsBuilder<LoggingContext>();
+        var builder = new DbContextOptionsBuilder<LoggingDbContext>();
         builder.UseSqlite("Data Source=logs.db; Mode=ReadWriteCreate;");
 
-        return new LoggingContext(builder.Options);
+        return new LoggingDbContext(builder.Options);
     }
 }

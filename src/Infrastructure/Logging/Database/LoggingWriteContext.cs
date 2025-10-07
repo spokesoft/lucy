@@ -6,7 +6,7 @@ namespace Lucy.Infrastructure.Logging.Database;
 /// Database context for writing logs.
 /// </summary>
 public class LoggingWriteContext(
-    DbContextOptions<LoggingContext> options) : LoggingContext(options)
+    DbContextOptions<LoggingDbContext> options) : LoggingDbContext(options)
 {
     // This context allows write operations, so no additional configuration is needed.
 }

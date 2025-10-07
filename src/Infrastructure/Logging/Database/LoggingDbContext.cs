@@ -1,3 +1,4 @@
+using Lucy.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Lucy.Infrastructure.Logging.Database;
@@ -5,9 +6,14 @@ namespace Lucy.Infrastructure.Logging.Database;
 /// <summary>
 /// Database context for logging.
 /// </summary>
-public class LoggingContext(
-    DbContextOptions<LoggingContext> options) : DbContext(options)
+public class LoggingDbContext(
+    DbContextOptions<LoggingDbContext> options) : DbContext(options)
 {
+    /// <summary>
+    /// The namespace where the entity configurations are located.
+    /// </summary>
+    private const string ConfigurationNamespace = "Lucy.Infrastructure.Logging.Database.Configurations";
+
     /// <summary>
     /// The log entries in the database.
     /// </summary>
@@ -18,7 +24,10 @@ public class LoggingContext(
     /// </summary>
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        builder.ApplyConfigurationsFromNamespace(
+            typeof(LoggingDbContext).Assembly,
+            ConfigurationNamespace);
+
         base.OnModelCreating(builder);
-        builder.ApplyConfiguration(new LogEntryTypeConfiguration());
     }
 }

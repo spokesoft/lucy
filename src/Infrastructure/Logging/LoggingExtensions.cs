@@ -60,7 +60,7 @@ public static class LoggingExtensions
 
         builder.Services
             .AddSingleton(channel)
-            .AddDbContext<LoggingContext>(config
+            .AddDbContext<LoggingDbContext>(config
                 => config.UseSqlite(connectionStrings[0]))
             .AddDbContext<LoggingReadContext>(config
                 => config.UseSqlite(connectionStrings[1]))

@@ -2,7 +2,7 @@ using Lucy.Infrastructure.Logging.Database.Converters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Lucy.Infrastructure.Logging.Database;
+namespace Lucy.Infrastructure.Logging.Database.Configurations;
 
 /// <summary>
 /// Configuration for the log entry.
