@@ -3,8 +3,14 @@ namespace Lucy.Application.Validation;
 /// <summary>
 /// Represents the result of a validation operation.
 /// </summary>
-public class ValidationResult(IEnumerable<ValidationError>? errors = null)
+public class ValidationResult(
+    IEnumerable<ValidationError>? errors = null)
 {
+    /// <summary>
+    /// A static instance representing a successful validation result.
+    /// </summary>
+    public static readonly ValidationResult Success = new();
+
     /// <summary>
     /// Internal list of validation errors.
     /// </summary>
