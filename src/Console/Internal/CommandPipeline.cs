@@ -1,4 +1,5 @@
 using Lucy.Application.Interfaces;
+using Lucy.Application.Validation;
 using Lucy.Console.Enums;
 using Lucy.Console.Interfaces;
 using Lucy.Infrastructure.Logging.Services;
@@ -70,6 +71,7 @@ internal class CommandPipeline<TCommand>(CommandContext context, TCommand settin
 
         _steps.Add(async (token, next) =>
         {
+            var exitCode = ExitCode.Success;
             var result = new Application.Validation.ValidationResult();
             var validations = validators.Select(async validator =>
             {
@@ -79,12 +81,28 @@ internal class CommandPipeline<TCommand>(CommandContext context, TCommand settin
 
             await Task.WhenAll(validations);
 
+            if (result.IsValid)
+            {
+                try
+                {
+                    exitCode = await next(token);
+                }
+                // Catch validation exceptions thrown during command
+                // handling. These exceptions are expected to be thrown by
+                // the application layer.
+                catch (ValidationException ex)
+                {
+                    result.AddResult(ex.Result);
+                }
+            }
+
             if (!result.IsValid)
             {
+                // TODO: Handle the validation result.
                 return ExitCode.Invalid;
             }
 
-            return await next(token);
+            return exitCode;
         });
 
         return this;
