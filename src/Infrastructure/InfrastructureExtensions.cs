@@ -1,5 +1,6 @@
 using Lucy.Infrastructure.Database;
 using Lucy.Infrastructure.Logging;
+using Lucy.Infrastructure.Mediation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,8 +16,11 @@ public static class InfrastructureExtensions
     /// </summary>
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddLogging(configuration);
-        services.AddDatabase(configuration);
+        services
+            .AddDatabase(configuration)
+            .AddLogging(configuration)
+            .AddMediation();
+
         return services;
     }
 }

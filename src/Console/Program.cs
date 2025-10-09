@@ -19,9 +19,9 @@ var configuration = new ConfigurationBuilder()
     .Build();
 
 services
+    .AddLocalization(options => options.ResourcesPath = "Resources")
     .AddInfrastructure(configuration)
-    .AddSingleton<ICommandExecutor, CommandExecutor>()
-    .AddLocalization(options => options.ResourcesPath = "Resources");
+    .AddCommands();
 
 // Build the service provider
 //  Dispose it when done to clean up any resources

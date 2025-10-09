@@ -4,7 +4,7 @@ using Spectre.Console.Cli;
 namespace Lucy.Console.Extensions;
 
 /// <summary>
-/// Extension methods for configuring CommandApp.
+/// Extension methods for <see cref="ICommandApp"/>.
 /// </summary>
 internal static class CommandAppExtensions
 {
