@@ -8,6 +8,7 @@ using Lucy.Console.Internal;
 using Lucy.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Localization;
 using Spectre.Console.Cli;
 
 var services = new ServiceCollection();
@@ -19,84 +20,73 @@ var configuration = new ConfigurationBuilder()
 
 services
     .AddInfrastructure(configuration)
-    .AddSingleton<ICommandExecutor, CommandExecutor>();
+    .AddSingleton<ICommandExecutor, CommandExecutor>()
+    .AddLocalization(options => options.ResourcesPath = "Resources");
 
 // Build the service provider
 //  Dispose it when done to clean up any resources
 using var provider = services.BuildServiceProvider();
 
 var app = new CommandApp();
-var pipeline = provider.GetRequiredService<ICommandExecutor>();
+var executor = provider.GetRequiredService<ICommandExecutor>();
+var localizer = provider.GetRequiredService<IStringLocalizer<Program>>();
 
 app.Configure(config =>
 {
-    config.SetApplicationName("lucy");
+    config.SetApplicationName(localizer["App.Name"]);
     config.SetApplicationVersion(
         app.GetVersionFromAssembly(typeof(Program).Assembly));
 
     #region Command Configuration
     #region New Command Branch
 
-    config.AddBranch<NewCommand>("new", branch =>
-    {
-        branch.SetDescription("Create a new resource");
+    config.AddBranch<NewCommand>(localizer["Command.New"],
+        branch =>
+        {
+            branch.SetDescription(localizer["Command.New.Description"]);
 
-        branch.AddAsyncDelegate<NewProjectCommand>("project", pipeline.ExecuteAsync)
-            .WithDescription("Create a new project")
-            .WithExample(["new", "project", "EXAMP"])
-            .WithExample(["new", "project", "EXAMP", "--name", "Example"]);
-    });
+            branch.AddAsyncDelegate<NewProjectCommand>("New.Project", executor, localizer);
+        });
 
     #endregion
     #region List Command Branch
 
-    config.AddBranch<ListCommand>("list", branch =>
-    {
-        branch.SetDescription("List available resources");
+    config.AddBranch<ListCommand>(localizer["Command.List"],
+        branch =>
+        {
+            branch.SetDescription(localizer["Command.List.Description"]);
 
-        branch.AddAsyncDelegate<ListProjectsCommand>("project", pipeline.ExecuteAsync)
-            .WithDescription("List projects")
-            .WithExample(["list", "projects"]);
-    });
+            branch.AddAsyncDelegate<ListProjectsCommand>("List.Projects", executor, localizer);
+        });
 
     #endregion
     #region Show Command Branch
 
-    config.AddBranch<ShowCommand>("show", branch =>
+    config.AddBranch<ShowCommand>(localizer["Command.Show"], branch =>
     {
-        branch.SetDescription("Show details of a resource");
+        branch.SetDescription(localizer["Command.Show.Description"]);
 
-        branch.AddAsyncDelegate<ShowProjectCommand>("project", pipeline.ExecuteAsync)
-            .WithDescription("Show project details")
-            .WithExample(["show", "project", "EXAMP"])
-            .WithExample(["show", "project", "--id", "1"]);
+        branch.AddAsyncDelegate<ShowProjectCommand>("Show.Project", executor, localizer);
     });
 
     #endregion
     #region Update Command Branch
 
-    config.AddBranch<UpdateCommand>("update", branch =>
+    config.AddBranch<UpdateCommand>(localizer["Command.Update"], branch =>
     {
-        branch.SetDescription("Update a resource");
+        branch.SetDescription(localizer["Command.Update.Description"]);
 
-        branch.AddAsyncDelegate<UpdateProjectCommand>("project", pipeline.ExecuteAsync)
-            .WithDescription("Update project details")
-            .WithExample(["update", "project", "EXAMP", "--name", "NewName"])
-            .WithExample(["update", "project", "--id", "1", "-n", "NewName"])
-            .WithExample(["update", "project", "NEWKEY", "--id", "1"]);
+        branch.AddAsyncDelegate<UpdateProjectCommand>("Update.Project", executor, localizer);
     });
 
     #endregion
     #region Delete Command Branch
 
-    config.AddBranch<DeleteCommand>("delete", branch =>
+    config.AddBranch<DeleteCommand>(localizer["Command.Delete"], branch =>
     {
-        branch.SetDescription("Delete a resource");
+        branch.SetDescription(localizer["Command.Delete.Description"]);
 
-        branch.AddAsyncDelegate<DeleteProjectCommand>("project", pipeline.ExecuteAsync)
-            .WithDescription("Delete a project")
-            .WithExample(["delete", "project", "EXAMP"])
-            .WithExample(["delete", "project", "--id", "1"]);
+        branch.AddAsyncDelegate<DeleteProjectCommand>("Delete.Project", executor, localizer);
     });
 
     #endregion

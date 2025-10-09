@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+
+  <data name="App.Name">
+    <value>lucy</value>
+  </data>
+
+  <!-- Command names -->
+
+  <data name="Command.New">
+    <value>new</value>
+  </data>
+  <data name="Command.List">
+    <value>list</value>
+  </data>
+  <data name="Command.Show">
+    <value>show</value>
+  </data>
+  <data name="Command.Update">
+    <value>update</value>
+  </data>
+  <data name="Command.Delete">
+    <value>delete</value>
+  </data>
+
+  <!-- Command descriptions -->
+
+  <data name="Command.New.Description">
+    <value>Create a new resource.</value>
+  </data>
+  <data name="Command.List.Description">
+    <value>List all resources.</value>
+  </data>
+  <data name="Command.Show.Description">
+    <value>Show details of a resource.</value>
+  </data>
+  <data name="Command.Update.Description">
+    <value>Update an existing resource.</value>
+  </data>
+  <data name="Command.Delete.Description">
+    <value>Delete a resource.</value>
+  </data>
+
+  <!-- Command context -->
+
+  <data name="Command.Context.Project">
+    <value>project</value>
+  </data>
+  <data name="Command.Context.Projects">
+    <value>projects</value>
+  </data>
+
+  <!-- Project resources -->
+
+  <data name="Command.New.Project.Description">
+    <value>Create a new project.</value>
+  </data>
+  <data name="Command.New.Project.Example.0">
+    <value>new project EXAMP --name Example</value>
+  </data>
+  <data name="Command.New.Project.Example.1">
+    <value>new project EXAMPLE --name Example</value>
+  </data>
+  <data name="Command.List.Project.Description">
+    <value>List all projects.</value>
+  </data>
+  <data name="Command.List.Project.Example.0">
+    <value>list projects</value>
+  </data>
+  <data name="Command.Show.Project.Description">
+    <value>Show details of a project.</value>
+  </data>
+  <data name="Command.Show.Project.Example.0">
+    <value>show project EXAMP</value>
+  </data>
+  <data name="Command.Show.Project.Example.1">
+    <value>show project --id 1</value>
+  </data>
+  <data name="Command.Update.Project.Description">
+    <value>Update an existing project.</value>
+  </data>
+  <data name="Command.Update.Project.Example.0">
+    <value>update project EXAMP --name NewName</value>
+  </data>
+  <data name="Command.Update.Project.Example.1">
+    <value>update project --id 1 -n NewName</value>
+  </data>
+  <data name="Command.Update.Project.Example.2">
+    <value>update project NEWKEY --id 1</value>
+  </data>
+  <data name="Command.Delete.Project.Description">
+    <value>Delete a project.</value>
+  </data>
+  <data name="Command.Delete.Project.Example.0">
+    <value>delete project EXAMP</value>
+  </data>
+  <data name="Command.Delete.Project.Example.1">
+    <value>delete project --id 1</value>
+  </data>
+
+</root>
