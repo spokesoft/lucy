@@ -28,6 +28,8 @@ public static class DatabaseExtensions
                 => config.UseSqlite(BuildConnectionString(options, SqliteOpenMode.ReadOnly)))
             .AddDbContext<LucyWriteContext>(config
                 => config.UseSqlite(BuildConnectionString(options, SqliteOpenMode.ReadWrite)))
+            .AddScoped<IUnitOfWork, UnitOfWork>()
+            .AddScoped<IReadOnlyUnitOfWork, ReadOnlyUnitOfWork>()
             .AddSingleton<IDatabaseMigrator, LucyDatabaseMigrator>();
 
         return services;
