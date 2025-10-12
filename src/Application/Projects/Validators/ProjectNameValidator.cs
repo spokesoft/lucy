@@ -13,17 +13,15 @@ public class ProjectNameValidator : IValidator<string?>
     /// </summary>
     public ValidationResult Validate(string? name)
     {
-        var result = new ValidationResult();
-
         if (string.IsNullOrWhiteSpace(name))
-            return result; // Name is optional
+            return ValidationResult.Success; // Name is optional
 
-        if (name.Length > 100)
-            result.AddError(new ValidationError(
+        if (name.Length > 500)
+            return ValidationResult.Error(
                 ValidationCode.ProjectNameLength,
                 nameof(name),
-                [name.Length]));
+                name.Length);
 
-        return result;
+        return ValidationResult.Success;
     }
 }

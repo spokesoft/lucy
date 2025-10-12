@@ -9,9 +9,16 @@ namespace Lucy.Console.Commands.Show;
 public class ShowProjectCommand : ShowCommand
 {
     /// <summary>
-    /// Unique key of the project to show.
+    /// The key of the project to show.
     /// </summary>
-    [CommandArgument(0, "[KEY]")]
-    [Description("Unique key of the project to show.")]
-    public string? Key { get; set; }
+    [CommandArgument(0, "[key]")]
+    [Description("The key of the project to show.")]
+    public required string? Key { get; set; }
+
+    /// <summary>
+    /// The ID of the project to show.
+    /// </summary>
+    [CommandOption("-i|--id <id>")]
+    [Description("The ID of the project to show.")]
+    public required long? Id { get; set; }
 }

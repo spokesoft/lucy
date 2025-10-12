@@ -39,16 +39,12 @@ public class UpdateProjectCommandValidator(
 
         if (!await _uow.Projects.ExistsByIdAsync(request.Id, token))
         {
-            result.AddError(new ValidationError(
-                ValidationCode.ProjectNotFound,
-                nameof(request.Id),
-                [request.Id]));
+            return ValidationResult.Error(ValidationCode.ProjectNotFound, nameof(request.Id), request.Id);
         }
         else
         {
             if (request.Key is null && request.Name is null && request.Description is null)
-                result.AddError(new ValidationError(
-                    ValidationCode.ProjectNoDataToUpdate));
+                return ValidationResult.Error(ValidationCode.ProjectNoDataToUpdate);
 
             if (request.Key is not null)
                 result.AddResult(await _keyValidator.ValidateAsync(request.Key, token));

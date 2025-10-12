@@ -19,14 +19,9 @@ public class DeleteProjectCommandValidator(
     /// </summary>
     public async Task<ValidationResult> ValidateAsync(DeleteProjectCommand request, CancellationToken token = default)
     {
-        var result = new ValidationResult();
-
         if (!await _uow.Projects.ExistsByIdAsync(request.Id, token))
-            result.AddError(new ValidationError(
-                ValidationCode.ProjectNotFound,
-                nameof(request.Id),
-                [request.Id]));
+            ValidationResult.Error(ValidationCode.ProjectNotFound, nameof(request.Id), request.Id);
 
-        return result;
+        return ValidationResult.Success;
     }
 }

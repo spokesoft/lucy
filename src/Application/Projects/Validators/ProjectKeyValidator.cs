@@ -21,27 +21,16 @@ public class ProjectKeyValidator(IReadOnlyUnitOfWork unitOfWork) : IAsyncValidat
         var result = new ValidationResult();
 
         if (string.IsNullOrWhiteSpace(key))
-            result.AddError(new ValidationError(
-                ValidationCode.ProjectKeyRequired,
-                nameof(key)));
+            return ValidationResult.Error(ValidationCode.ProjectKeyRequired, nameof(key));
 
-        if (result.IsValid && (key.Length < 3 || key.Length > 10))
-            result.AddError(new ValidationError(
-                ValidationCode.ProjectKeyLength,
-                nameof(key),
-                [key.Length]));
+        if (key.Length < 3 || key.Length > 10)
+            result.AddError(ValidationCode.ProjectKeyLength, nameof(key), key.Length);
 
-        if (result.IsValid && !key.All(char.IsLetterOrDigit))
-            result.AddError(new ValidationError(
-                ValidationCode.ProjectKeyAlphaNumeric,
-                nameof(key),
-                [key]));
+        if (!key.All(char.IsLetterOrDigit))
+            result.AddError(ValidationCode.ProjectKeyAlphaNumeric, nameof(key), key);
 
         if (result.IsValid && await _uow.Projects.ExistsByKeyAsync(key, token))
-            result.AddError(new ValidationError(
-                ValidationCode.ProjectKeyExists,
-                nameof(key),
-                [key]));
+            result.AddError(ValidationCode.ProjectKeyExists, nameof(key), key);
 
         return result;
     }

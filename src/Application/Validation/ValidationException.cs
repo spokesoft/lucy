@@ -3,7 +3,6 @@ namespace Lucy.Application.Validation;
 /// <summary>
 /// Exception thrown when validation errors occur.
 /// </summary>
-/// <param name="result"></param>
 public class ValidationException(ValidationResult result)
     : Exception("One or more validation errors occurred.")
 {

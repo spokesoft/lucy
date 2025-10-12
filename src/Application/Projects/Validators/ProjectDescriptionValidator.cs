@@ -13,17 +13,15 @@ public class ProjectDescriptionValidator : IValidator<string?>
     /// </summary>
     public ValidationResult Validate(string? description)
     {
-        var result = new ValidationResult();
-
         if (string.IsNullOrWhiteSpace(description))
-            return result; // Description is optional
+            return ValidationResult.Success; // Description is optional
 
         if (description.Length > 500)
-            result.AddError(new ValidationError(
+            return ValidationResult.Error(
                 ValidationCode.ProjectDescriptionLength,
                 nameof(description),
-                [description.Length]));
+                description.Length);
 
-        return result;
+        return ValidationResult.Success;
     }
 }

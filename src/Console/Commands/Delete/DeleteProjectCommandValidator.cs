@@ -1,4 +1,7 @@
+using Lucy.Application.Interfaces;
+using Lucy.Application.Projects.Queries.ProjectExistsByKey;
 using Lucy.Application.Validation;
+using Lucy.Console.Enums;
 using Lucy.Console.Interfaces;
 using Spectre.Console.Cli;
 
@@ -7,14 +10,35 @@ namespace Lucy.Console.Commands.Delete;
 /// <summary>
 /// Validator for <see cref="DeleteProjectCommand"/>
 /// </summary>
-public class DeleteProjectCommandValidator : ICommandValidator<DeleteProjectCommand>
+public class DeleteProjectCommandValidator(
+    IMediator mediator) : ICommandValidator<DeleteProjectCommand>
 {
+    /// <summary>
+    /// The mediator instance.
+    /// </summary>
+    private readonly IMediator _mediator = mediator;
+
     /// <inheritdoc />
-    public Task<ValidationResult> ValidateAsync(
+    public async Task<ValidationResult> ValidateAsync(
         CommandContext context,
-        DeleteProjectCommand settings,
+        DeleteProjectCommand command,
         CancellationToken token = default)
     {
-        throw new NotImplementedException();
+        if (command.Id is null)
+        {
+            if (string.IsNullOrWhiteSpace(command.Key))
+                return ValidationResult.Error(ConsoleValidationCode.ProjectKeyOrIdRequired);
+
+            var query = new ProjectExistsByKeyQuery(command.Key);
+            if (!await _mediator.Send(query, token))
+            {
+                return ValidationResult.Error(
+                    ConsoleValidationCode.ProjectKeyNotFound,
+                    nameof(command.Key),
+                    command.Key);
+            }
+        }
+
+        return ValidationResult.Success;
     }
 }
