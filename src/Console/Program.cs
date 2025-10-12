@@ -9,6 +9,7 @@ using Lucy.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
+using Spectre.Console;
 using Spectre.Console.Cli;
 
 var services = new ServiceCollection();
@@ -21,6 +22,7 @@ var configuration = new ConfigurationBuilder()
 services
     .AddLocalization(options => options.ResourcesPath = "Resources")
     .AddInfrastructure(configuration)
+    .AddSingleton(AnsiConsole.Console)
     .AddCommands();
 
 // Build the service provider

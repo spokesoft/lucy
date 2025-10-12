@@ -6,7 +6,7 @@ namespace Lucy.Console.Commands.New;
 /// <summary>
 /// Settings for the 'new project' command.
 /// </summary>
-public abstract class NewProjectCommand : NewCommand
+public class NewProjectCommand : NewCommand
 {
     /// <summary>
     /// The unique key for the project.

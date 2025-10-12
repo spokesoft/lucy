@@ -50,7 +50,46 @@
     <value>projects</value>
   </data>
 
+  <!-- Base properties -->
+
+  <data name="Property.Id">
+    <value>Id</value>
+  </data>
+  <data name="Property.CreatedAt">
+    <value>Created At</value>
+  </data>
+  <data name="Property.UpdatedAt">
+    <value>Last Updated</value>
+  </data>
+
+  <data name="Empty.String">
+    <value>&lt;empty&gt;</value>
+  </data>
+
+  <!-- Project properties -->
+
+  <data name="Property.Project.Key">
+    <value>Key</value>
+  </data>
+  <data name="Property.Project.Name">
+    <value>Name</value>
+  </data>
+  <data name="Property.Project.Description">
+    <value>Description</value>
+  </data>
+
   <!-- Project resources -->
+
+  <data name="View.ListProjects.Title">
+    <value>Project List</value>
+  </data>
+  <data name="View.ListProjects.Caption">
+    <value>Displaying {0}-{1} of {2} projects</value>
+  </data>
+
+  <data name="View.ShowProject.Title">
+    <value>Project</value>
+  </data>
 
   <data name="Command.New.Project.Description">
     <value>Create a new project.</value>
@@ -61,12 +100,14 @@
   <data name="Command.New.Project.Example.1">
     <value>new project EXAMPLE --name Example</value>
   </data>
+
   <data name="Command.List.Project.Description">
     <value>List all projects.</value>
   </data>
   <data name="Command.List.Project.Example.0">
     <value>list projects</value>
   </data>
+
   <data name="Command.Show.Project.Description">
     <value>Show details of a project.</value>
   </data>
@@ -76,6 +117,7 @@
   <data name="Command.Show.Project.Example.1">
     <value>show project --id 1</value>
   </data>
+
   <data name="Command.Update.Project.Description">
     <value>Update an existing project.</value>
   </data>
@@ -88,6 +130,7 @@
   <data name="Command.Update.Project.Example.2">
     <value>update project NEWKEY --id 1</value>
   </data>
+
   <data name="Command.Delete.Project.Description">
     <value>Delete a project.</value>
   </data>

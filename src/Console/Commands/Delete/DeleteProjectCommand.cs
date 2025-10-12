@@ -10,7 +10,7 @@ namespace Lucy.Console.Commands.Delete;
 /// A project can be identified by either its key or its ID. If both are
 /// provided, the key is ignored.
 /// </remarks>
-public abstract class DeleteProjectCommand : DeleteCommand
+public class DeleteProjectCommand : DeleteCommand
 {
     /// <summary>
     /// The key of the project to delete.
