@@ -1,4 +1,4 @@
-using Lucy.Console.Internal;
+using Lucy.Console.Interfaces;
 using Microsoft.Extensions.Localization;
 using Spectre.Console.Cli;
 

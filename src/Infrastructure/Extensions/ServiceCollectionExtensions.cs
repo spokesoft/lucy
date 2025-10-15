@@ -31,4 +31,26 @@ public static class ServiceCollectionExtensions
 
         return services;
     }
+
+    /// <summary>
+    /// Scans the specified assembly for all non-abstract, non-interface types
+    /// that implement the given interface and registers them with the service
+    /// collection.
+    /// </summary>
+    public static IServiceCollection AddTypesFromAssembly(
+        this IServiceCollection services,
+        Type interfaceType,
+        Assembly assembly,
+        ServiceLifetime lifetime = ServiceLifetime.Scoped)
+    {
+        var types = assembly.GetTypes()
+            .Where(t => !t.IsAbstract && !t.IsInterface && t.GetInterfaces().Contains(interfaceType));
+
+        foreach (var type in types)
+        {
+            services.Add(new ServiceDescriptor(type, type, lifetime));
+        }
+
+        return services;
+    }
 }

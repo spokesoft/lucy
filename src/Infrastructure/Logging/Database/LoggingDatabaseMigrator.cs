@@ -11,9 +11,14 @@ public class LoggingDatabaseMigrator(
     /// </summary>
     private readonly LoggingDbContext _context = context;
 
-    /// <summary>
-    /// Applies any pending migrations to the database.
-    /// </summary>
+    /// <inheritdoc />
+    public string Name => "Logging";
+
+    /// <inheritdoc />
     public Task MigrateAsync(CancellationToken token = default)
         => _context.Database.MigrateAsync(token);
+
+    /// <inheritdoc />
+    public Task<bool> IsMigrationRequiredAsync(CancellationToken token = default)
+        => _context.Database.GetPendingMigrationsAsync(token).ContinueWith(t => t.Result.Any(), token);
 }

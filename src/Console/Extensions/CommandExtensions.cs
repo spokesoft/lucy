@@ -21,7 +21,8 @@ public static class CommandExtensions
         services
             .AddSingleton<ICommandExecutor, CommandExecutor>()
             .AddCommandHandlersFromAssembly(assembly)
-            .AddCommandValidatorsFromAssembly(assembly);
+            .AddCommandValidatorsFromAssembly(assembly)
+            .AddCommandMiddlewareFromAssembly(assembly);
 
         return services;
     }
@@ -49,6 +50,17 @@ public static class CommandExtensions
             [
                 typeof(ICommandValidator<>),
             ],
+            assembly,
+            ServiceLifetime.Scoped);
+
+    /// <summary>
+    /// Registers all command validators from the specified assembly.
+    /// </summary>
+    public static IServiceCollection AddCommandMiddlewareFromAssembly(
+        this IServiceCollection services,
+        Assembly assembly)
+        => services.AddTypesFromAssembly(
+            typeof(ICommandMiddleware),
             assembly,
             ServiceLifetime.Scoped);
 

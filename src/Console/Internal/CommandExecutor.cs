@@ -1,6 +1,5 @@
-using Lucy.Application.Interfaces;
 using Lucy.Console.Interfaces;
-using Lucy.Infrastructure.Logging.Services;
+using Lucy.Console.Middleware;
 using Microsoft.Extensions.DependencyInjection;
 using Spectre.Console.Cli;
 
@@ -8,12 +7,6 @@ using Spectre.Console.Cli;
 /// Defines methods to execute commands.
 /// </summary>
 namespace Lucy.Console.Internal;
-
-internal interface ICommandExecutor
-{
-    Task<int> ExecuteAsync<TCommand>(CommandContext context, TCommand settings)
-        where TCommand : CommandSettings;
-}
 
 /// <summary>
 /// Executes commands by resolving them from the service provider.
@@ -29,30 +22,37 @@ internal class CommandExecutor(
     /// <summary>
     /// Executes the specified command by resolving it from the service provider.
     /// </summary>
-    public Task<int> ExecuteAsync<TCommand>(CommandContext context, TCommand settings)
+    public async Task<int> ExecuteAsync<TCommand>(CommandContext context, TCommand settings)
         where TCommand : CommandSettings
     {
-        using var scope = _provider.CreateScope();
+        var scope = _provider.CreateScope();
+        var cts = new CancellationTokenSource();
 
-        var migrators = scope.ServiceProvider.GetServices<IDatabaseMigrator>();
-        var logging = scope.ServiceProvider.GetRequiredService<IDatabaseLoggingService>();
+        void HandleCancel(object? sender, ConsoleCancelEventArgs e)
+        {
+            e.Cancel = true;
+            cts.Cancel();
+        };
 
-        var validators = scope.ServiceProvider.GetServices(
-            typeof(ICommandValidator<>).MakeGenericType(typeof(TCommand)))
-            as IEnumerable<ICommandValidator<TCommand>> ?? [];
+        System.Console.CancelKeyPress += HandleCancel;
 
-        var handler = scope.ServiceProvider.GetRequiredService(
-            typeof(ICommandHandler<>).MakeGenericType(typeof(TCommand)))
-            as ICommandHandler<TCommand>
-            ?? throw new InvalidOperationException(
-                $"No handler registered for command type {typeof(TCommand).FullName}");
+        try
+        {
+            var pipeline = CommandPipelineBuilder<TCommand>.Create(scope.ServiceProvider)
+                .Use<ErrorHandlerMiddleware>()
+                .Use<MigrationsMiddleware>()
+                .Use<LoggingMiddleware>()
+                .Use<ValidationMiddleware>()
+                .Use<HandlerMiddleware>()
+                .Build();
 
-        // Build and run the command pipeline
-        return CommandPipeline.Create(context, settings)
-            .UseDatabaseMigration(migrators)
-            .UseLogging(logging)
-            .UseValidation(validators)
-            .UseHandler(handler)
-            .RunAsync();
+            return await pipeline.RunAsync(context, settings, cts.Token);
+        }
+        finally
+        {
+            System.Console.CancelKeyPress -= HandleCancel;
+            scope.Dispose();
+            cts.Dispose();
+        }
     }
 }

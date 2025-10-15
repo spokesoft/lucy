@@ -4,7 +4,7 @@ using Lucy.Console.Commands.New;
 using Lucy.Console.Commands.Show;
 using Lucy.Console.Commands.Update;
 using Lucy.Console.Extensions;
-using Lucy.Console.Internal;
+using Lucy.Console.Interfaces;
 using Lucy.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

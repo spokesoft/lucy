@@ -53,6 +53,7 @@ public class DatabaseLoggingService(
         _cts = token is not null
             ? CancellationTokenSource.CreateLinkedTokenSource(token.Value)
             : new CancellationTokenSource();
+
         _processingTask = Task.Run(ProcessLogQueueAsync);
     }
 
