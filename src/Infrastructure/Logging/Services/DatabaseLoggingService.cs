@@ -1,8 +1,9 @@
+using System.Diagnostics;
 using System.Threading.Channels;
 using Lucy.Infrastructure.Logging.Database;
 using Lucy.Infrastructure.Logging.Options;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Lucy.Infrastructure.Logging.Services;
@@ -18,7 +19,7 @@ public class DatabaseLoggingService(
     /// <summary>
     /// The service provider to create scopes for database contexts.
     /// </summary>
-    private readonly IServiceProvider _provider = provider;
+    private readonly IServiceScope _scope = provider.CreateScope();
 
     /// <summary>
     /// The channel writer to enqueue log entries.
@@ -41,9 +42,19 @@ public class DatabaseLoggingService(
     private CancellationTokenSource? _cts;
 
     /// <summary>
+    /// Stopwatch to measure the duration the service has been running.
+    /// </summary>
+    private Stopwatch? _stopwatch;
+
+    /// <summary>
     /// The background task processing log entries.
     /// </summary>
     private Task? _processingTask;
+
+    /// <summary>
+    /// A factory function to generate a final log message when stopping the service.
+    /// </summary>
+    private Func<int, long, string>? _finalMessageFactory = null;
 
     /// <summary>
     /// Starts the background log processing task.
@@ -54,14 +65,17 @@ public class DatabaseLoggingService(
             ? CancellationTokenSource.CreateLinkedTokenSource(token.Value)
             : new CancellationTokenSource();
 
+        _stopwatch = Stopwatch.StartNew();
         _processingTask = Task.Run(ProcessLogQueueAsync);
     }
 
     /// <summary>
     /// Stops the background log processing task gracefully.
     /// </summary>
-    public async Task StopAsync()
+    public async Task StopAsync(Func<int, long, string>? finalMessageFactory = null)
     {
+        _finalMessageFactory = finalMessageFactory;
+
         if (_cts is null || _processingTask is null)
             throw new InvalidOperationException("Logging service not started.");
 
@@ -70,28 +84,16 @@ public class DatabaseLoggingService(
             var timeout = TimeSpan.FromSeconds(_options.StopTimeout);
             _writer.Complete();
             await _processingTask.WaitAsync(timeout, _cts.Token);
-            await _cts.CancelAsync();
         }
         catch (OperationCanceledException)
         {
             // Ignore cancellation exceptions during shutdown
         }
-        finally
+        catch (Exception)
         {
-            _cts.Dispose();
-            _cts = null;
-            _processingTask = null;
+            _cts.Cancel();
+            throw;
         }
-    }
-
-    /// <summary>
-    /// Applies any pending migrations to the logging database.
-    /// </summary>
-    public Task MigrateAsync(CancellationToken token = default)
-    {
-        var scope = _provider.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<LoggingDbContext>();
-        return context.Database.MigrateAsync(token);
     }
 
     /// <summary>
@@ -99,14 +101,35 @@ public class DatabaseLoggingService(
     /// </summary>
     private async Task ProcessLogQueueAsync()
     {
-        if (_cts is null)
+        if (_cts is null || _stopwatch is null)
             throw new InvalidOperationException("Logging service not started.");
 
-        var scope = _provider.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<LoggingWriteContext>();
+        var totalLogs = 0;
+        var context = _scope.ServiceProvider.GetRequiredService<LoggingWriteContext>();
         await foreach (var entry in _reader.ReadAllAsync(_cts.Token))
         {
+            _cts.Token.ThrowIfCancellationRequested();
             await context.Logs.AddAsync(entry, _cts.Token);
+            if (totalLogs % _options.BatchSize == 0)
+                await context.SaveChangesAsync(_cts.Token);
+            totalLogs++;
+        }
+
+        await context.SaveChangesAsync(_cts.Token);
+        _stopwatch.Stop();
+
+        if (_finalMessageFactory is not null)
+        {
+            var elapsed = _stopwatch.ElapsedMilliseconds;
+            var finalMessage = _finalMessageFactory.Invoke(totalLogs, elapsed);
+            await context.Logs.AddAsync(new LogEntry
+            {
+                Category = "Summary",
+                EventId = new EventId(0, "FinalLog"),
+                Timestamp = DateTime.UtcNow,
+                Level = LogLevel.Debug,
+                Message = finalMessage
+            }, _cts.Token);
             await context.SaveChangesAsync(_cts.Token);
         }
     }
@@ -116,7 +139,14 @@ public class DatabaseLoggingService(
     /// </summary>
     public void Dispose()
     {
-        _cts?.Dispose();
+        if (_cts is not null)
+        {
+            if (!_cts.IsCancellationRequested)
+                _cts.Cancel();
+            _cts.Dispose();
+        }
+        _processingTask?.Wait();
+        _scope.Dispose();
         GC.SuppressFinalize(this);
     }
 }

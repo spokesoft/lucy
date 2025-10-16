@@ -21,4 +21,9 @@ public sealed class DatabaseLoggingOptions : DatabaseOptionsBase
     /// The timeout (in seconds) to wait for the logging service to stop gracefully.
     /// </summary>
     public int StopTimeout { get; set; } = 5;
+
+    /// <summary>
+    /// The maximum number of log entries to process in a single batch.
+    /// </summary>
+    public int BatchSize { get; set; } = 100;
 }

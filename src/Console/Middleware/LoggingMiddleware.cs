@@ -55,8 +55,8 @@ public class LoggingMiddleware(
         }
         finally
         {
-            _logger.LogDebug("Background logging service ran for {Elapsed}ms.", sw.ElapsedMilliseconds);
-            await logging.StopAsync();
+            await logging.StopAsync((count, elapsed)
+                => $"Background logging service wrote {count} entries stopped after {elapsed}ms.");
         }
     }
 }

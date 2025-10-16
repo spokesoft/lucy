@@ -13,10 +13,5 @@ public interface IDatabaseLoggingService : IDisposable
     /// <summary>
     /// Stops the background log processing task gracefully.
     /// </summary>
-    Task StopAsync();
-
-    /// <summary>
-    /// Applies any pending migrations to the logging database.
-    /// </summary>
-    Task MigrateAsync(CancellationToken token = default);
+    Task StopAsync(Func<int, long, string>? finalMessageFactory = null);
 }
