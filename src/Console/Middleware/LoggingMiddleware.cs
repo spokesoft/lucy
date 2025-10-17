@@ -1,9 +1,11 @@
 using System.Diagnostics;
 using Lucy.Console.Enums;
+using Lucy.Console.Extensions;
 using Lucy.Console.Interfaces;
 using Lucy.Console.Internal;
 using Lucy.Infrastructure.Logging.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Spectre.Console.Cli;
 
@@ -12,12 +14,14 @@ namespace Lucy.Console.Middleware;
 /// <summary>
 /// A middleware that starts and stops the background logging service.
 /// </summary>
-public class LoggingMiddleware(
+internal class LoggingMiddleware(
     IServiceProvider services,
-    ILogger<LoggingMiddleware> logger) : ICommandMiddleware
+    ILogger<LoggingMiddleware> logger,
+    IStringLocalizer<Program> localizer) : ICommandMiddleware
 {
     private readonly IServiceProvider _services = services;
     private readonly ILogger<LoggingMiddleware> _logger = logger;
+    private readonly IStringLocalizer<Program> _localizer = localizer;
 
     /// <inheritdoc/>
     public async Task<ExitCode> InvokeAsync<TCommand>(
@@ -32,23 +36,18 @@ public class LoggingMiddleware(
         var sw = Stopwatch.StartNew();
         logging.Start(token);
 
-        _logger.LogDebug("Started background logging service.");
+        _logger.LogDebug(_localizer, "Messages.LoggingServiceStarted");
 
         try
         {
-            _logger.LogDebug(
-                "Command {command} execution started at {start:yyyy-MM-dd HH:mm:ss} UTC by {user}",
-                command.GetType().Name,
-                start,
-                Environment.UserName);
-
             var result = await next(context, command, token);
             sw.Stop();
 
             _logger.LogDebug(
-                "Command {command} completed with {exitcode} in {elapsed}ms",
+                _localizer,
+                "Messages.CommandExecuted",
                 command.GetType().Name,
-                result,
+                result.ToString(),
                 sw.ElapsedMilliseconds);
 
             return result;
@@ -56,7 +55,7 @@ public class LoggingMiddleware(
         finally
         {
             await logging.StopAsync((count, elapsed)
-                => $"Background logging service wrote {count} entries stopped after {elapsed}ms.");
+                => _localizer.GetString("Messages.LoggingServiceStopped", count, elapsed));
         }
     }
 }

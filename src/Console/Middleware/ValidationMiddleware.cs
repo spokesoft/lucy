@@ -1,9 +1,11 @@
 using System.Diagnostics;
 using Lucy.Application.Validation;
 using Lucy.Console.Enums;
+using Lucy.Console.Extensions;
 using Lucy.Console.Interfaces;
 using Lucy.Console.Internal;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Spectre.Console.Cli;
 
@@ -12,12 +14,14 @@ namespace Lucy.Console.Middleware;
 /// <summary>
 /// A middleware that handles command validation.
 /// </summary>
-public class ValidationMiddleware(
+internal class ValidationMiddleware(
     IServiceProvider services,
-    ILogger<ValidationMiddleware> logger) : ICommandMiddleware
+    ILogger<ValidationMiddleware> logger,
+    IStringLocalizer<Program> localizer) : ICommandMiddleware
 {
     private readonly IServiceProvider _services = services;
     private readonly ILogger<ValidationMiddleware> _logger = logger;
+    private readonly IStringLocalizer<Program> _localizer = localizer;
 
     /// <inheritdoc/>
     public async Task<ExitCode> InvokeAsync<TCommand>(
@@ -38,21 +42,60 @@ public class ValidationMiddleware(
 
         if (!validators.Any())
         {
-            sw.Stop();
-            _logger.LogDebug("No validators found for command {command}, skipping validation.", commandName);
+            _logger.LogDebug(
+                _localizer,
+                "Messages.NoValidatorsFound",
+                commandName);
         }
         else
         {
-            foreach (var validator in validators)
+            try
             {
-                result.AddResult(await ValidateAsync(validator, context, command, token));
+                foreach (var validator in validators)
+                {
+                    result.AddResult(await ValidateAsync(validator, context, command, token));
+                }
+
+                sw.Stop();
+                if (result.IsValid)
+                {
+                    var count = validators.Count();
+
+                    _logger.LogDebug(
+                        _localizer,
+                        "Messages.CommandValidationPassed",
+                        commandName,
+                        count,
+                        sw.ElapsedMilliseconds);
+                }
+                else
+                {
+                    _logger.LogWarning(
+                        _localizer,
+                        "Messages.CommandValidationFailed",
+                        commandName,
+                        sw.ElapsedMilliseconds,
+                        string.Join("; ", result.Errors.Select(e => e.Message)));
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning(
+                    _localizer,
+                    "Messages.CommandValidationCanceled",
+                    commandName);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    ex,
+                    _localizer,
+                    "Messages.CommandValidationError",
+                    commandName);
+                throw;
             }
 
-            sw.Stop();
-            _logger.LogDebug(
-                "Validation for command {command} completed in {elapsed}ms",
-                commandName,
-                sw.ElapsedMilliseconds);
         }
 
         if (!result.IsValid)
@@ -79,26 +122,44 @@ public class ValidationMiddleware(
             var result = await validator.ValidateAsync(context, command, token);
 
             sw.Stop();
-            _logger.LogDebug(
-                "Validation for command {command} with {validator} completed in {elapsed}ms",
-                commandName,
-                validatorName,
-                sw.ElapsedMilliseconds);
+            if (result.IsValid)
+            {
+                _logger.LogDebug(
+                    _localizer,
+                    "Messages.CommandValidatorPassed",
+                    commandName,
+                    validatorName,
+                    sw.ElapsedMilliseconds);
+            }
+            else
+            {
+                _logger.LogWarning(
+                    _localizer,
+                    "Messages.CommandValidatorFailed",
+                    commandName,
+                    validatorName,
+                    sw.ElapsedMilliseconds,
+                    string.Join("; ", result.Errors.Select(e => e.Message)));
+            }
 
             return result;
         }
         catch (OperationCanceledException)
         {
-            sw.Stop();
-            _logger.LogWarning("Validation for command {command} with {validator} was canceled after {elapsed}ms",
+            _logger.LogWarning(
+                _localizer,
+                "Messages.CommandValidatorCanceled",
                 commandName,
                 validatorName,
                 sw.ElapsedMilliseconds);
             throw;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            _logger.LogError("Validation for command {command} with {validator} failed after {elapsed}ms",
+            _logger.LogError(
+                ex,
+                _localizer,
+                "Messages.CommandValidatorError",
                 commandName,
                 validatorName,
                 sw.ElapsedMilliseconds);

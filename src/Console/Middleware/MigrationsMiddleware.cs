@@ -1,9 +1,11 @@
 using System.Diagnostics;
 using Lucy.Application.Interfaces;
 using Lucy.Console.Enums;
+using Lucy.Console.Extensions;
 using Lucy.Console.Interfaces;
 using Lucy.Console.Internal;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Spectre.Console.Cli;
 
@@ -12,12 +14,14 @@ namespace Lucy.Console.Middleware;
 /// <summary>
 /// A middleware that applies database migrations before executing commands.
 /// </summary>
-public class MigrationsMiddleware(
+internal class MigrationsMiddleware(
     IServiceProvider services,
-    ILogger<MigrationsMiddleware> logger) : ICommandMiddleware
+    ILogger<MigrationsMiddleware> logger,
+    IStringLocalizer<Program> localizer) : ICommandMiddleware
 {
     private readonly IServiceProvider _services = services;
     private readonly ILogger<MigrationsMiddleware> _logger = logger;
+    private readonly IStringLocalizer<Program> _localizer = localizer;
 
     /// <inheritdoc/>
     public async Task<ExitCode> InvokeAsync<TCommand>(
@@ -31,7 +35,7 @@ public class MigrationsMiddleware(
 
         if (!migrators.Any())
         {
-            _logger.LogDebug("No database migrators registered, skipping migrations.");
+            _logger.LogDebug(_localizer, "Messages.NoMigratorsRegistered");
             return await next(context, command, token);
         }
 
@@ -50,34 +54,36 @@ public class MigrationsMiddleware(
                 else
                 {
                     _logger.LogDebug(
-                        "No migration required for {Database}, the database is up to date.",
+                        _localizer,
+                        "Messages.NoMigrationRequired",
                         migrator.Name);
                 }
             }
 
             if (required.Count > 0)
             {
-                await Task.WhenAll(required.Select(migrator => MigrateAsync(migrator, token)));
+                await Task.WhenAll(required.Select(
+                    migrator => MigrateAsync(migrator, token)));
 
                 sw.Stop();
                 _logger.LogInformation(
-                    "Database migrations completed successfully for {Databases} in {Elapsed}ms",
-                    required.Count == 1
-                        ? "1 database"
-                        : $"{required.Count} databases",
+                    _localizer,
+                    "Messages.MigrationsCompleted",
+                    required.Count,
                     sw.ElapsedMilliseconds);
             }
             else
             {
                 sw.Stop();
-                _logger.LogDebug("No database migrations required, all databases are up to date.");
+                _logger.LogDebug(_localizer, "Messages.NoMigrationsRequired");
             }
         }
         catch (OperationCanceledException)
         {
             sw.Stop();
             _logger.LogWarning(
-                "Database migrations canceled after {Elapsed}ms",
+                _localizer,
+                "Messages.MigrationsCanceled",
                 sw.ElapsedMilliseconds);
 
             throw;
@@ -87,7 +93,8 @@ public class MigrationsMiddleware(
             sw.Stop();
             _logger.LogError(
                 ex,
-                "Database migrations failed after {Elapsed}ms",
+                _localizer,
+                "Messages.MigrationsFailed",
                 sw.ElapsedMilliseconds);
 
             throw;
@@ -109,7 +116,8 @@ public class MigrationsMiddleware(
             await migrator.MigrateAsync(token);
             sw.Stop();
             _logger.LogInformation(
-                "Database migrations for {Database} completed successfully in {Elapsed}ms",
+                _localizer,
+                "Messages.MigrationCompleted",
                 migrator.Name,
                 sw.ElapsedMilliseconds);
         }
@@ -117,7 +125,8 @@ public class MigrationsMiddleware(
         {
             sw.Stop();
             _logger.LogError(
-                "Database migrations for {Database} canceled after {Elapsed}ms",
+                _localizer,
+                "Messages.MigrationCanceled",
                 migrator.Name,
                 sw.ElapsedMilliseconds);
             throw;
@@ -127,7 +136,8 @@ public class MigrationsMiddleware(
             sw.Stop();
             _logger.LogError(
                 ex,
-                "Database migrations for {Database} failed after {Elapsed}ms",
+                _localizer,
+                "Messages.MigrationFailed",
                 migrator.Name,
                 sw.ElapsedMilliseconds);
             throw;

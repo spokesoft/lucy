@@ -2,18 +2,23 @@ using Lucy.Application.Validation;
 using Lucy.Console.Enums;
 using Lucy.Console.Interfaces;
 using Lucy.Console.Internal;
+using Lucy.Console;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Spectre.Console.Cli;
+using Lucy.Console.Extensions;
 
 namespace Lucy.Console.Middleware;
 
 /// <summary>
 /// A middleware that handles errors and exceptions.
 /// </summary>
-public class ErrorHandlerMiddleware(
-    ILogger<ErrorHandlerMiddleware> logger) : ICommandMiddleware
+internal class ErrorHandlerMiddleware(
+    ILogger<ErrorHandlerMiddleware> logger,
+    IStringLocalizer<Program> localizer) : ICommandMiddleware
 {
     private readonly ILogger<ErrorHandlerMiddleware> _logger = logger;
+    private readonly IStringLocalizer<Program> _localizer = localizer;
 
     /// <inheritdoc/>
     public async Task<ExitCode> InvokeAsync<TCommand>(
@@ -23,24 +28,34 @@ public class ErrorHandlerMiddleware(
         CancellationToken token = default)
         where TCommand : CommandSettings
     {
-        var name = command.GetType().Name;
         try
         {
+            _logger.LogDebug(
+                _localizer,
+                "Messages.CommandStarting",
+                command.GetType().Name,
+                DateTime.UtcNow,
+                Environment.UserName);
+
             return await next(context, command, token);
         }
         catch (OperationCanceledException)
         {
-            _logger.LogWarning("Command execution was canceled.");
             return ExitCode.Canceled;
         }
         catch (ValidationException)
         {
-            _logger.LogWarning("Command was invalid.");
             return ExitCode.Invalid;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An unhandled exception occurred while executing the command {command}", name);
+            System.Console.WriteLine(ex);
+            _logger.LogError(
+                ex,
+                _localizer,
+                "Messages.CommandError",
+                ex.Message);
+
             return ExitCode.Error;
         }
     }
