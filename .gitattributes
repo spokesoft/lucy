@@ -1,0 +1,8 @@
+# .gitattributes
+# Auto-detect text files and perform LF normalization
+
+# Shell scripts
+*.sh text eol=lf
+
+# PowerShell scripts
+*.ps1 text eol=lf
