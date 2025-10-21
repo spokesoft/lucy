@@ -6,7 +6,7 @@
 
 Lucy is a .NET tool designed to streamline your project management directly from the command line. It helps you manage development tickets, sprints, and project backlogs with ease.
 
-> For more detailed documentation, visit our **[GitHub Pages site](https://spokesot.github.io/lucy/)**.
+> For more detailed documentation, visit our **[GitHub Pages site](https://spokesoft.github.io/lucy/)**.
 
 ## Installation
 
