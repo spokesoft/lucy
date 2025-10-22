@@ -22,7 +22,8 @@ public static class CommandExtensions
             .AddSingleton<ICommandExecutor, CommandExecutor>()
             .AddCommandHandlersFromAssembly(assembly)
             .AddCommandValidatorsFromAssembly(assembly)
-            .AddCommandMiddlewareFromAssembly(assembly);
+            .AddCommandMiddlewareFromAssembly(assembly)
+            .AddViewRenderersFromAssembly(assembly);
 
         return services;
     }
@@ -61,6 +62,19 @@ public static class CommandExtensions
         Assembly assembly)
         => services.AddTypesFromAssembly(
             typeof(ICommandMiddleware),
+            assembly,
+            ServiceLifetime.Scoped);
+
+    /// <summary>
+    /// Registers all view renderers from the specified assembly.
+    /// </summary>
+    public static IServiceCollection AddViewRenderersFromAssembly(
+        this IServiceCollection services,
+        Assembly assembly)
+        => services.AddImplementingTypesFromAssembly(
+            [
+                typeof(IViewRenderer<>)
+            ],
             assembly,
             ServiceLifetime.Scoped);
 

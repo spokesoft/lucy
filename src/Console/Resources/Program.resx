@@ -93,11 +93,15 @@
 
   <!-- Project resources -->
 
-  <data name="View.ListProjects.Title">
+  <data name="View.ProjectList.Title">
     <value>Project List</value>
   </data>
 
-  <data name="View.ListProjects.Caption">
+  <data name="View.ProjectList.NoProjects">
+    <value>No projects found</value>
+  </data>
+
+  <data name="View.ProjectList.Caption">
     <value>Displaying {0}-{1} of {2} projects</value>
   </data>
 
