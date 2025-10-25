@@ -1,6 +1,7 @@
 [Bb]in/
 [Oo]bj/
 [Aa]rtifacts/
+[Nn]upkgs/
 
 *.db
 *.db-shm
