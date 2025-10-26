@@ -11,12 +11,24 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <PropertyGroup>
+    <PackageId>Lucy.Console</PackageId>
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>lucy</ToolCommandName>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Spokesoft</Authors>
+    <Company>Spokesoft</Company>
+    <Description>Project management tool for the command line</Description>
+    <PackageTags>tool cli dotnet agile scrum</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageProjectUrl>https://spokesoft.github.io/lucy</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/spokesoft/lucy.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
