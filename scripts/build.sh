@@ -7,7 +7,7 @@ CONFIGURATION=Release
 RUNTIME=""
 TEST=false
 PUBLISH=false
-OUTPUT="publish"
+OUTPUT="artifacts"
 
 while [[ $# -gt 0 ]]; do
   case $1 in
