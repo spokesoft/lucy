@@ -2,7 +2,7 @@ name: Build and publish
 
 on:
   push:
-    branches:
+    tags:
       - "v*"
 
 concurrency:
@@ -53,7 +53,7 @@ jobs:
           git add CHANGELOG.md || true
 
           if ! git diff --cached --quiet; then
-            git commit -m "chore(release): update CHANGELOG.md [skip ci]" || true
+            git commit -m "chore(release): Update for release ${GITHUB_REF_NAME} [skip ci]" || true
             git push
           else
             echo "No changes to commit"
