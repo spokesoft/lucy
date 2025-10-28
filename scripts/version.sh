@@ -12,7 +12,7 @@ INPUT_VERSION="$1"
 
 VERSION_RAW="${INPUT_VERSION#v}"
 
-PROPS="Directory.Build.Props"
+PROPS="Directory.Build.props"
 
 if [[ ! -f "$PROPS" ]]; then
   echo "Error: $PROPS not found in the current directory."
