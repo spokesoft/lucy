@@ -27,7 +27,7 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageTags>tool cli dotnet agile scrum</PackageTags>
-    <ToolCommandName>spokesoft</ToolCommandName>
+    <ToolCommandName>lucy</ToolCommandName>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/spokesoft/lucy.git</RepositoryUrl>
   </PropertyGroup>

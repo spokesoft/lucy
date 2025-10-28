@@ -33,6 +33,12 @@ jobs:
         with:
           dotnet-version: "8.0.x"
 
+      - name: Ensure on master branch
+        run: |
+          git fetch origin
+          git checkout master
+          git pull origin master
+
       - name: Make scripts executable
         run: chmod +x ./scripts/*.sh
 
@@ -42,7 +48,7 @@ jobs:
       - name: Update changelog
         run: ./scripts/changelog.sh "${GITHUB_REF_NAME#v}"
 
-      - name: Commit changelog
+      - name: Commit version and changelog updates
         env:
           REF_NAME: ${{ github.ref_name }}
           AUTHOR_NAME: ${{ github.actor }}
@@ -54,14 +60,16 @@ jobs:
           git add CHANGELOG.md || true
 
           if ! git diff --cached --quiet; then
-            BRANCH="release/${{ github.ref_name }}"
-            git checkout -B "$BRANCH"
-            git commit -m "chore(release): Update for release ${REF_NAME} [skip ci]" || true
-            git push --set-upstream origin "$BRANCH"
+            git commit -m "chore(release): Update for release ${REF_NAME} [skip ci]"
           else
             echo "No changes to commit"
             return 1
           fi
+
+      - name: Push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: git push origin master
 
       - name: Restore solution dependencies
         run: dotnet restore
@@ -79,16 +87,3 @@ jobs:
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         run: dotnet nuget push ./artifacts/Spokesoft.Lucy.*.nupkg --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json
-
-      - name: Publish symbols to NuGet
-        env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-        run: dotnet nuget push ./artifacts/Spokesoft.Lucy.*.snupkg --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json
-
-      - name: Delete temporary release branch
-        if: ${{ success() }}
-        run: |
-          set -euo pipefail
-          BRANCH="release/${{ github.ref_name }}"
-          git push origin --delete "$BRANCH" || echo "Remote branch '$BRANCH' not found or deletion failed"
-        shell: bash

@@ -125,7 +125,8 @@ $security_trimmed"
 fi
 
 # Create new unreleased template
-unreleased_template="## [Unreleased]
+unreleased_template="
+## [Unreleased]
 
 ### Added
 ### Changed
