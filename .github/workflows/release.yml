@@ -49,7 +49,7 @@ jobs:
         run: |
           git config user.name "${AUTHOR_NAME}"
           git config user.email "${AUTHOR_EMAIL}"
-          git add Directory.Build.Props || true
+          git add Directory.Build.props || true
           git add CHANGELOG.md || true
 
           if ! git diff --cached --quiet; then
