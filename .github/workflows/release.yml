@@ -1,34 +1,83 @@
-name: Release
+name: Build and publish
 
 on:
   push:
     branches:
       - "v*"
 
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  packages: write
+
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
+
+    env:
+      CONSOLE_PROJECT: 'src/Console/Console.csproj'
+      ARTIFACTS_DIR: './artifacts'
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
 
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "8.0.x"
 
-      - name: Make script executable
-        run: chmod +x ./scripts/build.sh
+      - name: Make scripts executable
+        run: chmod +x ./scripts/*.sh
 
-      - name: Run build script
-        run: ./scripts/build.sh --test --release --output ./artifacts
+      - name: Update version numbers
+        run: ./scripts/version.sh "${GITHUB_REF_NAME#v}"
 
-      - name: Create Release Package
-        run: dotnet pack --configuration Release --no-build --output ./artifacts
+      - name: Update changelog
+        run: ./scripts/changelog.sh "${GITHUB_REF_NAME#v}"
 
-      - name: Upload Release Package
-        uses: actions/upload-artifact@v3
-        with:
-          name: release-package
-          path: ./artifacts
+      - name: Commit changelog
+        env:
+          AUTHOR_NAME: ${{ github.actor }}
+          AUTHOR_EMAIL: ${{ github.actor }}@users.noreply.github.com
+        run: |
+          git config user.name "${AUTHOR_NAME}"
+          git config user.email "${AUTHOR_EMAIL}"
+          git add Directory.Build.Props || true
+          git add CHANGELOG.md || true
+
+          if ! git diff --cached --quiet; then
+            git commit -m "chore(release): update CHANGELOG.md [skip ci]" || true
+            git push
+          else
+            echo "No changes to commit"
+            return 1
+          fi
+
+      - name: Restore solution dependencies
+        run: dotnet restore
+
+      - name: Build solution
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Test solution
+        run: dotnet test --configuration Release --no-build --verbosity normal
+
+      - name: Pack Tool
+        run: dotnet pack "${CONSOLE_PROJECT}" --configuration Release --no-build --output "${ARTIFACTS_DIR}"
+
+      - name: Publish package to NuGet
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: dotnet nuget push ./artifacts/Spokesoft.Lucy.*.nupkg --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json
+
+      - name: Publish symbols to NuGet
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: dotnet nuget push ./artifacts/Spokesoft.Lucy.*.snupkg --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json
