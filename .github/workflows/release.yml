@@ -44,6 +44,7 @@ jobs:
 
       - name: Commit changelog
         env:
+          REF_NAME: ${{ github.ref_name }}
           AUTHOR_NAME: ${{ github.actor }}
           AUTHOR_EMAIL: ${{ github.actor }}@users.noreply.github.com
         run: |
@@ -53,8 +54,10 @@ jobs:
           git add CHANGELOG.md || true
 
           if ! git diff --cached --quiet; then
-            git commit -m "chore(release): Update for release ${GITHUB_REF_NAME} [skip ci]" || true
-            git push
+            BRANCH="release/${{ github.ref_name }}"
+            git checkout -B "$BRANCH"
+            git commit -m "chore(release): Update for release ${REF_NAME} [skip ci]" || true
+            git push --set-upstream origin "$BRANCH"
           else
             echo "No changes to commit"
             return 1
@@ -81,3 +84,11 @@ jobs:
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         run: dotnet nuget push ./artifacts/Spokesoft.Lucy.*.snupkg --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json
+
+      - name: Delete temporary release branch
+        if: ${{ success() }}
+        run: |
+          set -euo pipefail
+          BRANCH="release/${{ github.ref_name }}"
+          git push origin --delete "$BRANCH" || echo "Remote branch '$BRANCH' not found or deletion failed"
+        shell: bash
