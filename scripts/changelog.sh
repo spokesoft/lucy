@@ -13,8 +13,8 @@ fi
 VERSION="$1"
 
 # Validate version format (basic semver check)
-if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(?:-(?:alpha|beta|rc(?:\.[0-9]+)?))?$ ]]; then
-    echo "Error: Version must be like 1.0.0 or include a prerelease: 1.0.0-alpha, 1.0.0-beta, 1.0.0-rc or 1.0.0-rc.1"
+if ! printf '%s' "$VERSION" | grep -E -q '^[0-9]+\.[0-9]+\.[0-9]+(-((alpha(\.[0-9]+)?)|(beta(\.[0-9]+)?)|(rc(\.[0-9]+)?)))?$'; then
+    echo "Error: Version must be like 1.0.0 or include a prerelease: 1.0.0-alpha, 1.0.0-alpha.1, 1.0.0-beta, 1.0.0-rc, 1.0.0-rc.1"
     exit 1
 fi
 
@@ -204,6 +204,7 @@ $existing_version_links"
 else
     # No links section - first release
     new_content="$new_content
+
 [unreleased]: ${REPO_URL}/compare/v${VERSION}...HEAD
 [$VERSION]: ${REPO_URL}/releases/tag/v${VERSION}"
 fi
