@@ -13,8 +13,8 @@ fi
 VERSION="$1"
 
 # Validate version format (basic semver check)
-if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-    echo "Error: Version must be in semver format (e.g., 1.0.0)"
+if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(?:-(?:alpha|beta|rc(?:\.[0-9]+)?))?$ ]]; then
+    echo "Error: Version must be like 1.0.0 or include a prerelease: 1.0.0-alpha, 1.0.0-beta, 1.0.0-rc or 1.0.0-rc.1"
     exit 1
 fi
 
@@ -177,19 +177,19 @@ fi
 if [ -n "$links_line" ]; then
     # Extract ALL existing links from the original file
     all_existing_links=$(sed -n "${links_line},\$p" "$CHANGELOG_FILE")
-    
+
     # Filter out the unreleased link (we'll create a new one)
     existing_version_links=$(echo "$all_existing_links" | grep '^\[[0-9]')
-    
+
     # Find previous version from existing links (the most recent version, which should be first)
     prev_version=$(echo "$existing_version_links" | head -1 | sed -n 's/^\[\([0-9]\+\.[0-9]\+\.[0-9]\+\)\].*/\1/p')
-    
+
     if [ -n "$prev_version" ]; then
         # Not first release - add new links plus all existing version links
         new_content="$new_content
 [unreleased]: ${REPO_URL}/compare/v${VERSION}...HEAD
 [$VERSION]: ${REPO_URL}/compare/v${prev_version}...v${VERSION}"
-        
+
         # Add all existing version links
         if [ -n "$existing_version_links" ]; then
             new_content="$new_content
