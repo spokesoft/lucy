@@ -8,7 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
+- Added unit tests for project entity
+- Added unit tests for project command handlers and validators
+
 ### Changed
+
+- Refactored project entity is now immutable with private setters and update methods
+
 ### Deprecated
 ### Removed
 ### Fixed
