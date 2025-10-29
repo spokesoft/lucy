@@ -18,13 +18,8 @@ public class DeleteProjectCommandHandler(
     /// </summary>
     public async Task HandleAsync(DeleteProjectCommand request, CancellationToken token = default)
     {
-        var project = await _uow.Projects.GetByIdAsync(request.Id, token);
-
-        if (project is null)
-        {
-            // This shouldn't happen if validation is done prior to handling
-            throw new InvalidOperationException("Cannot delete a non-existent project.");
-        }
+        var project = await _uow.Projects.GetByIdAsync(request.Id, token)
+            ?? throw new InvalidOperationException("Project not found, cannot delete.");
 
         _uow.Projects.Remove(project);
         await _uow.SaveChangesAsync(token);

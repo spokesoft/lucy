@@ -19,12 +19,10 @@ public class CreateProjectCommandHandler(
     /// </summary>
     public async Task<long> HandleAsync(CreateProjectCommand request, CancellationToken token = default)
     {
-        var project = new Project
-        {
-            Key = request.Key.ToUpperInvariant(),
-            Name = request.Name,
-            Description = request.Description
-        };
+        var project = new Project(
+            request.Key,
+            request.Name,
+            request.Description);
 
         await _uow.Projects.AddAsync(project, token);
         await _uow.SaveChangesAsync(token);

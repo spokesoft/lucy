@@ -21,16 +21,19 @@ public class ProjectKeyValidator(IReadOnlyUnitOfWork unitOfWork) : IAsyncValidat
         var result = new ValidationResult();
 
         if (string.IsNullOrWhiteSpace(key))
-            return ValidationResult.Error(ValidationCode.ProjectKeyRequired, nameof(key));
+            return ValidationResult.Error(ValidationCode.ProjectKeyRequired, "Key");
+
+        if (!char.IsLetter(key[0]))
+            result.AddError(ValidationCode.ProjectKeyStartWithLetter, "Key", key);
 
         if (key.Length < 3 || key.Length > 10)
-            result.AddError(ValidationCode.ProjectKeyLength, nameof(key), key.Length);
+            result.AddError(ValidationCode.ProjectKeyLength, "Key", key.Length);
 
-        if (!key.All(char.IsLetterOrDigit))
-            result.AddError(ValidationCode.ProjectKeyAlphaNumeric, nameof(key), key);
+        if (!key.All(c => char.IsLetterOrDigit(c) || c == '-' || c == '_'))
+            result.AddError(ValidationCode.ProjectKeyInvalidCharacters, "Key", key);
 
         if (result.IsValid && await _uow.Projects.ExistsByKeyAsync(key, token))
-            result.AddError(ValidationCode.ProjectKeyExists, nameof(key), key);
+            result.AddError(ValidationCode.ProjectKeyExists, "Key", key);
 
         return result;
     }

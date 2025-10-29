@@ -18,9 +18,14 @@ public enum ValidationCode
     ProjectKeyRequired,
 
     /// <summary>
-    /// Indicates that the provided project key contains non-alphanumeric characters.
+    /// Indicates that the project key contains invalid characters.
     /// </summary>
-    ProjectKeyAlphaNumeric,
+    ProjectKeyInvalidCharacters,
+
+    /// <summary>
+    /// Indicates that the project key must start with a letter.
+    /// </summary>
+    ProjectKeyStartWithLetter,
 
     /// <summary>
     /// Indicates that the project key length is invalid.

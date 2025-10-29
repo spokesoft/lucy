@@ -19,7 +19,7 @@ public class ProjectDescriptionValidator : IValidator<string?>
         if (description.Length > 500)
             return ValidationResult.Error(
                 ValidationCode.ProjectDescriptionLength,
-                nameof(description),
+                "Description",
                 description.Length);
 
         return ValidationResult.Success;

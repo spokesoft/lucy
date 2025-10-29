@@ -16,10 +16,10 @@ public class ProjectNameValidator : IValidator<string?>
         if (string.IsNullOrWhiteSpace(name))
             return ValidationResult.Success; // Name is optional
 
-        if (name.Length > 500)
+        if (name.Length > 100)
             return ValidationResult.Error(
                 ValidationCode.ProjectNameLength,
-                nameof(name),
+                "Name",
                 name.Length);
 
         return ValidationResult.Success;

@@ -18,22 +18,17 @@ public class UpdateProjectCommandHandler(
     /// </summary>
     public async Task HandleAsync(UpdateProjectCommand request, CancellationToken token = default)
     {
-        var project = await _uow.Projects.GetByIdAsync(request.Id, token);
-
-        if (project is null)
-        {
-            // This shouldn't happen if validation is done prior to handling
-            throw new InvalidOperationException("Cannot update a non-existent project.");
-        }
+        var project = await _uow.Projects.GetByIdAsync(request.Id, token)
+            ?? throw new InvalidOperationException("Project not found, cannot update.");
 
         if (request.Key is not null)
-            project.Key = request.Key;
+            project.UpdateKey(request.Key);
 
         if (request.Name is not null)
-            project.Name = request.Name;
+            project.UpdateName(request.Name);
 
         if (request.Description is not null)
-            project.Description = request.Description;
+            project.UpdateDescription(request.Description);
 
         _uow.Projects.Update(project);
         await _uow.SaveChangesAsync(token);
