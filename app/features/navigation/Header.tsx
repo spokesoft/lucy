@@ -9,8 +9,6 @@ import { Link as RouterLink } from "react-router";
 
 import GithubIcon from "@mui/icons-material/GitHub";
 
-import { blueGrey, grey } from "@mui/material/colors";
-
 const Header = () => {
   return (
     <Box component="header">
@@ -18,7 +16,7 @@ const Header = () => {
       <AppBar
         position="static"
         elevation={0}
-        sx={{ 
+        sx={{
           backgroundColor: (theme) => theme.palette.background.default,
         }}
       >
@@ -38,9 +36,19 @@ const Header = () => {
               }}
             >
               <Typography sx={{ fontSize: "1.25rem" }}>🐈‍⬛</Typography>
-              <Typography sx={{ ml: 0.5, fontSize: "1.25rem", fontWeight: "bold" }}>Lucy</Typography>
+              <Typography
+                sx={{ ml: 0.5, fontSize: "1.25rem", fontWeight: "bold" }}
+              >
+                Lucy
+              </Typography>
             </Stack>
-            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <Typography
                 component={RouterLink}
                 to="#features"
@@ -64,6 +72,18 @@ const Header = () => {
                 }}
               >
                 Install
+              </Typography>
+              <Typography
+                component={RouterLink}
+                to="/docs"
+                sx={{
+                  mx: 1,
+                  color: "primary.main",
+                  textDecoration: "none",
+                  "&:hover": { color: "secondary.main" },
+                }}
+              >
+                Docs
               </Typography>
               <Link
                 href="https://github.com/spokesoft/lucy"
