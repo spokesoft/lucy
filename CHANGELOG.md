@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added unit tests for project entity
 - Added unit tests for project command handlers and validators
+- Added unit tests for project repository
+- Added unit tests for mediation service
+- Added unit tests for database logging service
 
 ### Changed
 
