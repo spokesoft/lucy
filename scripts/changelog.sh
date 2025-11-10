@@ -180,10 +180,10 @@ if [ -n "$links_line" ]; then
     all_existing_links=$(sed -n "${links_line},\$p" "$CHANGELOG_FILE")
 
     # Filter out the unreleased link (we'll create a new one)
-    existing_version_links=$(echo "$all_existing_links" | grep '^\[[0-9]')
+    existing_version_links=$(echo "$all_existing_links" | grep -v '^\[unreleased\]')
 
     # Find previous version from existing links (the most recent version, which should be first)
-    prev_version=$(echo "$existing_version_links" | head -1 | sed -n 's/^\[\([0-9]\+\.[0-9]\+\.[0-9]\+\)\].*/\1/p')
+    prev_version=$(echo "$existing_version_links" | head -1 | sed -n 's/^\[\([0-9]\+\.[0-9]\+\.[0-9]\+\(-[a-zA-Z0-9]*\(\.[0-9]\+\)*\)*\)\].*/\1/p')
 
     if [ -n "$prev_version" ]; then
         # Not first release - add new links plus all existing version links
