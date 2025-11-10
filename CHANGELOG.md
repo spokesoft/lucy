@@ -8,6 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+### Security
+
+## [0.0.1-beta] - 2025-11-10
+
+### Added
 
 - Added unit tests for project entity
 - Added unit tests for project command handlers and validators
@@ -20,11 +29,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Refactored project entity is now immutable with private setters and update methods
-
-### Deprecated
-### Removed
-### Fixed
-### Security
 
 ## [0.0.1-alpha.1] - 2025-10-28
 
@@ -59,7 +63,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial CI/CD pipeline setup and build scripts
 - Extension methods for common operations and DI registration
 - MIT License
-
-[unreleased]: https://github.com/spokesoft/lucy/compare/v0.0.1-alpha.1...HEAD
+[unreleased]: https://github.com/spokesoft/lucy/compare/v0.0.1-beta...HEAD
+[0.0.1-beta]: https://github.com/spokesoft/lucy/compare/v0.0.1-alpha.1...v0.0.1-beta
 [0.0.1-alpha.1]: https://github.com/spokesoft/lucy/compare/v0.0.1-alpha...v0.0.1-alpha.1
 [0.0.1-alpha]: https://github.com/spokesoft/lucy/releases/tag/v0.0.1-alpha.1
