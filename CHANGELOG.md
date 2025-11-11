@@ -63,6 +63,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial CI/CD pipeline setup and build scripts
 - Extension methods for common operations and DI registration
 - MIT License
+
 [unreleased]: https://github.com/spokesoft/lucy/compare/v0.0.1-beta...HEAD
 [0.0.1-beta]: https://github.com/spokesoft/lucy/compare/v0.0.1-alpha.1...v0.0.1-beta
 [0.0.1-alpha.1]: https://github.com/spokesoft/lucy/compare/v0.0.1-alpha...v0.0.1-alpha.1
