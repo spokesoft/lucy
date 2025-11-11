@@ -188,6 +188,7 @@ if [ -n "$links_line" ]; then
     if [ -n "$prev_version" ]; then
         # Not first release - add new links plus all existing version links
         new_content="$new_content
+
 [unreleased]: ${REPO_URL}/compare/v${VERSION}...HEAD
 [$VERSION]: ${REPO_URL}/compare/v${prev_version}...v${VERSION}"
 
