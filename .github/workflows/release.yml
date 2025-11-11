@@ -5,6 +5,10 @@ on:
     tags:
       - "v*"
   workflow_dispatch:
+    inputs:
+      tag_name:
+        description: "Tag to build/publish (e.g. v0.0.1)"
+        required: false
 
 concurrency:
   group: release-${{ github.ref }}
@@ -34,24 +38,31 @@ jobs:
         with:
           dotnet-version: "8.0.x"
 
-      - name: Ensure on master branch
+      - name: Determine tag/ref to build
+        id: picktag
         run: |
-          git fetch origin
-          git checkout master
-          git pull origin master
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{ github.event.inputs.tag_name }}" ]; then
+            echo "SELECTED_TAG=${{ github.event.inputs.tag_name }}" >> $GITHUB_ENV
+          else
+            echo "SELECTED_TAG=${{ github.ref_name }}" >> $GITHUB_ENV
+          fi
+
+      - name: Checkout selected tag
+        run: |
+          git fetch origin "refs/tags/$SELECTED_TAG"
+          git checkout "refs/tags/$SELECTED_TAG"
 
       - name: Make scripts executable
         run: chmod +x ./scripts/*.sh
 
       - name: Update version numbers
-        run: ./scripts/version.sh "${GITHUB_REF_NAME#v}"
+        run: ./scripts/version.sh "${SELECTED_TAG#v}"
 
       - name: Update changelog
-        run: ./scripts/changelog.sh "${GITHUB_REF_NAME#v}"
+        run: ./scripts/changelog.sh "${SELECTED_TAG#v}"
 
       - name: Commit version and changelog updates
         env:
-          REF_NAME: ${{ github.ref_name }}
           AUTHOR_NAME: ${{ github.actor }}
           AUTHOR_EMAIL: ${{ github.actor }}@users.noreply.github.com
         run: |
@@ -61,10 +72,10 @@ jobs:
           git add CHANGELOG.md || true
 
           if ! git diff --cached --quiet; then
-            git commit -m "chore(release): Update for release ${REF_NAME} [skip ci]"
+            git commit -m "chore(release): Update for release $SELECTED_TAG [skip ci]"
           else
             echo "No changes to commit"
-            return 1
+            exit 0
           fi
 
       - name: Push changes
@@ -82,9 +93,9 @@ jobs:
         run: dotnet test --configuration Release --no-build --verbosity normal
 
       - name: Pack Tool
-        run: dotnet pack "${CONSOLE_PROJECT}" --configuration Release --no-build --output "${ARTIFACTS_DIR}"
+        run: dotnet pack "$CONSOLE_PROJECT" --configuration Release --no-build --output "$ARTIFACTS_DIR"
 
       - name: Publish package to NuGet
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-        run: dotnet nuget push ./artifacts/Spokesoft.Lucy.*.nupkg --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json
+        run: dotnet nuget push $ARTIFACTS_DIR/Spokesoft.Lucy.*.nupkg --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json
