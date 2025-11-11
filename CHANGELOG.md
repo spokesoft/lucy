@@ -8,14 +8,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
+- Added sequences entity for ticket and iteration numbering.
+- Added comprehensive unit tests for project sequences.
+
 ### Changed
+
+- Updated project entity to include sequences collection.
+
 ### Deprecated
 ### Removed
 ### Fixed
+### Security
+
+## [0.0.1]
+
+### Fixed
 
 - Fixed issue with change log generation script not appending the unreleased link correctly.
-
-### Security
 
 ## [0.0.1-beta] - 2025-11-10
 
@@ -67,7 +77,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Extension methods for common operations and DI registration
 - MIT License
 
-[unreleased]: https://github.com/spokesoft/lucy/compare/v0.0.1-beta...HEAD
+[unreleased]: https://github.com/spokesoft/lucy/compare/v0.0.1...HEAD
+[0.0.1]: https://github.com/spokesoft/lucy/compare/v0.0.1-beta...v0.0.1
 [0.0.1-beta]: https://github.com/spokesoft/lucy/compare/v0.0.1-alpha.1...v0.0.1-beta
 [0.0.1-alpha.1]: https://github.com/spokesoft/lucy/compare/v0.0.1-alpha...v0.0.1-alpha.1
 [0.0.1-alpha]: https://github.com/spokesoft/lucy/releases/tag/v0.0.1-alpha.1

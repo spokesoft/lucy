@@ -1,3 +1,5 @@
+using Lucy.Domain.Enums;
+
 namespace Lucy.Domain.Entities;
 
 /// <summary>
@@ -21,6 +23,11 @@ public class Project : DomainEntity<long>
     public string? Description { get; private set; }
 
     /// <summary>
+    /// The sequences associated with the project.
+    /// </summary>
+    public ICollection<Sequence> Sequences { get; private set; } = [];
+
+    /// <summary>
     /// Initializes a new instance of the class.
     /// </summary>
     public Project(
@@ -33,6 +40,11 @@ public class Project : DomainEntity<long>
         UpdateKey(key);
         UpdateName(name);
         UpdateDescription(description);
+
+        Sequences = [
+            new Sequence(SequenceType.Ticket, Id, template: Key + "-{0}"),
+            new Sequence(SequenceType.Iteration, Id, template: Key + "-S{0}")
+        ];
     }
 
     /// <summary>
@@ -50,6 +62,17 @@ public class Project : DomainEntity<long>
             throw new ArgumentException("Project key can only contain letters, numbers, underscores, and dashes.");
 
         Key = key.ToUpperInvariant();
+
+        if (Sequences is not null && Sequences.Count > 0)
+        {
+            foreach (var sequence in Sequences)
+            {
+                if (sequence.Type == SequenceType.Ticket)
+                    sequence.UpdateTemplate(Key + "-{0}");
+                else if (sequence.Type == SequenceType.Iteration)
+                    sequence.UpdateTemplate(Key + "-S{0}");
+            }
+        }
     }
 
     /// <summary>
