@@ -83,12 +83,6 @@ jobs:
             echo "No changes to commit"
           fi
 
-      # Checkout the release tag (again) for packing/publishing
-      - name: Checkout release tag for packing/publishing
-        run: |
-          git fetch --tags
-          git checkout "refs/tags/$RELEASE_TAG"
-
       - name: Restore solution dependencies
         run: dotnet restore
 
