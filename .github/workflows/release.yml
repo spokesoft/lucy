@@ -38,28 +38,34 @@ jobs:
         with:
           dotnet-version: "8.0.x"
 
-      - name: Determine tag/ref to build
-        id: picktag
+      # Select branch if running from a tag or manual input
+      - name: Set release context
+        id: set_context
         run: |
+          # Use tag from workflow_dispatch or ref_name from tag push
           if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{ github.event.inputs.tag_name }}" ]; then
-            echo "SELECTED_TAG=${{ github.event.inputs.tag_name }}" >> $GITHUB_ENV
+            echo "RELEASE_TAG=${{ github.event.inputs.tag_name }}" >> $GITHUB_ENV
           else
-            echo "SELECTED_TAG=${{ github.ref_name }}" >> $GITHUB_ENV
+            echo "RELEASE_TAG=${{ github.ref_name }}" >> $GITHUB_ENV
           fi
+          # Always use master for updates
+          echo "RELEASE_BRANCH=master" >> $GITHUB_ENV
 
-      - name: Checkout selected tag
+      - name: Checkout release branch
         run: |
-          git fetch origin "refs/tags/$SELECTED_TAG"
-          git checkout "refs/tags/$SELECTED_TAG"
+          git fetch origin $RELEASE_BRANCH
+          git checkout $RELEASE_BRANCH
+          git pull origin $RELEASE_BRANCH
 
+      # Version & changelog updates, commit/push to branch
       - name: Make scripts executable
         run: chmod +x ./scripts/*.sh
 
       - name: Update version numbers
-        run: ./scripts/version.sh "${SELECTED_TAG#v}"
+        run: ./scripts/version.sh "${RELEASE_TAG#v}"
 
       - name: Update changelog
-        run: ./scripts/changelog.sh "${SELECTED_TAG#v}"
+        run: ./scripts/changelog.sh "${RELEASE_TAG#v}"
 
       - name: Commit version and changelog updates
         env:
@@ -70,18 +76,18 @@ jobs:
           git config user.email "${AUTHOR_EMAIL}"
           git add Directory.Build.props || true
           git add CHANGELOG.md || true
-
           if ! git diff --cached --quiet; then
-            git commit -m "chore(release): Update for release $SELECTED_TAG [skip ci]"
+            git commit -m "chore(release): Update for release $RELEASE_TAG [skip ci]"
+            git push origin $RELEASE_BRANCH
           else
             echo "No changes to commit"
-            exit 0
           fi
 
-      - name: Push changes
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: git push origin master
+      # Checkout the release tag (again) for packing/publishing
+      - name: Checkout release tag for packing/publishing
+        run: |
+          git fetch --tags
+          git checkout "refs/tags/$RELEASE_TAG"
 
       - name: Restore solution dependencies
         run: dotnet restore
