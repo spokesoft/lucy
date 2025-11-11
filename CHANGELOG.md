@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Deprecated
 ### Removed
 ### Fixed
+
+- Fixed issue with change log generation script not appending the unreleased link correctly.
+
 ### Security
 
 ## [0.0.1-beta] - 2025-11-10
