@@ -6,6 +6,11 @@ namespace Lucy.Domain.Enums;
 public enum SequenceType
 {
     /// <summary>
+    /// No sequence type.
+    /// </summary>
+    None = -1,
+
+    /// <summary>
     /// A ticket sequence.
     /// </summary>
     Ticket = 0,

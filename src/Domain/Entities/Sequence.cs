@@ -7,6 +7,9 @@ namespace Lucy.Domain.Entities;
 /// </summary>
 public class Sequence : DomainEntity<long>
 {
+    /// <summary>
+    /// The type of the sequence.
+    /// </summary>
     public SequenceType Type { get; private set; }
 
     /// <summary>
@@ -41,10 +44,16 @@ public class Sequence : DomainEntity<long>
         Template = null!;
 
         Type = type;
-        Value = value;
         ProjectId = projectId;
+        UpdateValue(value);
         UpdateTemplate(template);
     }
+
+    /// <summary>
+    /// Updates the value of the sequence.
+    /// </summary>
+    /// <param name="value"></param>
+    public void UpdateValue(int value) => Value = value;
 
     /// <summary>
     /// Updates the template for the sequence.
