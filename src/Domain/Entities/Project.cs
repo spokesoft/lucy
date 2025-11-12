@@ -28,6 +28,11 @@ public class Project : DomainEntity<long>
     public ICollection<Sequence> Sequences { get; private set; } = [];
 
     /// <summary>
+    /// The statuses associated with the project.
+    /// </summary>
+    public ICollection<Status> Statuses { get; private set; } = [];
+
+    /// <summary>
     /// Initializes a new instance of the class.
     /// </summary>
     public Project(
@@ -44,6 +49,26 @@ public class Project : DomainEntity<long>
         Sequences = [
             new Sequence(SequenceType.Ticket, Id, template: Key + "-{0}"),
             new Sequence(SequenceType.Iteration, Id, template: Key + "-S{0}")
+        ];
+
+        Statuses = [
+            new Status(Id, "TODO",
+                order: 1,
+                name: "To Do",
+                description: "Tasks that need to be done",
+                color: StatusColor.Gray),
+
+            new Status(Id, "IN-PROGRESS",
+                order: 2,
+                name: "In Progress",
+                description: "Tasks that are in progress",
+                color: StatusColor.Blue),
+
+            new Status(Id, "DONE",
+                order: 3,
+                name: "Done",
+                description: "Completed tasks",
+                color: StatusColor.Green)
         ];
     }
 

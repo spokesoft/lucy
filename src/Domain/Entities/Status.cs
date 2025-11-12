@@ -18,6 +18,11 @@ public class Status : DomainEntity<long>
     public string Key { get; private set; }
 
     /// <summary>
+    /// The order of the status.
+    /// </summary>
+    public int Order { get; private set; }
+
+    /// <summary>
     /// The name of the status.
     /// </summary>
     public string? Name { get; private set; }
@@ -43,6 +48,7 @@ public class Status : DomainEntity<long>
     public Status(
         long projectId,
         string key,
+        int order,
         string? name = null,
         string? description = null,
         StatusColor? color = null)
@@ -51,6 +57,7 @@ public class Status : DomainEntity<long>
         Key = null!;
 
         UpdateKey(key);
+        UpdateOrder(order);
         UpdateName(name);
         UpdateDescription(description);
         if (color.HasValue)
@@ -71,11 +78,17 @@ public class Status : DomainEntity<long>
         if (!key.All(c => char.IsLetterOrDigit(c) || c == '-' || c == '_'))
             throw new ArgumentException("Status key can only contain letters, numbers, underscores, and dashes.");
 
-        if (key.Length > 10)
-            throw new ArgumentException("Status key cannot be longer than 10 characters.", nameof(key));
+        if (key.Length > 15)
+            throw new ArgumentException("Status key cannot be longer than 15 characters.", nameof(key));
 
         Key = key.ToUpperInvariant();
     }
+
+    /// <summary>
+    /// Updates the order of the status.
+    /// </summary>
+    /// <param name="order"></param>
+    public void UpdateOrder(int order) => Order = order;
 
     /// <summary>
     /// Updates the name of the status.

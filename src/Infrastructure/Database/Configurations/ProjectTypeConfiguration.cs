@@ -22,6 +22,13 @@ public class ProjectTypeConfiguration : IEntityTypeConfiguration<Project>
         builder.HasMany(p => p.Sequences)
             .WithOne(s => s.Project)
             .HasForeignKey(s => s.ProjectId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired();
+
+        builder.HasMany(p => p.Statuses)
+            .WithOne()
+            .HasForeignKey(s => s.ProjectId)
+            .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
 
         builder.HasIndex(p => p.Key).IsUnique();
