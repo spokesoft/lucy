@@ -61,6 +61,9 @@ public class Project : DomainEntity<long>
         if (!key.All(c => char.IsLetterOrDigit(c) || c == '-' || c == '_'))
             throw new ArgumentException("Project key can only contain letters, numbers, underscores, and dashes.");
 
+        if (key.Length > 10)
+            throw new ArgumentException("Project key cannot be longer than 10 characters.", nameof(key));
+
         Key = key.ToUpperInvariant();
 
         if (Sequences is not null && Sequences.Count > 0)
