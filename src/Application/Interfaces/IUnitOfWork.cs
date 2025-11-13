@@ -1,4 +1,5 @@
 using Lucy.Application.Projects.Repositories;
+using Lucy.Application.Statuses.Repositories;
 
 namespace Lucy.Application.Interfaces;
 
@@ -11,6 +12,11 @@ public interface IUnitOfWork
     /// Repository for Project entities.
     /// </summary>
     public IProjectRepository Projects { get; }
+
+    /// <summary>
+    /// Repository for Status entities.
+    /// </summary>
+    public IStatusRepository Statuses { get; }
 
     /// <summary>
     /// Saves all changes made in the context to the database.
