@@ -58,7 +58,8 @@ app.Configure(config =>
         {
             branch.SetDescription(localizer["Command.List.Description"]);
 
-            branch.AddAsyncDelegate<ListProjectsCommand>("List.Projects", executor, localizer);
+            branch.AddAsyncDelegate<ListProjectsCommand>("List.Project", executor, localizer);
+            branch.AddAsyncDelegate<ListStatusesCommand>("List.Status", executor, localizer);
         });
 
     #endregion

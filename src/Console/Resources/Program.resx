@@ -59,6 +59,14 @@
     <value>projects</value>
   </data>
 
+  <data name="Command.Context.Status">
+    <value>statuses</value>
+  </data>
+
+  <data name="Command.Context.Statuses">
+    <value>statuses</value>
+  </data>
+
   <!-- Base properties -->
 
   <data name="Property.Id">
@@ -91,6 +99,28 @@
     <value>Description</value>
   </data>
 
+  <!-- Status properties -->
+
+  <data name="Property.Status.Key">
+    <value>Key</value>
+  </data>
+
+  <data name="Property.Status.Order">
+    <value>Order</value>
+  </data>
+
+  <data name="Property.Status.Name">
+    <value>Name</value>
+  </data>
+
+  <data name="Property.Status.Description">
+    <value>Description</value>
+  </data>
+
+  <data name="Property.Status.Color">
+    <value>Color</value>
+  </data>
+
   <!-- Project resources -->
 
   <data name="View.ProjectList.Title">
@@ -103,6 +133,18 @@
 
   <data name="View.ProjectList.Caption">
     <value>Displaying {0}-{1} of {2} projects</value>
+  </data>
+
+  <data name="View.StatusList.Title">
+    <value>Status List</value>
+  </data>
+
+  <data name="View.StatusList.NoStatuses">
+    <value>No statuses found</value>
+  </data>
+
+  <data name="View.StatusList.Caption">
+    <value>Displaying {0}-{1} of {2} statuses</value>
   </data>
 
   <data name="View.ShowProject.Title">
@@ -127,6 +169,18 @@
 
   <data name="Command.List.Project.Example.0">
     <value>list projects</value>
+  </data>
+
+  <data name="Command.List.Status.Description">
+    <value>List all statuses for a project.</value>
+  </data>
+
+  <data name="Command.List.Status.Example.0">
+    <value>list statuses EXAMP</value>
+  </data>
+
+  <data name="Command.List.Status.Example.1">
+    <value>list statuses --project-id 1</value>
   </data>
 
   <data name="Command.Show.Project.Description">
