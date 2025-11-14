@@ -6,7 +6,7 @@ using Lucy.Application.Projects.Repositories;
 using Lucy.Domain.Entities;
 using Moq;
 
-namespace Lucy.Application.Tests;
+namespace Lucy.Application.Tests.Projects;
 
 public class ProjectCommandTests
 {
@@ -25,6 +25,7 @@ public class ProjectCommandTests
     [Fact]
     public async Task CreateProjectCommandHandler_ShouldCreateProject_WhenValidCommandIsGiven()
     {
+        // Arrange
         _projectRepositoryMock
             .Setup(repo => repo.AddAsync(It.IsAny<Project>(), It.IsAny<CancellationToken>()))
             .Callback<Project, CancellationToken>((project, _) => project.Id = 1)
@@ -32,8 +33,11 @@ public class ProjectCommandTests
 
         var handler = new CreateProjectCommandHandler(_unitOfWorkMock.Object);
         var command = new CreateProjectCommand("TEST_KEY", "Test Name", "Test Description");
+
+        // Act
         var result = await handler.HandleAsync(command, CancellationToken.None);
 
+        // Assert
         Assert.True(result > 0);
 
         _projectRepositoryMock.Verify(repo => repo.AddAsync(
@@ -51,9 +55,11 @@ public class ProjectCommandTests
     [Fact]
     public async Task CreateProjectCommandHandler_ShouldThrowException_WhenKeyIsEmpty()
     {
+        // Arrange
         var handler = new CreateProjectCommandHandler(_unitOfWorkMock.Object);
         var command = new CreateProjectCommand("", "Test Name", "Test Description");
 
+        // Act & Assert
         await Assert.ThrowsAsync<ArgumentException>(
             () => handler.HandleAsync(command, CancellationToken.None));
     }
@@ -61,6 +67,7 @@ public class ProjectCommandTests
     [Fact]
     public async Task DeleteProjectCommandHandler_ShouldDeleteProject_WhenProjectExists()
     {
+        // Arrange
         var project = new Project("TEST_KEY", "Test Name", "Test Description");
 
         _projectRepositoryMock.Setup(
@@ -69,8 +76,10 @@ public class ProjectCommandTests
         var handler = new DeleteProjectCommandHandler(_unitOfWorkMock.Object);
         var command = new DeleteProjectCommand(1);
 
+        // Act
         await handler.HandleAsync(command, CancellationToken.None);
 
+        // Assert
         _projectRepositoryMock.Verify(repo => repo.Remove(project), Times.Once);
         _unitOfWorkMock.Verify(u => u.SaveChangesAsync(CancellationToken.None), Times.Once);
     }
@@ -78,12 +87,14 @@ public class ProjectCommandTests
     [Fact]
     public async Task DeleteProjectCommandHandler_ShouldThrowException_WhenProjectDoesNotExist()
     {
+        // Arrange
         _projectRepositoryMock.Setup(
             repo => repo.GetByIdAsync(1, CancellationToken.None)).ReturnsAsync((Project)null!);
 
         var handler = new DeleteProjectCommandHandler(_unitOfWorkMock.Object);
         var command = new DeleteProjectCommand(1);
 
+        // Act & Assert
         await Assert.ThrowsAsync<InvalidOperationException>(
             () => handler.HandleAsync(command, CancellationToken.None));
     }
@@ -91,6 +102,7 @@ public class ProjectCommandTests
     [Fact]
     public async Task UpdateProjectCommandHandler_ShouldUpdateProject_WhenValidCommandIsGiven()
     {
+        // Arrange
         var project = new Project("OLD_KEY", "Old Name", "Old Description");
 
         _projectRepositoryMock.Setup(
@@ -99,8 +111,10 @@ public class ProjectCommandTests
         var handler = new UpdateProjectCommandHandler(_unitOfWorkMock.Object);
         var command = new UpdateProjectCommand(1, "NEW_KEY", "New Name", "New Description");
 
+        // Act
         await handler.HandleAsync(command, CancellationToken.None);
 
+        // Assert
         Assert.Equal("NEW_KEY", project.Key);
         Assert.Equal("New Name", project.Name);
         Assert.Equal("New Description", project.Description);
@@ -112,6 +126,7 @@ public class ProjectCommandTests
     [Fact]
     public async Task UpdateProjectCommandHandler_ShouldThrowException_WhenProjectDoesNotExist()
     {
+        // Arrange
         _projectRepositoryMock
             .Setup(repo => repo.GetByIdAsync(1, CancellationToken.None))
             .ReturnsAsync((Project)null!);
@@ -119,6 +134,7 @@ public class ProjectCommandTests
         var handler = new UpdateProjectCommandHandler(_unitOfWorkMock.Object);
         var command = new UpdateProjectCommand(1, "NEW_KEY", "New Name", "New Description");
 
+        // Act & Assert
         await Assert.ThrowsAsync<InvalidOperationException>(() => handler
             .HandleAsync(command, CancellationToken.None));
     }
@@ -126,6 +142,7 @@ public class ProjectCommandTests
     [Fact]
     public async Task CreateProjectCommandValidator_ShouldValidate()
     {
+        // Arrange
         _readOnlyUnitOfWorkMock
             .Setup(u => u.Projects.ExistsByKeyAsync("VALID-KEY", It.IsAny<CancellationToken>()))
             .ReturnsAsync(false);
@@ -133,14 +150,17 @@ public class ProjectCommandTests
         var validator = new CreateProjectCommandValidator(_readOnlyUnitOfWorkMock.Object);
         var command = new CreateProjectCommand("VALID-KEY", "Valid Name", "Valid Description");
 
+        // Act
         var result = await validator.ValidateAsync(command);
 
+        // Assert
         Assert.True(result.IsValid);
     }
 
     [Fact]
     public async Task CreateProjectCommandValidator_ShouldInvalidate_WhenKeyIsInvalid()
     {
+        // Arrange
         _readOnlyUnitOfWorkMock
             .Setup(u => u.Projects.ExistsByKeyAsync("VALID-KEY", It.IsAny<CancellationToken>()))
             .ReturnsAsync(false);
@@ -148,8 +168,10 @@ public class ProjectCommandTests
         var validator = new CreateProjectCommandValidator(_readOnlyUnitOfWorkMock.Object);
         var command = new CreateProjectCommand("", "Valid Name", "Valid Description");
 
+        // Act
         var result = await validator.ValidateAsync(command);
 
+        // Assert
         Assert.False(result.IsValid);
         Assert.Contains(result.Errors, e => e.PropertyName == "Key");
     }
@@ -157,6 +179,7 @@ public class ProjectCommandTests
     [Fact]
     public async Task CreateProjectCommandValidator_ShouldInvalidate_WhenNameIsInvalid()
     {
+        // Arrange
         _readOnlyUnitOfWorkMock
             .Setup(u => u.Projects.ExistsByKeyAsync("VALID-KEY", It.IsAny<CancellationToken>()))
             .ReturnsAsync(false);
@@ -164,8 +187,10 @@ public class ProjectCommandTests
         var validator = new CreateProjectCommandValidator(_readOnlyUnitOfWorkMock.Object);
         var command = new CreateProjectCommand("VALID-KEY", new string('A', 101), "Valid Description");
 
+        // Act
         var result = await validator.ValidateAsync(command);
 
+        // Assert
         Assert.False(result.IsValid);
         Assert.Contains(result.Errors, e => e.PropertyName == "Name");
     }
@@ -173,6 +198,7 @@ public class ProjectCommandTests
     [Fact]
     public async Task CreateProjectCommandValidator_ShouldInvalidate_WhenDescriptionIsInvalid()
     {
+        // Arrange
         _readOnlyUnitOfWorkMock
             .Setup(u => u.Projects.ExistsByKeyAsync("VALID-KEY", It.IsAny<CancellationToken>()))
             .ReturnsAsync(false);
@@ -180,8 +206,10 @@ public class ProjectCommandTests
         var validator = new CreateProjectCommandValidator(_readOnlyUnitOfWorkMock.Object);
         var command = new CreateProjectCommand("VALID-KEY", "Valid Name", new string('A', 501));
 
+        // Act
         var result = await validator.ValidateAsync(command);
 
+        // Assert
         Assert.False(result.IsValid);
         Assert.Contains(result.Errors, e => e.PropertyName == "Description");
     }
@@ -189,6 +217,7 @@ public class ProjectCommandTests
     [Fact]
     public async Task CreateProjectCommandValidator_ShouldInvalidate_WhenKeyIsNotUnique()
     {
+        // Arrange
         _readOnlyUnitOfWorkMock
             .Setup(u => u.Projects.ExistsByKeyAsync("DUPLICATE", It.IsAny<CancellationToken>()))
             .ReturnsAsync(true);
@@ -196,8 +225,10 @@ public class ProjectCommandTests
         var validator = new CreateProjectCommandValidator(_readOnlyUnitOfWorkMock.Object);
         var command = new CreateProjectCommand("DUPLICATE", "Valid Name", "Valid Description");
 
+        // Act
         var result = await validator.ValidateAsync(command);
 
+        // Assert
         Assert.False(result.IsValid);
         Assert.Contains(result.Errors, e => e.PropertyName == "Key");
     }
@@ -205,6 +236,7 @@ public class ProjectCommandTests
     [Fact]
     public async Task UpdateProjectCommandValidator_ShouldValidate()
     {
+        // Arrange
         _readOnlyUnitOfWorkMock
             .Setup(u => u.Projects.ExistsByKeyAsync("VALID-KEY", It.IsAny<CancellationToken>()))
             .ReturnsAsync(false);
@@ -216,14 +248,17 @@ public class ProjectCommandTests
         var validator = new UpdateProjectCommandValidator(_readOnlyUnitOfWorkMock.Object);
         var command = new UpdateProjectCommand(1, "VALID-KEY", "Valid Name", "Valid Description");
 
+        // Act
         var result = await validator.ValidateAsync(command);
 
+        // Assert
         Assert.True(result.IsValid);
     }
 
     [Fact]
     public async Task UpdateProjectCommandValidator_ShouldInvalidate_WhenProjectDoesNotExist()
     {
+        // Arrange
         _readOnlyUnitOfWorkMock
             .Setup(u => u.Projects.ExistsByIdAsync(1, It.IsAny<CancellationToken>()))
             .ReturnsAsync(false);
@@ -231,8 +266,10 @@ public class ProjectCommandTests
         var validator = new UpdateProjectCommandValidator(_readOnlyUnitOfWorkMock.Object);
         var command = new UpdateProjectCommand(1, "VALID-KEY", "Valid Name", "Valid Description");
 
+        // Act
         var result = await validator.ValidateAsync(command);
 
+        // Assert
         Assert.False(result.IsValid);
         Assert.Contains(result.Errors, e => e.PropertyName == "Id");
     }
@@ -240,6 +277,7 @@ public class ProjectCommandTests
     [Fact]
     public async Task UpdateProjectCommandValidator_ShouldInvalidate_WhenKeyIsInvalid()
     {
+        // Arrange
         _readOnlyUnitOfWorkMock
             .Setup(u => u.Projects.ExistsByIdAsync(1, It.IsAny<CancellationToken>()))
             .ReturnsAsync(true);
@@ -251,11 +289,13 @@ public class ProjectCommandTests
         var command3 = new UpdateProjectCommand(1, "1ABC", "Valid Name", "Valid Description");
         var command4 = new UpdateProjectCommand(1, "KEYISTOOLONG", "Valid Name", "Valid Description");
 
+        // Act
         var result1 = await validator.ValidateAsync(command1);
         var result2 = await validator.ValidateAsync(command2);
         var result3 = await validator.ValidateAsync(command3);
         var result4 = await validator.ValidateAsync(command4);
 
+        // Assert
         Assert.False(result1.IsValid);
         Assert.Contains(result1.Errors, e => e.PropertyName == "Key");
 
@@ -272,6 +312,7 @@ public class ProjectCommandTests
     [Fact]
     public async Task UpdateProjectCommandValidator_ShouldInvalidate_WhenKeyIsNotUnique()
     {
+        // Arrange
         _readOnlyUnitOfWorkMock
             .Setup(u => u.Projects.ExistsByKeyAsync("DUPLICATE", It.IsAny<CancellationToken>()))
             .ReturnsAsync(true);
@@ -283,8 +324,10 @@ public class ProjectCommandTests
         var validator = new UpdateProjectCommandValidator(_readOnlyUnitOfWorkMock.Object);
         var command = new UpdateProjectCommand(1, "DUPLICATE", "Valid Name", "Valid Description");
 
+        // Act
         var result = await validator.ValidateAsync(command);
 
+        // Assert
         Assert.False(result.IsValid);
         Assert.Contains(result.Errors, e => e.PropertyName == "Key");
     }
@@ -292,6 +335,7 @@ public class ProjectCommandTests
     [Fact]
     public async Task UpdateProjectCommandValidator_ShouldInvalidate_WhenNameIsInvalid()
     {
+        // Arrange
         _readOnlyUnitOfWorkMock
             .Setup(u => u.Projects.ExistsByKeyAsync("VALID-KEY", It.IsAny<CancellationToken>()))
             .ReturnsAsync(false);
@@ -303,8 +347,10 @@ public class ProjectCommandTests
         var validator = new UpdateProjectCommandValidator(_readOnlyUnitOfWorkMock.Object);
         var command = new UpdateProjectCommand(1, "VALID-KEY", new string('A', 101), "Valid Description");
 
+        // Act
         var result = await validator.ValidateAsync(command);
 
+        // Assert
         Assert.False(result.IsValid);
         Assert.Contains(result.Errors, e => e.PropertyName == "Name");
     }
@@ -312,6 +358,7 @@ public class ProjectCommandTests
     [Fact]
     public async Task UpdateProjectCommandValidator_ShouldInvalidate_WhenDescriptionIsInvalid()
     {
+        // Arrange
         _readOnlyUnitOfWorkMock
             .Setup(u => u.Projects.ExistsByKeyAsync("VALID-KEY", It.IsAny<CancellationToken>()))
             .ReturnsAsync(false);
@@ -323,8 +370,10 @@ public class ProjectCommandTests
         var validator = new UpdateProjectCommandValidator(_readOnlyUnitOfWorkMock.Object);
         var command = new UpdateProjectCommand(1, "VALID-KEY", "Valid Name", new string('A', 501));
 
+        // Act
         var result = await validator.ValidateAsync(command);
 
+        // Assert
         Assert.False(result.IsValid);
         Assert.Contains(result.Errors, e => e.PropertyName == "Description");
     }
@@ -332,6 +381,7 @@ public class ProjectCommandTests
     [Fact]
     public async Task DeleteProjectCommandValidator_ShouldValidate()
     {
+        // Arrange
         _readOnlyUnitOfWorkMock
             .Setup(u => u.Projects.ExistsByIdAsync(1, It.IsAny<CancellationToken>()))
             .ReturnsAsync(true);
@@ -339,14 +389,17 @@ public class ProjectCommandTests
         var validator = new DeleteProjectCommandValidator(_readOnlyUnitOfWorkMock.Object);
         var command = new DeleteProjectCommand(1);
 
+        // Act
         var result = await validator.ValidateAsync(command);
 
+        // Assert
         Assert.True(result.IsValid);
     }
 
     [Fact]
     public async Task DeleteProjectCommandValidator_ShouldInvalidate_WhenProjectDoesNotExist()
     {
+        // Arrange
         _readOnlyUnitOfWorkMock
             .Setup(u => u.Projects.ExistsByIdAsync(1, It.IsAny<CancellationToken>()))
             .ReturnsAsync(false);
@@ -354,8 +407,10 @@ public class ProjectCommandTests
         var validator = new DeleteProjectCommandValidator(_readOnlyUnitOfWorkMock.Object);
         var command = new DeleteProjectCommand(1);
 
+        // Act
         var result = await validator.ValidateAsync(command);
 
+        // Assert
         Assert.False(result.IsValid);
         Assert.Contains(result.Errors, e => e.PropertyName == "Id");
     }
