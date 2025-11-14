@@ -18,6 +18,10 @@ public class DeleteStatusCommandHandler(
     /// </summary>
     public async Task HandleAsync(DeleteStatusCommand request, CancellationToken token = default)
     {
-        throw new NotImplementedException();
+        var status = await _uow.Statuses.GetByIdAsync(request.Id, token)
+            ?? throw new InvalidOperationException("Status should exist due to prior validation.");
+
+        _uow.Statuses.Remove(status);
+        await _uow.SaveChangesAsync(token);
     }
 }
