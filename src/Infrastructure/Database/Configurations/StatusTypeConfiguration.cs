@@ -24,5 +24,11 @@ public class StatusTypeConfiguration : IEntityTypeConfiguration<Status>
             .IsRequired();
 
         builder.HasIndex(s => new { s.ProjectId, s.Key }).IsUnique();
+
+        // Configure the relationship with Project
+        builder.HasOne(s => s.Project)
+            .WithMany(p => p.Statuses)
+            .HasForeignKey(s => s.ProjectId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

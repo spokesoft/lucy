@@ -167,7 +167,15 @@
     <value>List all projects.</value>
   </data>
 
+  <data name="Command.List.Projects.Description">
+    <value>List all projects.</value>
+  </data>
+
   <data name="Command.List.Project.Example.0">
+    <value>list projects</value>
+  </data>
+
+  <data name="Command.List.Projects.Example.0">
     <value>list projects</value>
   </data>
 
@@ -175,11 +183,23 @@
     <value>List all statuses for a project.</value>
   </data>
 
+  <data name="Command.List.Statuses.Description">
+    <value>List all statuses for a project.</value>
+  </data>
+
   <data name="Command.List.Status.Example.0">
     <value>list statuses EXAMP</value>
   </data>
 
+  <data name="Command.List.Statuses.Example.0">
+    <value>list statuses EXAMP</value>
+  </data>
+
   <data name="Command.List.Status.Example.1">
+    <value>list statuses --project-id 1</value>
+  </data>
+
+  <data name="Command.List.Statuses.Example.1">
     <value>list statuses --project-id 1</value>
   </data>
 
