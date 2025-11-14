@@ -43,6 +43,14 @@ public class Status : DomainEntity<long>
     public Project Project { get; private set; } = null!;
 
     /// <summary>
+    /// Parameterless constructor for EF Core.
+    /// </summary>
+    private Status()
+    {
+        Key = null!;
+    }
+
+    /// <summary>
     /// Initializes a new instance of the class.
     /// </summary>
     public Status(

@@ -1,5 +1,6 @@
 using Lucy.Application.Interfaces;
 using Lucy.Application.Projects.Repositories;
+using Lucy.Application.Statuses.Repositories;
 using Lucy.Infrastructure.Repositories;
 
 namespace Lucy.Infrastructure.Database;
@@ -14,4 +15,9 @@ public class ReadOnlyUnitOfWork(
     /// Project read-only repository
     /// </summary>
     public IProjectReadOnlyRepository Projects { get; } = new ProjectReadOnlyRepository(context);
+
+    /// <summary>
+    /// Status read-only repository
+    /// </summary>
+    public IStatusReadOnlyRepository Statuses { get; } = new StatusReadOnlyRepository(context);
 }

@@ -20,6 +20,11 @@ public class LucyDbContext(DbContextOptions<LucyDbContext> options) : DbContext(
     public DbSet<Project> Projects { get; set; }
 
     /// <summary>
+    /// Database set of statuses.
+    /// </summary>
+    public DbSet<Status> Statuses { get; set; }
+
+    /// <summary>
     /// Configures the model by applying all entity configurations from the specified namespace.
     /// </summary>
     protected override void OnModelCreating(ModelBuilder modelBuilder)

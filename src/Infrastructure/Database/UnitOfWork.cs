@@ -1,5 +1,6 @@
 using Lucy.Application.Interfaces;
 using Lucy.Application.Projects.Repositories;
+using Lucy.Application.Statuses.Repositories;
 using Lucy.Infrastructure.Repositories;
 
 namespace Lucy.Infrastructure.Database;
@@ -19,6 +20,11 @@ public class UnitOfWork(
     /// Project repository
     /// </summary>
     public IProjectRepository Projects { get; } = new ProjectRepository(context);
+
+    /// <summary>
+    /// Status repository
+    /// </summary>
+    public IStatusRepository Statuses { get; } = new StatusRepository(context);
 
     /// <summary>
     /// Saves changes to the database asynchronously
