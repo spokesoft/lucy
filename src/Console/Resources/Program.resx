@@ -169,10 +169,46 @@
     <value>delete project --id 1</value>
   </data>
 
+  <data name="Command.Delete.Status.Description">
+    <value>Delete a status from a project.</value>
+  </data>
+
+  <data name="Command.Delete.Status.Example.0">
+    <value>delete status EXAMP TODO</value>
+  </data>
+
+  <data name="Command.Delete.Status.Example.1">
+    <value>delete status EXAMP --id 1</value>
+  </data>
+
+  <data name="Command.Delete.Status.Example.2">
+    <value>delete status --project-id 1 --id 2</value>
+  </data>
+
   <!-- Log messages -->
 
   <data name="Messages.CommandError">
     <value>An error occurred while executing the command: {message}</value>
+  </data>
+
+  <data name="Messages.DeletedProjectWithKey">
+    <value>[green]✓[/] Deleted project [yellow]{0}[/] [gray]ID={1}[/]</value>
+  </data>
+
+  <data name="Messages.DeletedProjectWithId">
+    <value>[green]✓[/] Deleted project [gray]ID={0}[/]</value>
+  </data>
+
+  <data name="Messages.DeletedStatusWithKeys">
+    <value>[green]✓[/] Deleted status [yellow]{0}[/] from project [yellow]{1}[/] [gray]ID={2}[/]</value>
+  </data>
+
+  <data name="Messages.DeletedStatusWithKey">
+    <value>[green]✓[/] Deleted status [yellow]{0}[/] [gray]ID={1}[/]</value>
+  </data>
+
+  <data name="Messages.DeletedStatusWithId">
+    <value>[green]✓[/] Deleted status [gray]ID={0}[/]</value>
   </data>
 
   <!-- Database migration log messages -->

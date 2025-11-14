@@ -11,7 +11,7 @@ namespace Lucy.Console.Commands.Update;
 /// <summary>
 /// Handler for the <see cref="UpdateProjectCommand"/> command.
 /// </summary>
-public class UpdateProjectCommandHandler(
+internal class UpdateProjectCommandHandler(
     IAnsiConsole console,
     IMediator mediator) : ICommandHandler<UpdateProjectCommand>
 {

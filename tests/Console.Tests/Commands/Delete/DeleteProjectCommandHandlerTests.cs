@@ -2,6 +2,7 @@ using Lucy.Application.Interfaces;
 using Lucy.Application.Projects.Queries.GetProjectIdByKey;
 using Lucy.Console.Commands.Delete;
 using Lucy.Console.Enums;
+using Microsoft.Extensions.Localization;
 using Moq;
 using Spectre.Console.Testing;
 
@@ -10,16 +11,23 @@ namespace Lucy.Console.Tests.Commands.Delete;
 public class DeleteProjectCommandHandlerTests
 {
     private readonly TestConsole _console;
+    private readonly Mock<IStringLocalizer<Program>> _localizerMock;
     private readonly Mock<IMediator> _mediatorMock;
     private readonly DeleteProjectCommandHandler _handler;
 
     public DeleteProjectCommandHandlerTests()
     {
         _console = new TestConsole();
+        _localizerMock = new Mock<IStringLocalizer<Program>>();
         _mediatorMock = new Mock<IMediator>();
+
+        // Setup localizer to return localized strings
+        _localizerMock.Setup(x => x[It.IsAny<string>(), It.IsAny<object[]>()])
+            .Returns((string key, object[] args) => new LocalizedString(key, string.Format(key, args)));
 
         _handler = new DeleteProjectCommandHandler(
             _console,
+            _localizerMock.Object,
             _mediatorMock.Object);
     }
 
@@ -46,8 +54,7 @@ public class DeleteProjectCommandHandlerTests
 
         // Assert
         Assert.Equal(ExitCode.Success, result);
-        Assert.Contains(projectKey, _console.Output);
-        Assert.Contains(projectId.ToString(), _console.Output);
+        Assert.Contains("Messages.DeletedProjectWithKey", _console.Output);
 
         _mediatorMock.Verify(
             m => m.Send(
@@ -72,7 +79,7 @@ public class DeleteProjectCommandHandlerTests
 
         // Assert
         Assert.Equal(ExitCode.Success, result);
-        Assert.Contains(projectId.ToString(), _console.Output);
+        Assert.Contains("Messages.DeletedProjectWithId", _console.Output);
 
         _mediatorMock.Verify(
             m => m.Send(

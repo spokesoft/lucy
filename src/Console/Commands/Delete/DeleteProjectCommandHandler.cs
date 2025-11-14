@@ -5,20 +5,27 @@ using Spectre.Console.Cli;
 using Lucy.Application.Projects.Queries.GetProjectIdByKey;
 using Lucy.Application.Interfaces;
 using Spectre.Console;
+using Microsoft.Extensions.Localization;
 
 namespace Lucy.Console.Commands.Delete;
 
 /// <summary>
 /// Handler for the <see cref="DeleteProjectCommand"/> command.
 /// </summary>
-public class DeleteProjectCommandHandler(
+internal class DeleteProjectCommandHandler(
     IAnsiConsole console,
+    IStringLocalizer<Program> localizer,
     IMediator mediator) : ICommandHandler<DeleteProjectCommand>
 {
     /// <summary>
     /// The console instance for outputting information.
     /// </summary>
     private readonly IAnsiConsole _console = console;
+
+    /// <summary>
+    /// The localizer instance for localized strings.
+    /// </summary>
+    private readonly IStringLocalizer<Program> _localizer = localizer;
 
     /// <summary>
     /// The mediator instance for sending commands and queries.
@@ -42,9 +49,9 @@ public class DeleteProjectCommandHandler(
         await _mediator.Send(request, token);
 
         if (command.Key is not null)
-            _console.MarkupLine("[green]✓[/] Deleted project [yellow]{0}[/] [gray]ID={1}[/]", command.Key, projectId);
+            _console.MarkupLine(_localizer["Messages.DeletedProjectWithKey", command.Key, projectId]);
         else
-            _console.MarkupLine("[green]✓[/] Deleted project [gray]ID={0}[/]", projectId);
+            _console.MarkupLine(_localizer["Messages.DeletedProjectWithId", projectId]);
 
         return ExitCode.Success;
     }

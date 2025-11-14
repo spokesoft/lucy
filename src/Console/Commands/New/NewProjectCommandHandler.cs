@@ -10,7 +10,7 @@ namespace Lucy.Console.Commands.New;
 /// <summary>
 /// Handler for the <see cref="NewProjectCommand"/> command.
 /// </summary>
-public class NewProjectCommandHandler(
+internal class NewProjectCommandHandler(
     IAnsiConsole console,
     IMediator mediator) : ICommandHandler<NewProjectCommand>
 {

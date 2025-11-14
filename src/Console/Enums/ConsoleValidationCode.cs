@@ -19,4 +19,19 @@ public enum ConsoleValidationCode
     ProjectKeyNotFound,
 
     #endregion
+
+    #region Status Validation Codes
+
+    /// <summary>
+    /// Indicates that the command requires either a status key or ID to be
+    /// specified.
+    /// </summary>
+    StatusKeyOrIdRequired,
+
+    /// <summary>
+    /// Indicates that the status could not be found by the specified key.
+    /// </summary>
+    StatusKeyNotFound,
+
+    #endregion
 }
