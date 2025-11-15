@@ -43,6 +43,11 @@ public class Status : DomainEntity<long>
     public Project Project { get; private set; } = null!;
 
     /// <summary>
+    /// The tickets associated with this status.
+    /// </summary>
+    public ICollection<Ticket> Tickets { get; private set; } = [];
+
+    /// <summary>
     /// Parameterless constructor for EF Core.
     /// </summary>
     private Status()
