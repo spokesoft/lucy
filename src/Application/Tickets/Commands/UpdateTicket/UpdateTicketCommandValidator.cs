@@ -39,6 +39,13 @@ public class UpdateTicketCommandValidator(
             return result;
         }
 
+        // Check if there is any data to update
+        if (!request.StatusId.HasValue && request.Title == null && request.Description == null)
+        {
+            result.AddError(ValidationCode.TicketNoDataToUpdate, "Command");
+            return result;
+        }
+
         if (request.StatusId.HasValue)
         {
             if (!await _unitOfWork.Statuses.ExistsByIdAsync(request.StatusId.Value, token))

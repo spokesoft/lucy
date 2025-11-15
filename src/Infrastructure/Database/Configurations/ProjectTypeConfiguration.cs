@@ -31,6 +31,12 @@ public class ProjectTypeConfiguration : IEntityTypeConfiguration<Project>
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
 
+        builder.HasMany(p => p.Tickets)
+            .WithOne(t => t.Project)
+            .HasForeignKey(t => t.ProjectId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired();
+
         builder.HasIndex(p => p.Key).IsUnique();
     }
 }

@@ -30,5 +30,11 @@ public class StatusTypeConfiguration : IEntityTypeConfiguration<Status>
             .WithMany(p => p.Statuses)
             .HasForeignKey(s => s.ProjectId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        // Configure the relationship with Tickets
+        builder.HasMany(s => s.Tickets)
+            .WithOne(t => t.Status)
+            .HasForeignKey(t => t.StatusId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
