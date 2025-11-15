@@ -1,5 +1,7 @@
 using Lucy.Application.Projects.Repositories;
+using Lucy.Application.Sequences.Repositories;
 using Lucy.Application.Statuses.Repositories;
+using Lucy.Application.Tickets.Repositories;
 
 namespace Lucy.Application.Interfaces;
 
@@ -17,6 +19,16 @@ public interface IUnitOfWork
     /// Repository for Status entities.
     /// </summary>
     public IStatusRepository Statuses { get; }
+
+    /// <summary>
+    /// Repository for Ticket entities.
+    /// </summary>
+    public ITicketRepository Tickets { get; }
+
+    /// <summary>
+    /// Repository for Sequence entities.
+    /// </summary>
+    public ISequenceRepository Sequences { get; }
 
     /// <summary>
     /// Saves all changes made in the context to the database.

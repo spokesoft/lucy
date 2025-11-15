@@ -107,4 +107,38 @@ public enum ValidationCode
     StatusNoDataToUpdate,
 
     #endregion
+
+    #region Ticket Validation Codes
+
+    /// <summary>
+    /// Indicates that the specified ticket was not found.
+    /// </summary>
+    TicketNotFound,
+
+    /// <summary>
+    /// Indicates that the ticket title is required but was not provided.
+    /// </summary>
+    TicketTitleRequired,
+
+    /// <summary>
+    /// Indicates that the ticket title length is invalid.
+    /// </summary>
+    TicketTitleLength,
+
+    /// <summary>
+    /// Indicates that the ticket description length is invalid.
+    /// </summary>
+    TicketDescriptionLength,
+
+    /// <summary>
+    /// Indicates that the status does not belong to the project.
+    /// </summary>
+    StatusNotInProject,
+
+    /// <summary>
+    /// Indicates that no data was provided for updating the ticket.
+    /// </summary>
+    TicketNoDataToUpdate,
+
+    #endregion
 }

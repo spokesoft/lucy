@@ -1,0 +1,47 @@
+using Lucy.Application.Interfaces;
+using Lucy.Application.Queries;
+using Lucy.Application.Tickets.Queries;
+using Lucy.Domain.Entities;
+
+namespace Lucy.Application.Tickets.Repositories;
+
+/// <summary>
+/// Read-only repository interface for Ticket entities.
+/// </summary>
+public interface ITicketReadOnlyRepository : IReadOnlyRepository<Ticket, long>
+{
+    /// <summary>
+    /// Gets a ticket by its key.
+    /// </summary>
+    Task<Ticket?> GetByKeyAsync(string key, CancellationToken token = default);
+
+    /// <summary>
+    /// Checks if a ticket exists by its key.
+    /// </summary>
+    Task<bool> ExistsByKeyAsync(string key, CancellationToken token = default);
+
+    /// <summary>
+    /// Gets all tickets for a specific project.
+    /// </summary>
+    Task<List<Ticket>> GetByProjectIdAsync(long projectId, CancellationToken token = default);
+
+    /// <summary>
+    /// Gets all tickets for a specific project with sorting.
+    /// </summary>
+    Task<List<Ticket>> GetByProjectIdAsync(long projectId, TicketSortField sortBy, SortDirection sortDirection, CancellationToken token = default);
+
+    /// <summary>
+    /// Gets all tickets for a specific status.
+    /// </summary>
+    Task<List<Ticket>> GetByStatusIdAsync(long statusId, CancellationToken token = default);
+
+    /// <summary>
+    /// Gets all tickets for a specific status with sorting.
+    /// </summary>
+    Task<List<Ticket>> GetByStatusIdAsync(long statusId, TicketSortField sortBy, SortDirection sortDirection, CancellationToken token = default);
+
+    /// <summary>
+    /// Gets all tickets with sorting.
+    /// </summary>
+    Task<List<Ticket>> GetAllAsync(TicketSortField sortBy, SortDirection sortDirection, CancellationToken token = default);
+}
