@@ -25,7 +25,9 @@ internal class NewStatusCommandValidator(
     {
         var result = new ValidationResult();
 
-        // Validate that either ProjectKey or ProjectId is provided
+        // Handle ambiguous case: if ProjectKey is null but Key has a value and ProjectId is set,
+        // then Key might be in the wrong position, but since Key is required, ProjectKey must be provided
+        // either as positional arg or as --project-id option
         if (command.ProjectKey is null && command.ProjectId is null)
         {
             result.AddError(new ValidationError(

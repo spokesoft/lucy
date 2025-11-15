@@ -46,18 +46,30 @@ internal class ShowStatusCommandHandler(
         ShowStatusCommand command,
         CancellationToken token = default)
     {
-        var statusId = command.Id;
+        var statusId = command.StatusId;
         if (statusId is null)
         {
+            // Handle ambiguous case: if StatusKey is null but ProjectKey has a value and ProjectId is set,
+            // then ProjectKey is actually the status key (single positional argument with --project-id option)
+            string? statusKey = command.StatusKey;
+            string? projectKey = command.ProjectKey;
+            long? projectId = command.ProjectId;
+
+            if (statusKey is null && projectKey is not null && projectId.HasValue)
+            {
+                // Single positional argument with --project-id: treat as status key
+                statusKey = projectKey;
+                projectKey = null;
+            }
+
             // Need to get status by key, which requires project ID
-            var projectId = command.ProjectId;
             if (projectId is null)
             {
-                var projectQuery = new GetProjectIdByKeyQuery(command.ProjectKey!);
+                var projectQuery = new GetProjectIdByKeyQuery(projectKey!);
                 projectId = await _mediator.Send(projectQuery, token);
             }
 
-            var statusQuery = new GetStatusByKeyQuery(projectId!.Value, command.Key!);
+            var statusQuery = new GetStatusByKeyQuery(projectId!.Value, statusKey!);
             var statusByKey = await _mediator.Send(statusQuery, token);
             statusId = statusByKey?.Id;
         }

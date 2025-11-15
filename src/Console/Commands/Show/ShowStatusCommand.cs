@@ -9,35 +9,36 @@ namespace Lucy.Console.Commands.Show;
 /// <remarks>
 /// A status can be identified by either its key or its ID. If both are
 /// provided, the key is ignored.
-/// A project can be identified by either its key or its ID (when using status key).
+/// A project can be identified by either its key or its ID. If both are
+/// provided, the key is ignored.
 /// </remarks>
 public class ShowStatusCommand : ShowCommand
 {
     /// <summary>
-    /// The key of the status to show.
-    /// </summary>
-    [CommandArgument(0, "[key]")]
-    [Description("The key of the status to show.")]
-    public required string? Key { get; set; }
-
-    /// <summary>
     /// The key of the project the status belongs to.
     /// </summary>
-    [CommandOption("-k|--project-key <KEY>")]
+    [CommandArgument(0, "[project-key]")]
     [Description("The key of the project the status belongs to.")]
     public required string? ProjectKey { get; set; }
 
     /// <summary>
+    /// The key of the status to show.
+    /// </summary>
+    [CommandArgument(1, "[status-key]")]
+    [Description("The key of the status to show.")]
+    public required string? StatusKey { get; set; }
+
+    /// <summary>
     /// The ID of the project the status belongs to.
     /// </summary>
-    [CommandOption("-p|--project-id <ID>")]
+    [CommandOption("-p|--project-id <id>")]
     [Description("The ID of the project the status belongs to.")]
     public required long? ProjectId { get; set; }
 
     /// <summary>
     /// The ID of the status to show.
     /// </summary>
-    [CommandOption("-i|--id <ID>")]
+    [CommandOption("-i|--id <id>")]
     [Description("The ID of the status to show.")]
-    public required long? Id { get; set; }
+    public required long? StatusId { get; set; }
 }

@@ -21,13 +21,19 @@ public class UpdateStatusCommandHandler(
         var status = await _uow.Statuses.GetByIdAsync(request.Id, token)
             ?? throw new InvalidOperationException("Status should exist due to prior validation.");
 
+        if (request.Key != null)
+            status.UpdateKey(request.Key);
+
+        if (request.Order.HasValue)
+            status.UpdateOrder(request.Order.Value);
+
         if (request.Name != null)
             status.UpdateName(request.Name);
 
         if (request.Description != null)
             status.UpdateDescription(request.Description);
 
-        if (request.Color != null)
+        if (request.Color.HasValue)
             status.UpdateColor(request.Color.Value);
 
         _uow.Statuses.Update(status);

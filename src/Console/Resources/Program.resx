@@ -176,11 +176,15 @@
   </data>
 
   <data name="Command.New.Status.Example.0">
-    <value>new status TODO --project-key EXAMP --name "To Do"</value>
+    <value>new status TODO EXAMP --name "To Do"</value>
   </data>
 
   <data name="Command.New.Status.Example.1">
-    <value>new status DONE --project-id 1 --name Done --color Green</value>
+    <value>new status BLOCKED --project-id 1 --name Blocked --color red</value>
+  </data>
+
+  <data name="Command.New.Status.Example.2">
+    <value>new status DONE EXAMP --name Done --color green</value>
   </data>
 
   <data name="Command.List.Project.Description">
@@ -240,10 +244,14 @@
   </data>
 
   <data name="Command.Show.Status.Example.0">
-    <value>show status TODO --project-key EXAMP</value>
+    <value>show status EXAMP TODO</value>
   </data>
 
   <data name="Command.Show.Status.Example.1">
+    <value>show status TODO --project-id 1</value>
+  </data>
+
+  <data name="Command.Show.Status.Example.2">
     <value>show status --id 1</value>
   </data>
 
@@ -261,6 +269,26 @@
 
   <data name="Command.Update.Project.Example.2">
     <value>update project NEWKEY --id 1</value>
+  </data>
+
+  <data name="Command.Update.Status.Description">
+    <value>Update an existing status.</value>
+  </data>
+
+  <data name="Command.Update.Status.Example.0">
+    <value>update status EXAMP TODO --name "To Do"</value>
+  </data>
+
+  <data name="Command.Update.Status.Example.1">
+    <value>update status TODO --project-id 1 --name "To Do"</value>
+  </data>
+
+  <data name="Command.Update.Status.Example.2">
+    <value>update status --id 1 --color blue</value>
+  </data>
+
+  <data name="Command.Update.Status.Example.3">
+    <value>update status EXAMP DONE --new-key COMPLETED</value>
   </data>
 
   <data name="Command.Delete.Project.Description">
@@ -327,6 +355,14 @@
 
   <data name="Messages.CreatedStatusWithKey">
     <value>[green]✓[/] Created status [yellow]{0}[/] [gray]ID={1}[/]</value>
+  </data>
+
+  <data name="Messages.UpdatedStatusWithId">
+    <value>[green]✓[/] Updated status [gray]ID={0}[/]</value>
+  </data>
+
+  <data name="Messages.UpdatedStatusWithKey">
+    <value>[green]✓[/] Updated status [yellow]{0}[/]</value>
   </data>
 
   <!-- Database migration log messages -->

@@ -38,10 +38,21 @@ internal class NewStatusCommandHandler(
         NewStatusCommand command,
         CancellationToken token = default)
     {
+        // Handle ambiguous case: if ProjectKey has a value and ProjectId is set,
+        // then we're using single positional argument with --project-id option
+        // In this case, ProjectKey is actually part of the status key argument handling
         var projectId = command.ProjectId;
+        var projectKey = command.ProjectKey;
+
         if (projectId is null)
         {
-            var projectQuery = new GetProjectIdByKeyQuery(command.ProjectKey!);
+            if (projectKey is null)
+            {
+                // This shouldn't happen due to validation, but handle it
+                throw new InvalidOperationException("Either ProjectKey or ProjectId must be provided.");
+            }
+
+            var projectQuery = new GetProjectIdByKeyQuery(projectKey);
             projectId = await _mediator.Send(projectQuery, token);
         }
 
@@ -55,8 +66,8 @@ internal class NewStatusCommandHandler(
 
         var id = await _mediator.Send(request, token);
 
-        if (command.ProjectKey is not null)
-            _console.MarkupLine(_localizer["Messages.CreatedStatusWithKeys", command.Key, command.ProjectKey, id]);
+        if (projectKey is not null)
+            _console.MarkupLine(_localizer["Messages.CreatedStatusWithKeys", command.Key, projectKey, id]);
         else
             _console.MarkupLine(_localizer["Messages.CreatedStatusWithKey", command.Key, id]);
 

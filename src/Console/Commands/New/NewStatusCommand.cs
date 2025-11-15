@@ -23,7 +23,7 @@ public class NewStatusCommand : NewCommand
     /// <summary>
     /// The key of the project this status belongs to.
     /// </summary>
-    [CommandOption("-k|--project-key <KEY>")]
+    [CommandArgument(1, "[project-key]")]
     [Description("The key of the project this status belongs to.")]
     public required string? ProjectKey { get; set; }
 

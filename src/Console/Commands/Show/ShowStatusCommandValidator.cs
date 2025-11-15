@@ -25,14 +25,27 @@ internal class ShowStatusCommandValidator(
         CancellationToken token = default)
     {
         // If using status ID, no other validation needed
-        if (command.Id is not null)
+        if (command.StatusId is not null)
             return ValidationResult.Success;
 
+        // Handle ambiguous case: if StatusKey is null but ProjectKey has a value and ProjectId is set,
+        // then ProjectKey is actually the status key (single positional argument with --project-id option)
+        string? statusKey = command.StatusKey;
+        string? projectKey = command.ProjectKey;
+        long? projectId = command.ProjectId;
+
+        if (statusKey is null && projectKey is not null && projectId.HasValue)
+        {
+            // Single positional argument with --project-id: treat as status key
+            statusKey = projectKey;
+            projectKey = null;
+        }
+
         // If using status key, need project key or ID
-        if (string.IsNullOrWhiteSpace(command.Key))
+        if (string.IsNullOrWhiteSpace(statusKey))
             return ValidationResult.Error(ConsoleValidationCode.StatusKeyOrIdRequired);
 
-        if (command.ProjectKey is null && command.ProjectId is null)
+        if (projectKey is null && projectId is null)
         {
             return ValidationResult.Error(
                 ConsoleValidationCode.ProjectKeyOrIdRequiredForStatusKey,
@@ -40,9 +53,9 @@ internal class ShowStatusCommandValidator(
         }
 
         // If ProjectKey is provided, validate that the project exists
-        if (command.ProjectKey is not null)
+        if (projectKey is not null)
         {
-            var query = new GetProjectByKeyQuery(command.ProjectKey);
+            var query = new GetProjectByKeyQuery(projectKey);
             var project = await _mediator.Send(query, token);
 
             if (project is null)
@@ -50,7 +63,7 @@ internal class ShowStatusCommandValidator(
                 return ValidationResult.Error(
                     ConsoleValidationCode.ProjectKeyNotFound,
                     nameof(command.ProjectKey),
-                    command.ProjectKey);
+                    projectKey);
             }
         }
 
