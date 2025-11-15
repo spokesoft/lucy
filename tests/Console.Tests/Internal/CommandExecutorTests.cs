@@ -10,6 +10,7 @@ using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Spectre.Console.Cli;
+using Spectre.Console.Testing;
 
 namespace Lucy.Console.Tests.Internal;
 
@@ -51,6 +52,9 @@ public class CommandExecutorTests
         // Setup localizer
         localizer.Setup(x => x[It.IsAny<string>()])
             .Returns((string key) => new LocalizedString(key, key));
+
+        // Register Spectre.Console TestConsole
+        services.AddSingleton<Spectre.Console.IAnsiConsole>(new TestConsole());
 
         services.AddSingleton(errorLogger.Object);
         services.AddSingleton(validationLogger.Object);

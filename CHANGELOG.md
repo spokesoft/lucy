@@ -8,10 +8,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
+- Added status entity and related migrations.
+- Added status related commands.
+- Added comprehensive unit tests status related features.
+
 ### Changed
+
+- Refactored test file structure and improved test comments.
+
 ### Deprecated
 ### Removed
 ### Fixed
+
+- Adds missing migration for sequence entity.
+- Fixes issue with request validation in mediation layer.
+
 ### Security
 
 ## [0.0.2] - 2025-11-11

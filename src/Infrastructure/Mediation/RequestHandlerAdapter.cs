@@ -24,7 +24,7 @@ public class RequestHandlerAdapter<TRequest> : RequestHandlerWrapper
         IServiceProvider provider,
         CancellationToken token)
     {
-        var validation = await ValidateAsync(request, provider, token);
+        var validation = await ValidateAsync((TRequest)request, provider, token);
 
         if (!validation.IsValid)
             throw new ValidationException(validation);
@@ -57,7 +57,7 @@ public class RequestHandlerAdapter<TRequest, TResponse> : RequestHandlerWrapper<
         IServiceProvider provider,
         CancellationToken token)
     {
-        var validation = await ValidateAsync(request, provider, token);
+        var validation = await ValidateAsync((TRequest)request, provider, token);
 
         if (!validation.IsValid)
             throw new ValidationException(validation);

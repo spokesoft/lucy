@@ -23,14 +23,17 @@ public class CreateStatusCommandHandler(
         var project = await _uow.Projects.GetByIdAsync(request.ProjectId, token)
             ?? throw new InvalidOperationException("Project should exist due to prior validation.");
 
+        // Get existing statuses for this project from the repository
+        var existingStatuses = await _uow.Statuses.GetByProjectIdAsync(request.ProjectId, token);
+
         if (request.Order == null)
         {
-            order = project!.Statuses.Count;
+            order = existingStatuses.Any() ? existingStatuses.Max(s => s.Order) + 1 : 1;
         }
         else
         {
             order = request.Order.Value;
-            foreach (var otherStatus in project.Statuses.Where(s => s.Order >= order))
+            foreach (var otherStatus in existingStatuses.Where(s => s.Order >= order))
             {
                 otherStatus.UpdateOrder(otherStatus.Order + 1);
                 _uow.Statuses.Update(otherStatus);

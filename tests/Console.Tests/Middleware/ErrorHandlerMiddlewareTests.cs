@@ -6,6 +6,7 @@ using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Spectre.Console.Cli;
+using Spectre.Console.Testing;
 
 namespace Lucy.Console.Tests.Middleware;
 
@@ -16,18 +17,20 @@ public class ErrorHandlerMiddlewareTests
 {
     private readonly Mock<ILogger<ErrorHandlerMiddleware>> _logger;
     private readonly Mock<IStringLocalizer<Program>> _localizer;
+    private readonly TestConsole _console;
     private readonly ErrorHandlerMiddleware _middleware;
 
     public ErrorHandlerMiddlewareTests()
     {
         _logger = new Mock<ILogger<ErrorHandlerMiddleware>>();
         _localizer = new Mock<IStringLocalizer<Program>>();
+        _console = new TestConsole();
 
         // Setup localizer
         _localizer.Setup(x => x[It.IsAny<string>()])
             .Returns((string key) => new LocalizedString(key, key));
 
-        _middleware = new ErrorHandlerMiddleware(_logger.Object, _localizer.Object);
+        _middleware = new ErrorHandlerMiddleware(_console, _logger.Object, _localizer.Object);
     }
 
     [Fact]

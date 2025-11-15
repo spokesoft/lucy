@@ -25,7 +25,39 @@ public class UpdateStatusCommandHandler(
             status.UpdateKey(request.Key);
 
         if (request.Order.HasValue)
-            status.UpdateOrder(request.Order.Value);
+        {
+            var oldOrder = status.Order;
+            var newOrder = request.Order.Value;
+
+            if (oldOrder != newOrder)
+            {
+                // Get all statuses in the same project
+                var allStatuses = await _uow.Statuses.GetByProjectIdAsync(status.ProjectId, token);
+
+                if (newOrder > oldOrder)
+                {
+                    // Moving down: shift statuses between old and new position up
+                    foreach (var otherStatus in allStatuses
+                        .Where(s => s.Id != status.Id && s.Order > oldOrder && s.Order <= newOrder))
+                    {
+                        otherStatus.UpdateOrder(otherStatus.Order - 1);
+                        _uow.Statuses.Update(otherStatus);
+                    }
+                }
+                else
+                {
+                    // Moving up: shift statuses between new and old position down
+                    foreach (var otherStatus in allStatuses
+                        .Where(s => s.Id != status.Id && s.Order >= newOrder && s.Order < oldOrder))
+                    {
+                        otherStatus.UpdateOrder(otherStatus.Order + 1);
+                        _uow.Statuses.Update(otherStatus);
+                    }
+                }
+            }
+
+            status.UpdateOrder(newOrder);
+        }
 
         if (request.Name != null)
             status.UpdateName(request.Name);

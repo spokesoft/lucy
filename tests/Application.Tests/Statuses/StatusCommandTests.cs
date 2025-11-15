@@ -38,6 +38,10 @@ public class StatusCommandTests
             .ReturnsAsync(project);
 
         _statusRepositoryMock
+            .Setup(repo => repo.GetByProjectIdAsync(1, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new List<Status>());
+
+        _statusRepositoryMock
             .Setup(repo => repo.AddAsync(It.IsAny<Status>(), It.IsAny<CancellationToken>()))
             .Callback<Status, CancellationToken>((status, _) => status.Id = 1)
             .Returns(Task.CompletedTask);
@@ -74,6 +78,10 @@ public class StatusCommandTests
         _projectRepositoryMock
             .Setup(repo => repo.GetByIdAsync(1, It.IsAny<CancellationToken>()))
             .ReturnsAsync(project);
+
+        _statusRepositoryMock
+            .Setup(repo => repo.GetByProjectIdAsync(1, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new List<Status>());
 
         _statusRepositoryMock
             .Setup(repo => repo.AddAsync(It.IsAny<Status>(), It.IsAny<CancellationToken>()))
@@ -116,6 +124,10 @@ public class StatusCommandTests
         _projectRepositoryMock
             .Setup(repo => repo.GetByIdAsync(1, It.IsAny<CancellationToken>()))
             .ReturnsAsync(project);
+
+        _statusRepositoryMock
+            .Setup(repo => repo.GetByProjectIdAsync(1, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new List<Status>());
 
         var handler = new CreateStatusCommandHandler(_unitOfWorkMock.Object);
         var command = new CreateStatusCommand(1, "", null, "To Do", "Tasks to be done", StatusColor.Gray);

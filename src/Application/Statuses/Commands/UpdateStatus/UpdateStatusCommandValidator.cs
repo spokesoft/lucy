@@ -52,7 +52,11 @@ public class UpdateStatusCommandValidator(
         var existing = await _unitOfWork.Statuses.GetByProjectIdAsync(status.ProjectId, token);
 
         if (request.Key != null)
-            result.AddResult(_keyValidator.Validate((request.Key, existing)));
+        {
+            // Exclude the current status from the duplicate key check
+            var otherStatuses = existing.Where(s => s.Id != request.Id);
+            result.AddResult(_keyValidator.Validate((request.Key, otherStatuses)));
+        }
 
         if (request.Name != null)
             result.AddResult(_nameValidator.Validate(request.Name));

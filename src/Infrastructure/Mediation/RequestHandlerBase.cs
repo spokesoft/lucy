@@ -26,8 +26,9 @@ public abstract class RequestHandlerBase
         where TRequest : IRequestBase
     {
         var validatorType = typeof(IRequestValidator<>).MakeGenericType(typeof(TRequest));
+        var validator = provider.GetService(validatorType) as IRequestValidator<TRequest>;
 
-        if (provider.GetService(validatorType) is not IRequestValidator<TRequest> validator)
+        if (validator is null)
             return ValidationResult.Success;
 
         return await validator.ValidateAsync(request, token);

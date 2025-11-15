@@ -11,6 +11,7 @@ using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Spectre.Console.Cli;
+using Spectre.Console.Testing;
 
 namespace Lucy.Console.Tests;
 
@@ -55,6 +56,9 @@ public class CommandExecutionPipelineTests
         services.AddSingleton<ICommandValidator<TestCommand>>(_commandValidator);
         services.AddSingleton<IDatabaseLoggingService>(_loggingService);
         services.AddSingleton<IDatabaseMigrator>(_databaseMigrator);
+
+        // Register Spectre.Console TestConsole
+        services.AddSingleton<Spectre.Console.IAnsiConsole>(new TestConsole());
 
         // Register loggers
         services.AddSingleton(_errorLogger.Object);

@@ -5,6 +5,7 @@ using Lucy.Console.Internal;
 using Lucy.Console;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
+using Spectre.Console;
 using Spectre.Console.Cli;
 using Lucy.Console.Extensions;
 
@@ -14,9 +15,11 @@ namespace Lucy.Console.Middleware;
 /// A middleware that handles errors and exceptions.
 /// </summary>
 internal class ErrorHandlerMiddleware(
+    IAnsiConsole console,
     ILogger<ErrorHandlerMiddleware> logger,
     IStringLocalizer<Program> localizer) : ICommandMiddleware
 {
+    private readonly IAnsiConsole _console = console;
     private readonly ILogger<ErrorHandlerMiddleware> _logger = logger;
     private readonly IStringLocalizer<Program> _localizer = localizer;
 
@@ -43,17 +46,25 @@ internal class ErrorHandlerMiddleware(
         {
             return ExitCode.Canceled;
         }
-        catch (ValidationException)
-        {
-            return ExitCode.Invalid;
-        }
         catch (Exception ex)
         {
+            if (ex is ValidationException vex)
+            {
+                _console.MarkupLine("[red]Validation failed:[/]");
+                foreach (var error in vex.Errors)
+                {
+                    _console.MarkupLine($"[red]  • {error.Message}[/]");
+                }
+                return ExitCode.Invalid;
+            }
+
             _logger.LogError(
                 ex,
                 _localizer,
                 "Messages.CommandError",
                 ex.Message);
+
+            _console.MarkupLine($"[red]Error: {ex.Message}[/]");
 
             return ExitCode.Error;
         }
