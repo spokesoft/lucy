@@ -105,6 +105,10 @@
     <value>Key</value>
   </data>
 
+  <data name="Property.Status.ProjectId">
+    <value>Project Id</value>
+  </data>
+
   <data name="Property.Status.Order">
     <value>Order</value>
   </data>
@@ -149,6 +153,10 @@
 
   <data name="View.ShowProject.Title">
     <value>Project</value>
+  </data>
+
+  <data name="View.ShowStatus.Title">
+    <value>Status</value>
   </data>
 
   <data name="Command.New.Project.Description">
@@ -225,6 +233,18 @@
 
   <data name="Command.Show.Project.Example.1">
     <value>show project --id 1</value>
+  </data>
+
+  <data name="Command.Show.Status.Description">
+    <value>Show details of a status.</value>
+  </data>
+
+  <data name="Command.Show.Status.Example.0">
+    <value>show status TODO --project-key EXAMP</value>
+  </data>
+
+  <data name="Command.Show.Status.Example.1">
+    <value>show status --id 1</value>
   </data>
 
   <data name="Command.Update.Project.Description">
@@ -407,6 +427,16 @@
 
   <data name="Messages.CommandValidatorError">
     <value>Validation for command {command} with {validator} error after {elapsed}ms</value>
+  </data>
+
+  <!-- Error messages -->
+
+  <data name="Error.Project.NotFound">
+    <value>Project not found.</value>
+  </data>
+
+  <data name="Error.Status.NotFound">
+    <value>Status not found.</value>
   </data>
 
 </root>

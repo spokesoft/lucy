@@ -33,5 +33,10 @@ public enum ConsoleValidationCode
     /// </summary>
     StatusKeyNotFound,
 
+    /// <summary>
+    /// Indicates that when using status key, either project key or ID must be specified.
+    /// </summary>
+    ProjectKeyOrIdRequiredForStatusKey,
+
     #endregion
 }
