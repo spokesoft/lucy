@@ -1,4 +1,6 @@
 using Lucy.Application.Interfaces;
+using Lucy.Application.Queries;
+using Lucy.Application.Statuses.Queries;
 using Lucy.Domain.Entities;
 
 namespace Lucy.Application.Statuses.Repositories;
@@ -22,4 +24,9 @@ public interface IStatusReadOnlyRepository : IReadOnlyRepository<Status, long>
     /// Gets all statuses for a specific project.
     /// </summary>
     Task<List<Status>> GetByProjectIdAsync(long projectId, CancellationToken token = default);
+
+    /// <summary>
+    /// Gets all statuses for a specific project with sorting.
+    /// </summary>
+    Task<List<Status>> GetByProjectIdAsync(long projectId, StatusSortField sortBy, SortDirection sortDirection, CancellationToken token = default);
 }

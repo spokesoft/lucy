@@ -18,7 +18,7 @@ public class ListProjectsQueryHandler(
     /// Handles the query to list all projects.
     /// </summary>
     public Task<List<ProjectDto>> HandleAsync(ListProjectsQuery request, CancellationToken token = default)
-        => _uow.Projects.GetAllAsync(token)
+        => _uow.Projects.GetAllAsync(request.SortBy, request.SortDirection, token)
             .ContinueWith(task => task.Result.Select(project => new ProjectDto
             {
                 Id = project.Id,

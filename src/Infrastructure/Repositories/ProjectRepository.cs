@@ -1,4 +1,6 @@
 using Lucy.Application.Projects.Repositories;
+using Lucy.Application.Projects.Queries;
+using Lucy.Application.Queries;
 using Lucy.Domain.Entities;
 using Lucy.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
@@ -22,4 +24,34 @@ public class ProjectRepository(
     /// </summary>
     public Task<Project?> GetByKeyAsync(string key, CancellationToken token = default)
         => _set.FirstOrDefaultAsync(project => project.Key.Equals(key), token);
+
+    /// <summary>
+    /// Gets all projects with sorting.
+    /// </summary>
+    public Task<List<Project>> GetAllAsync(ProjectSortField sortBy, SortDirection sortDirection, CancellationToken token = default)
+    {
+        var query = _set.AsQueryable();
+
+        query = sortBy switch
+        {
+            ProjectSortField.Id => sortDirection == SortDirection.Ascending
+                ? query.OrderBy(p => p.Id)
+                : query.OrderByDescending(p => p.Id),
+            ProjectSortField.Key => sortDirection == SortDirection.Ascending
+                ? query.OrderBy(p => p.Key)
+                : query.OrderByDescending(p => p.Key),
+            ProjectSortField.Name => sortDirection == SortDirection.Ascending
+                ? query.OrderBy(p => p.Name)
+                : query.OrderByDescending(p => p.Name),
+            ProjectSortField.CreatedAt => sortDirection == SortDirection.Ascending
+                ? query.OrderBy(p => p.CreatedAt)
+                : query.OrderByDescending(p => p.CreatedAt),
+            ProjectSortField.UpdatedAt => sortDirection == SortDirection.Ascending
+                ? query.OrderBy(p => p.UpdatedAt)
+                : query.OrderByDescending(p => p.UpdatedAt),
+            _ => query.OrderBy(p => p.Id)
+        };
+
+        return query.ToListAsync(token);
+    }
 }

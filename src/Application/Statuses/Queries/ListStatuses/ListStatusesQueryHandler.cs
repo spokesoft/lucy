@@ -18,7 +18,7 @@ public class ListStatusesQueryHandler(
     /// Handles the query to list all statuses for a specific project.
     /// </summary>
     public Task<List<StatusDto>> HandleAsync(ListStatusesQuery request, CancellationToken token = default)
-        => _uow.Statuses.GetByProjectIdAsync(request.ProjectId, token)
+        => _uow.Statuses.GetByProjectIdAsync(request.ProjectId, request.SortBy, request.SortDirection, token)
             .ContinueWith(task => task.Result.Select(status => new StatusDto
             {
                 Id = status.Id,
