@@ -96,9 +96,11 @@ public class ErrorHandlerMiddlewareTests
         var context = CreateCommandContext();
         var command = new TestCommand { Name = "test" };
         var testException = new InvalidOperationException("Test error");
+        var exceptionThrown = false;
 
         Task<ExitCode> Next(CommandContext ctx, TestCommand cmd, CancellationToken token)
         {
+            exceptionThrown = true;
             throw testException;
         }
 
@@ -106,6 +108,7 @@ public class ErrorHandlerMiddlewareTests
         var result = await _middleware.InvokeAsync(context, command, Next);
 
         // Assert
+        Assert.True(exceptionThrown);
         Assert.Equal(ExitCode.Error, result);
     }
 
@@ -116,9 +119,11 @@ public class ErrorHandlerMiddlewareTests
         var context = CreateCommandContext();
         var command = new TestCommand { Name = "test" };
         var testException = new InvalidOperationException("Test error");
+        var exceptionThrown = false;
 
         Task<ExitCode> Next(CommandContext ctx, TestCommand cmd, CancellationToken token)
         {
+            exceptionThrown = true;
             throw testException;
         }
 
@@ -126,6 +131,7 @@ public class ErrorHandlerMiddlewareTests
         var result = await _middleware.InvokeAsync(context, command, Next);
 
         // Assert
+        Assert.True(exceptionThrown);
         Assert.Equal(ExitCode.Error, result);
         // Note: Logging verification removed due to complexity of mocking Microsoft.Extensions.Logging
     }
@@ -162,9 +168,11 @@ public class ErrorHandlerMiddlewareTests
         var context = CreateCommandContext();
         var command = new TestCommand { Name = "test" };
         var testException = new OutOfMemoryException("Critical error");
+        var exceptionThrown = false;
 
         Task<ExitCode> Next(CommandContext ctx, TestCommand cmd, CancellationToken token)
         {
+            exceptionThrown = true;
             throw testException;
         }
 
@@ -172,6 +180,7 @@ public class ErrorHandlerMiddlewareTests
         var result = await _middleware.InvokeAsync(context, command, Next);
 
         // Assert
+        Assert.True(exceptionThrown);
         // Even critical exceptions are handled and return Error exit code
         Assert.Equal(ExitCode.Error, result);
 

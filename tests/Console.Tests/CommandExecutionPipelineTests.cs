@@ -138,7 +138,8 @@ public class CommandExecutionPipelineTests
         // Arrange
         var context = CreateCommandContext();
         var command = new TestCommand { Name = "test" };
-        _commandHandler.ExceptionToThrow = new InvalidOperationException("Test exception");
+        var handlerException = new InvalidOperationException("Test exception");
+        _commandHandler.ExceptionToThrow = handlerException;
         var pipeline = CreatePipeline();
 
         // Act
@@ -157,7 +158,8 @@ public class CommandExecutionPipelineTests
         var command = new TestCommand { Name = "test" };
         _databaseMigrator.Reset(); // Reset state from previous tests
         _databaseMigrator.MigrationRequired = true;
-        _databaseMigrator.ExceptionToThrow = new InvalidOperationException("Migration failed");
+        var migrationException = new InvalidOperationException("Migration failed");
+        _databaseMigrator.ExceptionToThrow = migrationException;
         var pipeline = CreatePipeline();
 
         // Act
@@ -212,7 +214,8 @@ public class CommandExecutionPipelineTests
         var context = CreateCommandContext();
         var command = new TestCommand { Name = "test" };
         _loggingService.Reset(); // Reset state from previous tests
-        _loggingService.StopException = new InvalidOperationException("Stop failed");
+        var stopException = new InvalidOperationException("Stop failed");
+        _loggingService.StopException = stopException;
         var pipeline = CreatePipeline();
 
         // Act

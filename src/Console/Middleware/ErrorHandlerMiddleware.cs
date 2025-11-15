@@ -49,7 +49,6 @@ internal class ErrorHandlerMiddleware(
         }
         catch (Exception ex)
         {
-            System.Console.WriteLine(ex);
             _logger.LogError(
                 ex,
                 _localizer,
