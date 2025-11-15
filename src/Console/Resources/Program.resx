@@ -60,7 +60,7 @@
   </data>
 
   <data name="Command.Context.Status">
-    <value>statuses</value>
+    <value>status</value>
   </data>
 
   <data name="Command.Context.Statuses">
@@ -161,6 +161,18 @@
 
   <data name="Command.New.Project.Example.1">
     <value>new project EXAMPLE --name Example</value>
+  </data>
+
+  <data name="Command.New.Status.Description">
+    <value>Create a new status.</value>
+  </data>
+
+  <data name="Command.New.Status.Example.0">
+    <value>new status TODO --project-key EXAMP --name "To Do"</value>
+  </data>
+
+  <data name="Command.New.Status.Example.1">
+    <value>new status DONE --project-id 1 --name Done --color Green</value>
   </data>
 
   <data name="Command.List.Project.Description">
@@ -283,6 +295,18 @@
 
   <data name="Messages.DeletedStatusWithId">
     <value>[green]✓[/] Deleted status [gray]ID={0}[/]</value>
+  </data>
+
+  <data name="Messages.CreatedProjectWithKey">
+    <value>[green]✓[/] Created project [yellow]{0}[/] [gray]ID={1}[/]</value>
+  </data>
+
+  <data name="Messages.CreatedStatusWithKeys">
+    <value>[green]✓[/] Created status [yellow]{0}[/] in project [yellow]{1}[/] [gray]ID={2}[/]</value>
+  </data>
+
+  <data name="Messages.CreatedStatusWithKey">
+    <value>[green]✓[/] Created status [yellow]{0}[/] [gray]ID={1}[/]</value>
   </data>
 
   <!-- Database migration log messages -->
