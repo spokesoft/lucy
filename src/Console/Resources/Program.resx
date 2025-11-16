@@ -133,6 +133,24 @@
     <value>Color</value>
   </data>
 
+  <!-- Ticket properties -->
+
+  <data name="Property.Ticket.Key">
+    <value>Key</value>
+  </data>
+
+  <data name="Property.Ticket.Title">
+    <value>Title</value>
+  </data>
+
+  <data name="Property.Ticket.Description">
+    <value>Description</value>
+  </data>
+
+  <data name="Property.StatusId">
+    <value>Status Id</value>
+  </data>
+
   <!-- Project resources -->
 
   <data name="View.ProjectList.Title">
@@ -157,6 +175,18 @@
 
   <data name="View.StatusList.Caption">
     <value>Displaying {0}-{1} of {2} statuses</value>
+  </data>
+
+  <data name="View.TicketList.Title">
+    <value>Ticket List</value>
+  </data>
+
+  <data name="View.TicketList.NoTickets">
+    <value>No tickets found</value>
+  </data>
+
+  <data name="View.TicketList.Caption">
+    <value>Displaying {0}-{1} of {2} tickets</value>
   </data>
 
   <data name="View.ShowProject.Title">
@@ -249,6 +279,30 @@
 
   <data name="Command.List.Statuses.Example.1">
     <value>list statuses --project-id 1</value>
+  </data>
+
+  <data name="Command.List.Ticket.Description">
+    <value>List all tickets for a project.</value>
+  </data>
+
+  <data name="Command.List.Tickets.Description">
+    <value>List all tickets for a project.</value>
+  </data>
+
+  <data name="Command.List.Ticket.Example.0">
+    <value>list tickets ABC</value>
+  </data>
+
+  <data name="Command.List.Tickets.Example.0">
+    <value>list tickets ABC</value>
+  </data>
+
+  <data name="Command.List.Ticket.Example.1">
+    <value>list tickets --project-id 1</value>
+  </data>
+
+  <data name="Command.List.Tickets.Example.1">
+    <value>list tickets --project-id 1</value>
   </data>
 
   <data name="Command.Show.Project.Description">
