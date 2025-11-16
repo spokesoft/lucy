@@ -42,7 +42,7 @@ public class CreateStatusCommandHandler(
 
         var status = new Status(
             request.ProjectId,
-            request.Key,
+            request.Key.ToUpperInvariant(),
             order,
             request.Name,
             request.Description,

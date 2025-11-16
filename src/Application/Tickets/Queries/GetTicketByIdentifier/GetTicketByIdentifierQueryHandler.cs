@@ -18,7 +18,7 @@ public class GetTicketByKeyQueryHandler(
     /// Handles the query to get a ticket by its key.
     /// </summary>
     public Task<TicketDto?> HandleAsync(GetTicketByKeyQuery request, CancellationToken token = default)
-        => _uow.Tickets.GetByKeyAsync(request.Key, token)
+        => _uow.Tickets.GetByKeyAsync(request.Key.ToUpperInvariant(), token)
             .ContinueWith(task => task.Result is not null ? new TicketDto
             {
                 Id = task.Result.Id,

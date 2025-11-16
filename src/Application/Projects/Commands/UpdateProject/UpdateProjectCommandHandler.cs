@@ -22,7 +22,7 @@ public class UpdateProjectCommandHandler(
             ?? throw new InvalidOperationException("Project not found, cannot update.");
 
         if (request.Key is not null)
-            project.UpdateKey(request.Key);
+            project.UpdateKey(request.Key.ToUpperInvariant());
 
         if (request.Name is not null)
             project.UpdateName(request.Name);

@@ -17,5 +17,5 @@ public class StatusExistsByKeyQueryHandler(
     /// Handles the query to check if a status exists by its key and project ID.
     /// </summary>
     public Task<bool> HandleAsync(StatusExistsByKeyQuery request, CancellationToken token = default)
-        => _uow.Statuses.ExistsByKeyAsync(request.ProjectId, request.Key, token);
+        => _uow.Statuses.ExistsByKeyAsync(request.ProjectId, request.Key.ToUpperInvariant(), token);
 }

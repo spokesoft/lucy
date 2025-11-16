@@ -15,10 +15,10 @@ public class GetStatusByKeyQueryHandler(
     private readonly IReadOnlyUnitOfWork _uow = unitOfWork;
 
     /// <summary>
-    /// Handles the query to get a status by its key and project ID.
+    /// Handles the query to get a status by its key.
     /// </summary>
     public Task<StatusDto?> HandleAsync(GetStatusByKeyQuery request, CancellationToken token = default)
-        => _uow.Statuses.GetByKeyAsync(request.ProjectId, request.Key, token)
+        => _uow.Statuses.GetByKeyAsync(request.ProjectId, request.Key.ToUpperInvariant(), token)
             .ContinueWith(task => task.Result is not null ? new StatusDto
             {
                 Id = task.Result.Id,

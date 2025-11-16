@@ -17,5 +17,5 @@ public class ProjectExistsByKeyQueryHandler(
     /// Handles the query to check if a project exists by its key.
     /// </summary>
     public Task<bool> HandleAsync(ProjectExistsByKeyQuery request, CancellationToken token = default)
-        => _uow.Projects.ExistsByKeyAsync(request.Key, token);
+        => _uow.Projects.ExistsByKeyAsync(request.Key.ToUpperInvariant(), token);
 }

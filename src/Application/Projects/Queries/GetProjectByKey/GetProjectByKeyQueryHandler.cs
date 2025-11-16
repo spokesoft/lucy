@@ -18,7 +18,7 @@ public class GetProjectByKeyQueryHandler(
     /// Handles the query to get a project by its key.
     /// </summary>
     public Task<ProjectDto?> HandleAsync(GetProjectByKeyQuery request, CancellationToken token = default)
-        => _uow.Projects.GetByKeyAsync(request.Key, token)
+        => _uow.Projects.GetByKeyAsync(request.Key.ToUpperInvariant(), token)
             .ContinueWith(task => task.Result is not null ? new ProjectDto
             {
                 Id = task.Result.Id,

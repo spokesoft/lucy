@@ -88,7 +88,7 @@ public class TicketQueryTests
             .ReturnsAsync(new List<Ticket>());
 
         var handler = new ListTicketsQueryHandler(_readOnlyUnitOfWorkMock.Object);
-        var query = new ListTicketsQuery(1, TicketSortField.Key, SortDirection.Descending);
+        var query = new ListTicketsQuery(1, null, TicketSortField.Key, SortDirection.Descending);
 
         // Act
         await handler.HandleAsync(query, CancellationToken.None);

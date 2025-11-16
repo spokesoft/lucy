@@ -22,7 +22,7 @@ public class UpdateStatusCommandHandler(
             ?? throw new InvalidOperationException("Status should exist due to prior validation.");
 
         if (request.Key != null)
-            status.UpdateKey(request.Key);
+            status.UpdateKey(request.Key.ToUpperInvariant());
 
         if (request.Order.HasValue)
         {

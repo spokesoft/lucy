@@ -20,7 +20,7 @@ public class CreateProjectCommandHandler(
     public async Task<long> HandleAsync(CreateProjectCommand request, CancellationToken token = default)
     {
         var project = new Project(
-            request.Key,
+            request.Key.ToUpperInvariant(),
             request.Name,
             request.Description);
 
