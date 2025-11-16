@@ -95,6 +95,10 @@
 
   <!-- Project properties -->
 
+  <data name="Property.Project.Id">
+    <value>Project Id</value>
+  </data>
+
   <data name="Property.Project.Key">
     <value>Key</value>
   </data>
@@ -195,6 +199,10 @@
 
   <data name="View.ShowStatus.Title">
     <value>Status</value>
+  </data>
+
+  <data name="View.ShowTicket.Title">
+    <value>Ticket</value>
   </data>
 
   <data name="Command.New.Project.Description">
@@ -331,6 +339,18 @@
 
   <data name="Command.Show.Status.Example.2">
     <value>show status --id 1</value>
+  </data>
+
+  <data name="Command.Show.Ticket.Description">
+    <value>Show details of a ticket.</value>
+  </data>
+
+  <data name="Command.Show.Ticket.Example.0">
+    <value>show ticket 1</value>
+  </data>
+
+  <data name="Command.Show.Ticket.Example.1">
+    <value>show ticket 42</value>
   </data>
 
   <data name="Command.Update.Project.Description">
@@ -555,6 +575,10 @@
 
   <data name="Error.Status.NotFound">
     <value>Status not found.</value>
+  </data>
+
+  <data name="Error.Ticket.NotFound">
+    <value>Ticket not found.</value>
   </data>
 
 </root>

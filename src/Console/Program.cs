@@ -74,6 +74,7 @@ app.Configure(config =>
 
         branch.AddAsyncDelegate<ShowProjectCommand>("Show.Project", executor, localizer);
         branch.AddAsyncDelegate<ShowStatusCommand>("Show.Status", executor, localizer);
+        branch.AddAsyncDelegate<ShowTicketCommand>("Show.Ticket", executor, localizer);
     });
 
     #endregion
