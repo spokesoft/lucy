@@ -86,6 +86,7 @@ app.Configure(config =>
 
         branch.AddAsyncDelegate<UpdateProjectCommand>("Update.Project", executor, localizer);
         branch.AddAsyncDelegate<UpdateStatusCommand>("Update.Status", executor, localizer);
+        branch.AddAsyncDelegate<UpdateTicketCommand>("Update.Ticket", executor, localizer);
     });
 
     #endregion

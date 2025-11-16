@@ -389,6 +389,22 @@
     <value>update status EXAMP DONE --new-key COMPLETED</value>
   </data>
 
+  <data name="Command.Update.Ticket.Description">
+    <value>Update an existing ticket.</value>
+  </data>
+
+  <data name="Command.Update.Ticket.Example.0">
+    <value>update ticket 1 --title "New title"</value>
+  </data>
+
+  <data name="Command.Update.Ticket.Example.1">
+    <value>update ticket 1 --status DONE</value>
+  </data>
+
+  <data name="Command.Update.Ticket.Example.2">
+    <value>update ticket 1 --title "Updated" --description "New description"</value>
+  </data>
+
   <data name="Command.Delete.Project.Description">
     <value>Delete a project.</value>
   </data>
@@ -457,6 +473,10 @@
 
   <data name="Messages.CreatedTicket">
     <value>[green]✓[/] Created ticket [yellow]{0}[/] [gray]ID={1}[/]</value>
+  </data>
+
+  <data name="Messages.UpdatedTicket">
+    <value>[green]✓[/] Updated ticket [gray]ID={0}[/]</value>
   </data>
 
   <data name="Messages.UpdatedStatusWithId">
