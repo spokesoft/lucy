@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
+- Added ticket entity and related migrations.
+- Added ticket related commands.
+- Added comprehensive unit tests for ticket related features.
+- Added status filtering to the 'list tickets' command.
+- Added case insensitive handling for project, ticket and status keys.
+- Added unit tests for queries and repositories.
+
 ### Changed
 ### Deprecated
 ### Removed
