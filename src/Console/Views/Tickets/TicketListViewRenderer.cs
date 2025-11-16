@@ -8,16 +8,17 @@ namespace Lucy.Console.Views.Tickets;
 /// <summary>
 /// Renders the ticket list view to the console.
 /// </summary>
-public class TicketListViewRenderer : IViewRenderer<IEnumerable<TicketDto>>
+public class TicketListViewRenderer : IViewRenderer<(IEnumerable<TicketDto>, Dictionary<long, (string Key, string Color)>)>
 {
     /// <inheritdoc />
     public async Task RenderAsync(
-        IEnumerable<TicketDto> model,
+        (IEnumerable<TicketDto>, Dictionary<long, (string Key, string Color)>) model,
         IAnsiConsole console,
         IStringLocalizer localizer,
         CancellationToken token = default)
     {
-        var ticketList = model.ToList();
+        var (tickets, statusLookup) = model;
+        var ticketList = tickets.ToList();
         var title = GetTitle(localizer, console.Profile);
         var caption = ticketList.Any()
             ? GetCaption(localizer, 1, ticketList.Count, ticketList.Count)
@@ -28,11 +29,10 @@ public class TicketListViewRenderer : IViewRenderer<IEnumerable<TicketDto>>
             .Title(title)
             .Caption(caption, new Style(foreground: Color.Grey));
 
-        table.AddColumn(localizer["Property.Id"]);
         table.AddColumn(localizer["Property.Ticket.Key"]);
         table.AddColumn(localizer["Property.Ticket.Title"]);
         table.AddColumn(localizer["Property.Ticket.Description"]);
-        table.AddColumn(localizer["Property.StatusId"]);
+        table.AddColumn(localizer["Property.Status"]);
         table.AddColumn(localizer["Property.CreatedAt"]);
         table.AddColumn(localizer["Property.UpdatedAt"]);
 
@@ -46,12 +46,15 @@ public class TicketListViewRenderer : IViewRenderer<IEnumerable<TicketDto>>
                 ? $"[grey70]{localizer["Empty.String"]}[/]"
                 : ticket.Description;
 
+            var status = statusLookup.TryGetValue(ticket.StatusId, out var statusInfo)
+                ? $"[{statusInfo.Color}]{statusInfo.Key}[/]"
+                : $"[gray]{ticket.StatusId}[/]";
+
             table.AddRow(
-                $"[gray]{ticket.Id}[/]",
                 $"[blue]{ticket.Key}[/]",
                 ticketTitle,
                 description,
-                $"[gray]{ticket.StatusId}[/]",
+                status,
                 ticket.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss"),
                 ticket.UpdatedAt.ToString("yyyy-MM-dd HH:mm:ss"));
         }

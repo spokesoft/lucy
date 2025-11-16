@@ -155,6 +155,10 @@
     <value>Status Id</value>
   </data>
 
+  <data name="Property.Status">
+    <value>Status</value>
+  </data>
+
   <!-- Project resources -->
 
   <data name="View.ProjectList.Title">

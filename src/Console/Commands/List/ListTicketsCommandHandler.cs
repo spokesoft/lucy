@@ -1,5 +1,6 @@
 using Lucy.Application.Interfaces;
 using Lucy.Application.Projects.Queries.GetProjectIdByKey;
+using Lucy.Application.Statuses.Queries.ListStatuses;
 using Lucy.Application.Tickets.DTOs;
 using Lucy.Application.Tickets.Queries.ListTickets;
 using Lucy.Console.Enums;
@@ -16,12 +17,12 @@ namespace Lucy.Console.Commands.List;
 internal class ListTicketsCommandHandler(
     IAnsiConsole console,
     IStringLocalizer<Program> localizer,
-    IViewRenderer<IEnumerable<TicketDto>> viewRenderer,
+    IViewRenderer<(IEnumerable<TicketDto>, Dictionary<long, (string Key, string Color)>)> viewRenderer,
     IMediator mediator) : ICommandHandler<ListTicketsCommand>
 {
     private readonly IAnsiConsole _console = console;
     private readonly IStringLocalizer<Program> _localizer = localizer;
-    private readonly IViewRenderer<IEnumerable<TicketDto>> _view = viewRenderer;
+    private readonly IViewRenderer<(IEnumerable<TicketDto>, Dictionary<long, (string Key, string Color)>)> _view = viewRenderer;
     private readonly IMediator _mediator = mediator;
 
     /// <inheritdoc />
@@ -34,10 +35,16 @@ internal class ListTicketsCommandHandler(
         var projectId = command.Id ?? await _mediator.Send(
             new GetProjectIdByKeyQuery(command.Key!), token);
 
-        var query = new ListTicketsQuery(projectId.Value);
-        var tickets = await _mediator.Send(query, token);
+        var ticketsQuery = new ListTicketsQuery(projectId.Value);
+        var tickets = await _mediator.Send(ticketsQuery, token);
 
-        await _view.RenderAsync(tickets, _console, _localizer, token);
+        var statusesQuery = new ListStatusesQuery(projectId.Value);
+        var statuses = await _mediator.Send(statusesQuery, token);
+        var statusLookup = statuses.ToDictionary(
+            s => s.Id,
+            s => (s.Key, s.Color.ToString().ToLowerInvariant()));
+
+        await _view.RenderAsync((tickets, statusLookup), _console, _localizer, token);
         return ExitCode.Success;
     }
 }
