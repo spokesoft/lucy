@@ -141,4 +141,23 @@ public enum ValidationCode
     TicketNoDataToUpdate,
 
     #endregion
+
+    #region Comment Validation Codes
+
+    /// <summary>
+    /// Indicates that the specified comment was not found.
+    /// </summary>
+    CommentNotFound,
+
+    /// <summary>
+    /// Indicates that the comment content is required but was not provided.
+    /// </summary>
+    CommentContentRequired,
+
+    /// <summary>
+    /// Indicates that the comment content length is invalid.
+    /// </summary>
+    CommentContentLength,
+
+    #endregion
 }

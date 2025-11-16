@@ -19,7 +19,7 @@ public class CommentTypeConfiguration : IEntityTypeConfiguration<Comment>
         builder.Property(c => c.UpdatedAt).IsRequired();
 
         // TPH Discriminator configuration
-        builder.HasDiscriminator<CommentType>("Type")
+        builder.HasDiscriminator<CommentType>("CommentType")
             .HasValue<ProjectComment>(CommentType.Project)
             .HasValue<TicketComment>(CommentType.Ticket);
     }

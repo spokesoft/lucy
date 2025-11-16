@@ -1,3 +1,4 @@
+using Lucy.Application.Comments.Repositories;
 using Lucy.Application.Projects.Repositories;
 using Lucy.Application.Sequences.Repositories;
 using Lucy.Application.Statuses.Repositories;
@@ -29,4 +30,9 @@ public interface IReadOnlyUnitOfWork
     /// Read-only repository for Sequence entities.
     /// </summary>
     public ISequenceReadOnlyRepository Sequences { get; }
+
+    /// <summary>
+    /// Read-only repository for Comment entities.
+    /// </summary>
+    public ICommentReadOnlyRepository Comments { get; }
 }
