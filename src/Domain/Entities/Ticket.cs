@@ -41,6 +41,11 @@ public class Ticket : DomainEntity<long>
     public Status Status { get; private set; } = null!;
 
     /// <summary>
+    /// The comments associated with the ticket.
+    /// </summary>
+    public ICollection<TicketComment> Comments { get; private set; } = [];
+
+    /// <summary>
     /// Initializes a new instance of the class.
     /// </summary>
     public Ticket(

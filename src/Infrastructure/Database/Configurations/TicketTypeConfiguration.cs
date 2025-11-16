@@ -34,5 +34,12 @@ public class TicketTypeConfiguration : IEntityTypeConfiguration<Ticket>
             .WithMany(s => s.Tickets)
             .HasForeignKey(t => t.StatusId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        // Configure the relationship with Comments
+        builder.HasMany(t => t.Comments)
+            .WithOne(c => c.Ticket)
+            .HasForeignKey(c => c.TicketId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired();
     }
 }

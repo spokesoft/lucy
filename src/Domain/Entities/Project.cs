@@ -38,6 +38,11 @@ public class Project : DomainEntity<long>
     public ICollection<Ticket> Tickets { get; private set; } = [];
 
     /// <summary>
+    /// The comments associated with the project.
+    /// </summary>
+    public ICollection<ProjectComment> Comments { get; private set; } = [];
+
+    /// <summary>
     /// Initializes a new instance of the class.
     /// </summary>
     public Project(
