@@ -67,6 +67,14 @@
     <value>statuses</value>
   </data>
 
+  <data name="Command.Context.Ticket">
+    <value>ticket</value>
+  </data>
+
+  <data name="Command.Context.Tickets">
+    <value>tickets</value>
+  </data>
+
   <!-- Base properties -->
 
   <data name="Property.Id">
@@ -185,6 +193,22 @@
 
   <data name="Command.New.Status.Example.2">
     <value>new status DONE EXAMP --name Done --color green</value>
+  </data>
+
+  <data name="Command.New.Ticket.Description">
+    <value>Create a new ticket.</value>
+  </data>
+
+  <data name="Command.New.Ticket.Example.0">
+    <value>new ticket "Add login feature" ABC --status TODO</value>
+  </data>
+
+  <data name="Command.New.Ticket.Example.1">
+    <value>new ticket "Fix bug" --project-id 1 --status-id 2</value>
+  </data>
+
+  <data name="Command.New.Ticket.Example.2">
+    <value>new ticket "Update docs" ABC --status IN-PROGRESS --description "Update API documentation"</value>
   </data>
 
   <data name="Command.List.Project.Description">
@@ -355,6 +379,10 @@
 
   <data name="Messages.CreatedStatusWithKey">
     <value>[green]✓[/] Created status [yellow]{0}[/] [gray]ID={1}[/]</value>
+  </data>
+
+  <data name="Messages.CreatedTicket">
+    <value>[green]✓[/] Created ticket [yellow]{0}[/] [gray]ID={1}[/]</value>
   </data>
 
   <data name="Messages.UpdatedStatusWithId">
