@@ -2,6 +2,7 @@ using AppUpdateTicketCommand = Lucy.Application.Tickets.Commands.UpdateTicket.Up
 using Lucy.Application.Interfaces;
 using Lucy.Application.Statuses.Queries.GetStatusByKey;
 using Lucy.Application.Tickets.Queries.GetTicketById;
+using Lucy.Application.Tickets.Queries.GetTicketByKey;
 using Lucy.Console.Enums;
 using Lucy.Console.Interfaces;
 using Microsoft.Extensions.Localization;
@@ -39,17 +40,36 @@ internal class UpdateTicketCommandHandler(
         UpdateTicketCommand command,
         CancellationToken token = default)
     {
+        // Resolve ticket ID from key if needed
+        long ticketId;
+        if (command.Id.HasValue)
+        {
+            ticketId = command.Id.Value;
+        }
+        else
+        {
+            var ticketQuery = new GetTicketByKeyQuery(command.Key!);
+            var ticket = await _mediator.Send(ticketQuery, token);
+
+            if (ticket is null)
+            {
+                throw new InvalidOperationException($"Ticket with key '{command.Key}' not found.");
+            }
+
+            ticketId = ticket.Id;
+        }
+
         // Resolve StatusId if StatusKey is provided
         long? statusId = command.StatusId;
         if (statusId is null && command.StatusKey is not null)
         {
             // Get the ticket to find its project
-            var ticketQuery = new GetTicketByIdQuery(command.Id);
+            var ticketQuery = new GetTicketByIdQuery(ticketId);
             var ticket = await _mediator.Send(ticketQuery, token);
 
             if (ticket is null)
             {
-                throw new InvalidOperationException($"Ticket with ID {command.Id} not found.");
+                throw new InvalidOperationException($"Ticket with ID {ticketId} not found.");
             }
 
             var statusQuery = new GetStatusByKeyQuery(ticket.ProjectId, command.StatusKey);
@@ -64,14 +84,14 @@ internal class UpdateTicketCommandHandler(
         }
 
         var request = new AppUpdateTicketCommand(
-            command.Id,
+            ticketId,
             statusId,
             command.Title,
             command.Description);
 
         await _mediator.Send(request, token);
 
-        _console.MarkupLine(_localizer["Messages.UpdatedTicket", command.Id]);
+        _console.MarkupLine(_localizer["Messages.UpdatedTicket", ticketId]);
 
         return ExitCode.Success;
     }

@@ -1,18 +1,17 @@
 using Lucy.Application.Interfaces;
-using Lucy.Application.Statuses.Queries.GetStatusByKey;
 using Lucy.Application.Tickets.Queries.GetTicketById;
 using Lucy.Application.Tickets.Queries.GetTicketByKey;
 using Lucy.Application.Validation;
 using Lucy.Console.Interfaces;
 using Spectre.Console.Cli;
 
-namespace Lucy.Console.Commands.Update;
+namespace Lucy.Console.Commands.Delete;
 
 /// <summary>
-/// Validator for the <see cref="UpdateTicketCommand"/> command.
+/// Validator for the <see cref="DeleteTicketCommand"/> command.
 /// </summary>
-internal class UpdateTicketCommandValidator(
-    IMediator mediator) : ICommandValidator<UpdateTicketCommand>
+internal class DeleteTicketCommandValidator(
+    IMediator mediator) : ICommandValidator<DeleteTicketCommand>
 {
     /// <summary>
     /// The mediator instance for sending queries.
@@ -22,7 +21,7 @@ internal class UpdateTicketCommandValidator(
     /// <inheritdoc />
     public async Task<ValidationResult> ValidateAsync(
         CommandContext context,
-        UpdateTicketCommand command,
+        DeleteTicketCommand command,
         CancellationToken token = default)
     {
         var result = new ValidationResult();
@@ -37,57 +36,28 @@ internal class UpdateTicketCommandValidator(
         }
 
         // Validate that the ticket exists
-        Lucy.Application.Tickets.DTOs.TicketDto? ticket;
         if (command.Id.HasValue)
         {
             var ticketQuery = new GetTicketByIdQuery(command.Id.Value);
-            ticket = await _mediator.Send(ticketQuery, token);
+            var ticket = await _mediator.Send(ticketQuery, token);
 
             if (ticket is null)
             {
                 result.AddError(new ValidationError(
                     $"Ticket with ID {command.Id} not found.",
                     nameof(command.Id)));
-                return result;
             }
         }
         else
         {
             var ticketQuery = new GetTicketByKeyQuery(command.Key!);
-            ticket = await _mediator.Send(ticketQuery, token);
+            var ticket = await _mediator.Send(ticketQuery, token);
 
             if (ticket is null)
             {
                 result.AddError(new ValidationError(
                     $"Ticket with key '{command.Key}' not found.",
                     nameof(command.Key)));
-                return result;
-            }
-        }
-
-        // Validate that at least one property is being updated
-        if (command.StatusId is null &&
-            command.StatusKey is null &&
-            command.Title is null &&
-            command.Description is null)
-        {
-            result.AddError(new ValidationError(
-                "At least one property must be provided to update.",
-                "Command"));
-            return result;
-        }
-
-        // Validate StatusKey if provided
-        if (command.StatusKey is not null)
-        {
-            var statusQuery = new GetStatusByKeyQuery(ticket.ProjectId, command.StatusKey);
-            var status = await _mediator.Send(statusQuery, token);
-
-            if (status is null)
-            {
-                result.AddError(new ValidationError(
-                    $"Status with key '{command.StatusKey}' not found in project.",
-                    nameof(command.StatusKey)));
             }
         }
 

@@ -9,11 +9,18 @@ namespace Lucy.Console.Commands.Update;
 public class UpdateTicketCommand : UpdateCommand
 {
     /// <summary>
+    /// The key of the ticket to update.
+    /// </summary>
+    [CommandArgument(0, "[key]")]
+    [Description("The key of the ticket to update.")]
+    public string? Key { get; set; }
+
+    /// <summary>
     /// The ID of the ticket to update.
     /// </summary>
-    [CommandArgument(0, "<id>")]
+    [CommandOption("-i|--id <id>")]
     [Description("The ID of the ticket to update.")]
-    public required long Id { get; set; }
+    public long? Id { get; set; }
 
     /// <summary>
     /// The key of the status for this ticket.

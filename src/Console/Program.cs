@@ -97,6 +97,7 @@ app.Configure(config =>
         branch.SetDescription(localizer["Command.Delete.Description"]);
 
         branch.AddAsyncDelegate<DeleteProjectCommand>("Delete.Project", executor, localizer);
+        branch.AddAsyncDelegate<DeleteTicketCommand>("Delete.Ticket", executor, localizer);
     });
 
     #endregion

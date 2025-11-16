@@ -1,6 +1,5 @@
+using AppDeleteTicketCommand = Lucy.Application.Tickets.Commands.DeleteTicket.DeleteTicketCommand;
 using Lucy.Application.Interfaces;
-using Lucy.Application.Tickets.DTOs;
-using Lucy.Application.Tickets.Queries.GetTicketById;
 using Lucy.Application.Tickets.Queries.GetTicketByKey;
 using Lucy.Console.Enums;
 using Lucy.Console.Interfaces;
@@ -8,16 +7,15 @@ using Microsoft.Extensions.Localization;
 using Spectre.Console;
 using Spectre.Console.Cli;
 
-namespace Lucy.Console.Commands.Show;
+namespace Lucy.Console.Commands.Delete;
 
 /// <summary>
-/// Handler for the <see cref="ShowTicketCommand"/> command.
+/// Handler for the <see cref="DeleteTicketCommand"/> command.
 /// </summary>
-internal class ShowTicketCommandHandler(
+internal class DeleteTicketCommandHandler(
     IAnsiConsole console,
     IStringLocalizer<Program> localizer,
-    IViewRenderer<TicketDto> viewRenderer,
-    IMediator mediator) : ICommandHandler<ShowTicketCommand>
+    IMediator mediator) : ICommandHandler<DeleteTicketCommand>
 {
     /// <summary>
     /// The console instance for outputting information.
@@ -30,11 +28,6 @@ internal class ShowTicketCommandHandler(
     private readonly IStringLocalizer<Program> _localizer = localizer;
 
     /// <summary>
-    /// The view renderer for rendering the ticket details.
-    /// </summary>
-    private readonly IViewRenderer<TicketDto> _view = viewRenderer;
-
-    /// <summary>
     /// The mediator instance for sending commands and queries.
     /// </summary>
     private readonly IMediator _mediator = mediator;
@@ -42,29 +35,33 @@ internal class ShowTicketCommandHandler(
     /// <inheritdoc />
     public async Task<ExitCode> HandleAsync(
         CommandContext context,
-        ShowTicketCommand command,
+        DeleteTicketCommand command,
         CancellationToken token = default)
     {
-        TicketDto? ticket;
-
+        // Resolve ticket ID from key if needed
+        long ticketId;
         if (command.Id.HasValue)
         {
-            var query = new GetTicketByIdQuery(command.Id.Value);
-            ticket = await _mediator.Send(query, token);
+            ticketId = command.Id.Value;
         }
         else
         {
-            var query = new GetTicketByKeyQuery(command.Key!);
-            ticket = await _mediator.Send(query, token);
+            var ticketQuery = new GetTicketByKeyQuery(command.Key!);
+            var ticket = await _mediator.Send(ticketQuery, token);
+
+            if (ticket is null)
+            {
+                throw new InvalidOperationException($"Ticket with key '{command.Key}' not found.");
+            }
+
+            ticketId = ticket.Id;
         }
 
-        if (ticket is null)
-        {
-            _console.MarkupLine($"[red]{_localizer["Error.Ticket.NotFound"]}[/]");
-            return ExitCode.Error;
-        }
+        var request = new AppDeleteTicketCommand(ticketId);
+        await _mediator.Send(request, token);
 
-        await _view.RenderAsync(ticket, _console, _localizer, token);
+        _console.MarkupLine(_localizer["Messages.DeletedTicket", ticketId]);
+
         return ExitCode.Success;
     }
 }
