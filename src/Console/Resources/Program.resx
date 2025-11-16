@@ -75,6 +75,10 @@
     <value>tickets</value>
   </data>
 
+  <data name="Command.Context.Board">
+    <value>board</value>
+  </data>
+
   <!-- Base properties -->
 
   <data name="Property.Id">
@@ -209,6 +213,18 @@
     <value>Ticket</value>
   </data>
 
+  <data name="View.Board.Title">
+    <value>Board</value>
+  </data>
+
+  <data name="View.Board.NoStatuses">
+    <value>No statuses found for this project</value>
+  </data>
+
+  <data name="View.Board.NoTickets">
+    <value>No tickets</value>
+  </data>
+
   <data name="Command.New.Project.Description">
     <value>Create a new project.</value>
   </data>
@@ -315,6 +331,18 @@
 
   <data name="Command.List.Tickets.Example.1">
     <value>list tickets --project-id 1</value>
+  </data>
+
+  <data name="Command.Show.Board.Description">
+    <value>Show a kanban board view of tickets organized by status.</value>
+  </data>
+
+  <data name="Command.Show.Board.Example.0">
+    <value>show board ABC</value>
+  </data>
+
+  <data name="Command.Show.Board.Example.1">
+    <value>show board --id 1</value>
   </data>
 
   <data name="Command.Show.Project.Description">
