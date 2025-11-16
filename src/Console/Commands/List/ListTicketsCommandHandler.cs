@@ -1,5 +1,6 @@
 using Lucy.Application.Interfaces;
 using Lucy.Application.Projects.Queries.GetProjectIdByKey;
+using Lucy.Application.Statuses.Queries.GetStatusByKey;
 using Lucy.Application.Statuses.Queries.ListStatuses;
 using Lucy.Application.Tickets.DTOs;
 using Lucy.Application.Tickets.Queries.ListTickets;
@@ -35,7 +36,16 @@ internal class ListTicketsCommandHandler(
         var projectId = command.Id ?? await _mediator.Send(
             new GetProjectIdByKeyQuery(command.Key!), token);
 
-        var ticketsQuery = new ListTicketsQuery(projectId.Value);
+        // Resolve status ID from key if needed
+        long? statusId = command.StatusId;
+        if (statusId == null && !string.IsNullOrWhiteSpace(command.StatusKey))
+        {
+            var status = await _mediator.Send(
+                new GetStatusByKeyQuery(projectId.Value, command.StatusKey), token);
+            statusId = status?.Id;
+        }
+
+        var ticketsQuery = new ListTicketsQuery(projectId.Value, statusId);
         var tickets = await _mediator.Send(ticketsQuery, token);
 
         var statusesQuery = new ListStatusesQuery(projectId.Value);

@@ -31,6 +31,16 @@ public interface ITicketReadOnlyRepository : IReadOnlyRepository<Ticket, long>
     Task<List<Ticket>> GetByProjectIdAsync(long projectId, TicketSortField sortBy, SortDirection sortDirection, CancellationToken token = default);
 
     /// <summary>
+    /// Gets all tickets for a specific project and status.
+    /// </summary>
+    Task<List<Ticket>> GetByProjectIdAndStatusIdAsync(long projectId, long statusId, CancellationToken token = default);
+
+    /// <summary>
+    /// Gets all tickets for a specific project and status with sorting.
+    /// </summary>
+    Task<List<Ticket>> GetByProjectIdAndStatusIdAsync(long projectId, long statusId, TicketSortField sortBy, SortDirection sortDirection, CancellationToken token = default);
+
+    /// <summary>
     /// Gets all tickets for a specific status.
     /// </summary>
     Task<List<Ticket>> GetByStatusIdAsync(long statusId, CancellationToken token = default);

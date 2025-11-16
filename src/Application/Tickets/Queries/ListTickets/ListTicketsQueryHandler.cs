@@ -17,17 +17,22 @@ public class ListTicketsQueryHandler(
     /// <summary>
     /// Handles the query to list all tickets for a specific project.
     /// </summary>
-    public Task<List<TicketDto>> HandleAsync(ListTicketsQuery request, CancellationToken token = default)
-        => _uow.Tickets.GetByProjectIdAsync(request.ProjectId, request.SortBy, request.SortDirection, token)
-            .ContinueWith(task => task.Result.Select(ticket => new TicketDto
-            {
-                Id = ticket.Id,
-                ProjectId = ticket.ProjectId,
-                StatusId = ticket.StatusId,
-                Key = ticket.Key,
-                Title = ticket.Title,
-                Description = ticket.Description,
-                CreatedAt = ticket.CreatedAt,
-                UpdatedAt = ticket.UpdatedAt
-            }).ToList(), token);
+    public async Task<List<TicketDto>> HandleAsync(ListTicketsQuery request, CancellationToken token = default)
+    {
+        var tickets = request.StatusId.HasValue
+            ? await _uow.Tickets.GetByProjectIdAndStatusIdAsync(request.ProjectId, request.StatusId.Value, request.SortBy, request.SortDirection, token)
+            : await _uow.Tickets.GetByProjectIdAsync(request.ProjectId, request.SortBy, request.SortDirection, token);
+
+        return [.. tickets.Select(ticket => new TicketDto
+        {
+            Id = ticket.Id,
+            ProjectId = ticket.ProjectId,
+            StatusId = ticket.StatusId,
+            Key = ticket.Key,
+            Title = ticket.Title,
+            Description = ticket.Description,
+            CreatedAt = ticket.CreatedAt,
+            UpdatedAt = ticket.UpdatedAt
+        })];
+    }
 }

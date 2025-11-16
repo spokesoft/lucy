@@ -21,4 +21,18 @@ public class ListTicketsCommand : ListCommand
     [CommandOption("--project-id")]
     [Description("The ID of the project to list tickets for.")]
     public long? Id { get; set; }
+
+    /// <summary>
+    /// Gets or sets the status key to filter by.
+    /// </summary>
+    [CommandOption("-s|--status")]
+    [Description("The key of the status to filter tickets by.")]
+    public string? StatusKey { get; set; }
+
+    /// <summary>
+    /// Gets or sets the status ID to filter by.
+    /// </summary>
+    [CommandOption("--status-id")]
+    [Description("The ID of the status to filter tickets by.")]
+    public long? StatusId { get; set; }
 }

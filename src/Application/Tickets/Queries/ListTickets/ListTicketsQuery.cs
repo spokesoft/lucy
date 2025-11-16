@@ -8,9 +8,11 @@ namespace Lucy.Application.Tickets.Queries.ListTickets;
 /// Query to list all tickets for a specific project.
 /// </summary>
 /// <param name="ProjectId">The ID of the project to list tickets for.</param>
+/// <param name="StatusId">Optional status ID to filter tickets by.</param>
 /// <param name="SortBy">The field to sort by.</param>
 /// <param name="SortDirection">The direction to sort.</param>
 public record ListTicketsQuery(
     long ProjectId,
+    long? StatusId = null,
     TicketSortField SortBy = TicketSortField.Id,
     SortDirection SortDirection = SortDirection.Ascending) : IRequest<List<TicketDto>>;
