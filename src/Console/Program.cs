@@ -47,6 +47,7 @@ app.Configure(config =>
         {
             branch.SetDescription(localizer["Command.New.Description"]);
 
+            branch.AddAsyncDelegate<NewCommentCommand>("New.Comment", executor, localizer);
             branch.AddAsyncDelegate<NewProjectCommand>("New.Project", executor, localizer);
             branch.AddAsyncDelegate<NewStatusCommand>("New.Status", executor, localizer);
             branch.AddAsyncDelegate<NewTicketCommand>("New.Ticket", executor, localizer);

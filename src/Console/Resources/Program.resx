@@ -79,6 +79,14 @@
     <value>board</value>
   </data>
 
+  <data name="Command.Context.Comment">
+    <value>comment</value>
+  </data>
+
+  <data name="Command.Context.Comments">
+    <value>comments</value>
+  </data>
+
   <!-- Base properties -->
 
   <data name="Property.Id">
@@ -525,6 +533,14 @@
 
   <data name="Messages.DeletedTicket">
     <value>[green]✓[/] Deleted ticket [gray]ID={0}[/]</value>
+  </data>
+
+  <data name="Messages.CreatedProjectComment">
+    <value>[green]✓[/] Created project comment [gray]ID={0}[/]</value>
+  </data>
+
+  <data name="Messages.CreatedTicketComment">
+    <value>[green]✓[/] Created ticket comment [gray]ID={0}[/]</value>
   </data>
 
   <data name="Messages.UpdatedStatusWithId">
