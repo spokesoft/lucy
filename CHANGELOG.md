@@ -8,6 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+### Security
+
+## [0.0.4] - 2025-11-16
+
+### Added
 
 - Added ticket entity and related migrations.
 - Added ticket related commands.
@@ -15,12 +24,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added status filtering to the 'list tickets' command.
 - Added case insensitive handling for project, ticket and status keys.
 - Added unit tests for queries and repositories.
-
-### Changed
-### Deprecated
-### Removed
-### Fixed
-### Security
 
 ## [0.0.3] - 2025-11-15
 
@@ -106,7 +109,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Extension methods for common operations and DI registration
 - MIT License
 
-[unreleased]: https://github.com/spokesoft/lucy/compare/v0.0.3...HEAD
+[unreleased]: https://github.com/spokesoft/lucy/compare/v0.0.4...HEAD
+[0.0.4]: https://github.com/spokesoft/lucy/compare/v0.0.3...v0.0.4
 [0.0.3]: https://github.com/spokesoft/lucy/compare/v0.0.2...v0.0.3
 [0.0.2]: https://github.com/spokesoft/lucy/compare/v0.0.1...v0.0.2
 [0.0.1]: https://github.com/spokesoft/lucy/compare/v0.0.1-beta...v0.0.1
