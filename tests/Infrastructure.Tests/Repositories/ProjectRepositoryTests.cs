@@ -2,9 +2,11 @@ using Lucy.Domain.Entities;
 using Lucy.Infrastructure.Database;
 using Lucy.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Lucy.Tests.Infrastructure.Repositories;
 
+[Collection("Database collection")]
 public class ProjectRepositoryTests
 {
     private readonly DbContextOptions<LucyDbContext> _writeDbContextOptions;
@@ -13,23 +15,23 @@ public class ProjectRepositoryTests
     public ProjectRepositoryTests()
     {
         var dbName = Guid.NewGuid().ToString();
+        var databaseRoot = new InMemoryDatabaseRoot();
         _writeDbContextOptions = new DbContextOptionsBuilder<LucyDbContext>()
-            .UseInMemoryDatabase(dbName)
+            .UseInMemoryDatabase(dbName, databaseRoot)
+            .EnableServiceProviderCaching(false)
             .Options;
         _readDbContextOptions = new DbContextOptionsBuilder<LucyDbContext>()
-            .UseInMemoryDatabase(dbName)
+            .UseInMemoryDatabase(dbName, databaseRoot)
+            .EnableServiceProviderCaching(false)
             .Options;
     }
 
     private async Task SeedDatabaseAsync(LucyDbContext context)
     {
-        // Corrected initialization as you pointed out.
-        var project = new Project("LUCY", "Lucy Project", "The main project.")
-        {
-            Id = 1
-        };
+        var project = new Project("LUCY", "Lucy Project", "The main project.");
         context.Projects.Add(project);
         await context.SaveChangesAsync();
+        context.ChangeTracker.Clear();
     }
 
     // --- Tests for ProjectRepository (Write) ---
