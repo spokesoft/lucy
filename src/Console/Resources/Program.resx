@@ -171,6 +171,16 @@
     <value>Status</value>
   </data>
 
+  <!-- Comment properties -->
+
+  <data name="Property.Comment.Type">
+    <value>Type</value>
+  </data>
+
+  <data name="Property.Comment.Content">
+    <value>Content</value>
+  </data>
+
   <!-- Project resources -->
 
   <data name="View.ProjectList.Title">
@@ -207,6 +217,18 @@
 
   <data name="View.TicketList.Caption">
     <value>Displaying {0}-{1} of {2} tickets</value>
+  </data>
+
+  <data name="View.CommentList.Title">
+    <value>Comment List</value>
+  </data>
+
+  <data name="View.CommentList.NoComments">
+    <value>No comments found</value>
+  </data>
+
+  <data name="View.CommentList.Caption">
+    <value>Displaying {0}-{1} of {2} comments</value>
   </data>
 
   <data name="View.ShowProject.Title">
