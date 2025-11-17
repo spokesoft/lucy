@@ -102,6 +102,7 @@ app.Configure(config =>
 
         branch.AddAsyncDelegate<DeleteCommentCommand>("Delete.Comment", executor, localizer);
         branch.AddAsyncDelegate<DeleteProjectCommand>("Delete.Project", executor, localizer);
+        branch.AddAsyncDelegate<DeleteStatusCommand>("Delete.Status", executor, localizer);
         branch.AddAsyncDelegate<DeleteTicketCommand>("Delete.Ticket", executor, localizer);
     });
 
