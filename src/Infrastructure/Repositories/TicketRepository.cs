@@ -1,4 +1,5 @@
 using Lucy.Application.Queries;
+using Lucy.Application.Tickets.DTOs;
 using Lucy.Application.Tickets.Queries;
 using Lucy.Application.Tickets.Repositories;
 using Lucy.Domain.Entities;
@@ -77,6 +78,26 @@ public class TicketRepository(
     {
         var query = _set.AsQueryable();
         return ApplySort(query, sortBy, sortDirection).ToListAsync(token);
+    }
+
+    /// <summary>
+    /// Gets ticket counts by status for a specific project.
+    /// </summary>
+    public async Task<IEnumerable<TicketCountByStatusDto>> GetTicketCountsByProjectIdAsync(long projectId, CancellationToken token = default)
+    {
+        return await _set
+            .Where(t => t.ProjectId == projectId)
+            .GroupBy(t => t.Status)
+            .Select(g => new TicketCountByStatusDto
+            {
+                StatusId = g.Key.Id,
+                StatusKey = g.Key.Key,
+                StatusName = g.Key.Name,
+                StatusColor = g.Key.Color.ToString(),
+                Count = g.Count()
+            })
+            .OrderBy(x => x.StatusKey)
+            .ToListAsync(token);
     }
 
     /// <summary>
