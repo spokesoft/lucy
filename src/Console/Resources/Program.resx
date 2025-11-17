@@ -499,6 +499,18 @@
     <value>Delete a project.</value>
   </data>
 
+  <data name="Command.Delete.Comment.Description">
+    <value>Delete a comment.</value>
+  </data>
+
+  <data name="Command.Delete.Comment.Example.0">
+    <value>delete comment 1</value>
+  </data>
+
+  <data name="Command.Delete.Comment.Example.1">
+    <value>delete comment 5</value>
+  </data>
+
   <data name="Command.Delete.Project.Example.0">
     <value>delete project EXAMP</value>
   </data>
@@ -583,6 +595,10 @@
 
   <data name="Messages.DeletedTicket">
     <value>[green]✓[/] Deleted ticket [gray]ID={0}[/]</value>
+  </data>
+
+  <data name="Messages.DeletedComment">
+    <value>[green]✓[/] Deleted comment [gray]ID={0}[/]</value>
   </data>
 
   <data name="Messages.CreatedProjectComment">
