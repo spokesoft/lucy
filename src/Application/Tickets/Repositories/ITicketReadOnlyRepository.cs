@@ -1,5 +1,6 @@
 using Lucy.Application.Interfaces;
 using Lucy.Application.Queries;
+using Lucy.Application.Tickets.DTOs;
 using Lucy.Application.Tickets.Queries;
 using Lucy.Domain.Entities;
 
@@ -54,4 +55,9 @@ public interface ITicketReadOnlyRepository : IReadOnlyRepository<Ticket, long>
     /// Gets all tickets with sorting.
     /// </summary>
     Task<List<Ticket>> GetAllAsync(TicketSortField sortBy, SortDirection sortDirection, CancellationToken token = default);
+
+    /// <summary>
+    /// Gets ticket counts by status for a specific project.
+    /// </summary>
+    Task<IEnumerable<TicketCountByStatusDto>> GetTicketCountsByProjectIdAsync(long projectId, CancellationToken token = default);
 }
