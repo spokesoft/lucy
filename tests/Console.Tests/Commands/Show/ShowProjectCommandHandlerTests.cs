@@ -1,7 +1,11 @@
+using Lucy.Application.Comments.DTOs;
 using Lucy.Application.Interfaces;
+using Lucy.Application.Comments.Queries.ListProjectComments;
 using Lucy.Application.Projects.DTOs;
 using Lucy.Application.Projects.Queries.GetProjectById;
 using Lucy.Application.Projects.Queries.GetProjectIdByKey;
+using Lucy.Application.Tickets.DTOs;
+using Lucy.Application.Tickets.Queries.GetTicketCountsByProjectId;
 using Lucy.Console.Commands.Show;
 using Lucy.Console.Enums;
 using Lucy.Console.Interfaces;
@@ -15,7 +19,7 @@ public class ShowProjectCommandHandlerTests
 {
     private readonly TestConsole _console;
     private readonly Mock<IStringLocalizer<Program>> _localizerMock;
-    private readonly Mock<IViewRenderer<ProjectDto>> _viewRendererMock;
+    private readonly Mock<IViewRenderer<(ProjectDto, IEnumerable<CommentDto>, IEnumerable<TicketCountByStatusDto>)>> _viewRendererMock;
     private readonly Mock<IMediator> _mediatorMock;
     private readonly ShowProjectCommandHandler _handler;
 
@@ -23,7 +27,7 @@ public class ShowProjectCommandHandlerTests
     {
         _console = new TestConsole();
         _localizerMock = new Mock<IStringLocalizer<Program>>();
-        _viewRendererMock = new Mock<IViewRenderer<ProjectDto>>();
+        _viewRendererMock = new Mock<IViewRenderer<(ProjectDto, IEnumerable<CommentDto>, IEnumerable<TicketCountByStatusDto>)>>();
         _mediatorMock = new Mock<IMediator>();
 
         _handler = new ShowProjectCommandHandler(
@@ -48,10 +52,18 @@ public class ShowProjectCommandHandlerTests
             CreatedAt = DateTime.Parse("2025-11-05 19:08:25Z").ToUniversalTime(),
             UpdatedAt = DateTime.Parse("2025-11-05 19:08:25Z").ToUniversalTime()
         };
+        var comments = new List<ProjectCommentDto>();
+        var ticketCounts = new List<TicketCountByStatusDto>();
 
         _mediatorMock
             .Setup(m => m.Send(It.IsAny<GetProjectByIdQuery>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(project);
+        _mediatorMock
+            .Setup(m => m.Send(It.IsAny<ListProjectCommentsQuery>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(comments);
+        _mediatorMock
+            .Setup(m => m.Send(It.IsAny<GetTicketCountsByProjectIdQuery>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(ticketCounts);
 
         // Act
         var result = await _handler.HandleAsync(null!, command, CancellationToken.None);
@@ -61,7 +73,8 @@ public class ShowProjectCommandHandlerTests
 
         _viewRendererMock.Verify(
             v => v.RenderAsync(
-                project,
+                It.Is<(ProjectDto, IEnumerable<CommentDto>, IEnumerable<TicketCountByStatusDto>)>(
+                    t => t.Item1 == project && t.Item2 == comments && t.Item3 == ticketCounts),
                 _console,
                 _localizerMock.Object,
                 It.IsAny<CancellationToken>()),
@@ -84,6 +97,8 @@ public class ShowProjectCommandHandlerTests
             CreatedAt = DateTime.Parse("2025-11-05 19:08:25Z").ToUniversalTime(),
             UpdatedAt = DateTime.Parse("2025-11-05 19:08:25Z").ToUniversalTime()
         };
+        var comments = new List<ProjectCommentDto>();
+        var ticketCounts = new List<TicketCountByStatusDto>();
 
         _mediatorMock
             .Setup(m => m.Send(It.IsAny<GetProjectIdByKeyQuery>(), It.IsAny<CancellationToken>()))
@@ -91,6 +106,12 @@ public class ShowProjectCommandHandlerTests
         _mediatorMock
             .Setup(m => m.Send(It.IsAny<GetProjectByIdQuery>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(project);
+        _mediatorMock
+            .Setup(m => m.Send(It.IsAny<ListProjectCommentsQuery>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(comments);
+        _mediatorMock
+            .Setup(m => m.Send(It.IsAny<GetTicketCountsByProjectIdQuery>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(ticketCounts);
 
         // Act
         var result = await _handler.HandleAsync(null!, command, CancellationToken.None);
@@ -100,7 +121,8 @@ public class ShowProjectCommandHandlerTests
 
         _viewRendererMock.Verify(
             v => v.RenderAsync(
-                project,
+                It.Is<(ProjectDto, IEnumerable<CommentDto>, IEnumerable<TicketCountByStatusDto>)>(
+                    t => t.Item1 == project && t.Item2 == comments && t.Item3 == ticketCounts),
                 _console,
                 _localizerMock.Object,
                 It.IsAny<CancellationToken>()),
