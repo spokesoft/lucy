@@ -299,6 +299,22 @@
     <value>new ticket "Update docs" ABC --status IN-PROGRESS --description "Update API documentation"</value>
   </data>
 
+  <data name="Command.New.Comment.Description">
+    <value>Create a new comment on a project or ticket.</value>
+  </data>
+
+  <data name="Command.New.Comment.Example.0">
+    <value>new comment ABC --content "This is a project comment"</value>
+  </data>
+
+  <data name="Command.New.Comment.Example.1">
+    <value>new comment ABC-1 --content "This is a ticket comment"</value>
+  </data>
+
+  <data name="Command.New.Comment.Example.2">
+    <value>new comment --project-id 1 --content "Another project comment"</value>
+  </data>
+
   <data name="Command.List.Project.Description">
     <value>List all projects.</value>
   </data>
@@ -467,6 +483,18 @@
     <value>update ticket --id 1 --title "Updated" --description "New description"</value>
   </data>
 
+  <data name="Command.Update.Comment.Description">
+    <value>Update an existing comment.</value>
+  </data>
+
+  <data name="Command.Update.Comment.Example.0">
+    <value>update comment 1 --content "Updated comment content"</value>
+  </data>
+
+  <data name="Command.Update.Comment.Example.1">
+    <value>update comment 5 -c "New content"</value>
+  </data>
+
   <data name="Command.Delete.Project.Description">
     <value>Delete a project.</value>
   </data>
@@ -563,6 +591,10 @@
 
   <data name="Messages.CreatedTicketComment">
     <value>[green]✓[/] Created ticket comment [gray]ID={0}[/]</value>
+  </data>
+
+  <data name="Messages.UpdatedComment">
+    <value>[green]✓[/] Updated comment [gray]ID={0}[/]</value>
   </data>
 
   <data name="Messages.UpdatedStatusWithId">
@@ -674,6 +706,14 @@
   </data>
 
   <!-- Error messages -->
+
+  <data name="Error.Comment.NotFound">
+    <value>Comment not found.</value>
+  </data>
+
+  <data name="Error.Comment.ContentRequired">
+    <value>Comment content is required.</value>
+  </data>
 
   <data name="Error.Project.NotFound">
     <value>Project not found.</value>

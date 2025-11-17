@@ -59,14 +59,14 @@ public class ProjectViewRenderer : IViewRenderer<(ProjectDto, IEnumerable<Commen
         var sections = new List<IRenderable> { detailsText };
 
         // Ticket summary section
-        if (ticketCountList.Any())
+        if (ticketCountList.Count != 0)
         {
             sections.Add(Text.Empty);
             sections.Add(BuildTicketSummary(ticketCountList, localizer));
         }
 
         // Comments section
-        if (commentList.Any())
+        if (commentList.Count != 0)
         {
             var commentsRows = commentList.Select(comment =>
             {
