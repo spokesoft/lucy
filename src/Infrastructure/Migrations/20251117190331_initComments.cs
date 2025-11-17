@@ -18,7 +18,7 @@ namespace Lucy.Infrastructure.Migrations
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Content = table.Column<string>(type: "TEXT", maxLength: 5000, nullable: false),
-                    CommentType = table.Column<int>(type: "INTEGER", nullable: false),
+                    Type = table.Column<int>(type: "INTEGER", nullable: false),
                     ProjectId = table.Column<long>(type: "INTEGER", nullable: true),
                     TicketId = table.Column<long>(type: "INTEGER", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),

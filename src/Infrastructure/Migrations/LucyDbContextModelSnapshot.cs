@@ -23,9 +23,6 @@ namespace Lucy.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("CommentType")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasMaxLength(5000)
@@ -34,6 +31,9 @@ namespace Lucy.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("Type")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("TEXT");
 
@@ -41,7 +41,7 @@ namespace Lucy.Infrastructure.Migrations
 
                     b.ToTable("Comments");
 
-                    b.HasDiscriminator<int>("CommentType");
+                    b.HasDiscriminator<int>("Type");
 
                     b.UseTphMappingStrategy();
                 });

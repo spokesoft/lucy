@@ -8,7 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
+- Added comment entity and related migrations.
+- Added comment related commands.
+- Added comprehensive unit tests for comment related features.
+- Added 'show board' command to display project board.
+
 ### Changed
+
+- Changed 'show project' command to include ticket counts by status and comments.
+- Changed 'show ticket' command to include comments.
+
 ### Deprecated
 ### Removed
 ### Fixed
