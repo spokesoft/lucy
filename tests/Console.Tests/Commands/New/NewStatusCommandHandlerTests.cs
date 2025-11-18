@@ -47,8 +47,8 @@ public class NewStatusCommandHandlerTests
         var statusId = 5L;
         var command = new NewStatusCommand
         {
-            Key = "TODO",
             ProjectKey = "EXAMP",
+            Key = "TODO",
             ProjectId = null,
             Name = "To Do",
             Description = "Tasks to do",
@@ -93,8 +93,8 @@ public class NewStatusCommandHandlerTests
         var statusId = 5L;
         var command = new NewStatusCommand
         {
+            ProjectKey = "EXAMP",
             Key = "TODO",
-            ProjectKey = null,
             ProjectId = projectId,
             Name = "To Do",
             Description = "Tasks to do",
@@ -132,8 +132,8 @@ public class NewStatusCommandHandlerTests
         var statusId = 5L;
         var command = new NewStatusCommand
         {
-            Key = "TODO",
             ProjectKey = "EXAMP",
+            Key = "TODO",
             ProjectId = null,
             Name = string.Empty,
             Description = string.Empty,

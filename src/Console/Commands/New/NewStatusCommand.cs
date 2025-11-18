@@ -14,18 +14,18 @@ namespace Lucy.Console.Commands.New;
 public class NewStatusCommand : NewCommand
 {
     /// <summary>
-    /// The unique key for the status.
-    /// </summary>
-    [CommandArgument(0, "<key>")]
-    [Description("The unique key for the status.")]
-    public required string Key { get; set; }
-
-    /// <summary>
     /// The key of the project this status belongs to.
     /// </summary>
-    [CommandArgument(1, "[project-key]")]
+    [CommandArgument(0, "<project-key>")]
     [Description("The key of the project this status belongs to.")]
-    public required string? ProjectKey { get; set; }
+    public required string ProjectKey { get; set; }
+
+    /// <summary>
+    /// The unique key for the status.
+    /// </summary>
+    [CommandArgument(1, "<key>")]
+    [Description("The unique key for the status.")]
+    public required string Key { get; set; }
 
     /// <summary>
     /// The ID of the project this status belongs to.

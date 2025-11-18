@@ -25,19 +25,8 @@ internal class NewStatusCommandValidator(
     {
         var result = new ValidationResult();
 
-        // Handle ambiguous case: if ProjectKey is null but Key has a value and ProjectId is set,
-        // then Key might be in the wrong position, but since Key is required, ProjectKey must be provided
-        // either as positional arg or as --project-id option
-        if (command.ProjectKey is null && command.ProjectId is null)
-        {
-            result.AddError(new ValidationError(
-                "Either ProjectKey or ProjectId must be provided.",
-                nameof(command.ProjectKey)));
-            return result;
-        }
-
-        // If ProjectKey is provided, validate that the project exists
-        if (command.ProjectKey is not null)
+        // Validate that the project exists (unless --project-id is used)
+        if (command.ProjectId is null)
         {
             var query = new GetProjectByKeyQuery(command.ProjectKey);
             var project = await _mediator.Send(query, token);
