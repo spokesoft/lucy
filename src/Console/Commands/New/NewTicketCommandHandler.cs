@@ -45,7 +45,7 @@ internal class NewTicketCommandHandler(
         {
             if (command.ProjectKey is null)
             {
-                throw new InvalidOperationException("Either ProjectKey or ProjectId must be provided.");
+                throw new InvalidOperationException("Either --project or --project-id must be provided.");
             }
 
             var projectQuery = new GetProjectIdByKeyQuery(command.ProjectKey);
@@ -58,7 +58,7 @@ internal class NewTicketCommandHandler(
         {
             if (command.StatusKey is null)
             {
-                throw new InvalidOperationException("Either StatusKey or StatusId must be provided.");
+                throw new InvalidOperationException("Either --status or --status-id must be provided.");
             }
 
             var statusQuery = new GetStatusByKeyQuery(projectId.Value, command.StatusKey);

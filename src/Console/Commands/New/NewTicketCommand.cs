@@ -21,14 +21,14 @@ public class NewTicketCommand : NewCommand
     /// <summary>
     /// The key of the project this ticket belongs to.
     /// </summary>
-    [CommandArgument(1, "[project-key]")]
+    [CommandOption("-p|--project <key>")]
     [Description("The key of the project this ticket belongs to.")]
     public string? ProjectKey { get; set; }
 
     /// <summary>
     /// The ID of the project this ticket belongs to.
     /// </summary>
-    [CommandOption("-p|--project-id <id>")]
+    [CommandOption("--project-id <id>")]
     [Description("The ID of the project this ticket belongs to.")]
     public long? ProjectId { get; set; }
 

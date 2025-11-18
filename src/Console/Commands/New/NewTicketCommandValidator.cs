@@ -30,7 +30,7 @@ internal class NewTicketCommandValidator(
         if (command.ProjectKey is null && command.ProjectId is null)
         {
             result.AddError(new ValidationError(
-                "Either ProjectKey or ProjectId must be provided.",
+                "Either --project or --project-id must be provided.",
                 nameof(command.ProjectKey)));
             return result;
         }
@@ -39,7 +39,7 @@ internal class NewTicketCommandValidator(
         if (command.StatusKey is null && command.StatusId is null)
         {
             result.AddError(new ValidationError(
-                "Either StatusKey or StatusId must be provided.",
+                "Either --status or --status-id must be provided.",
                 nameof(command.StatusKey)));
             return result;
         }

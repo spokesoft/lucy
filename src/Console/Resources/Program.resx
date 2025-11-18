@@ -272,15 +272,15 @@
   </data>
 
   <data name="Command.New.Status.Example.0">
-    <value>new status TODO EXAMP --name "To Do"</value>
+    <value>new status EXAMP TODO --name "To Do"</value>
   </data>
 
   <data name="Command.New.Status.Example.1">
-    <value>new status BLOCKED --project-id 1 --name Blocked --color red</value>
+    <value>new status EXAMP BLOCKED --name Blocked --color red</value>
   </data>
 
   <data name="Command.New.Status.Example.2">
-    <value>new status DONE EXAMP --name Done --color green</value>
+    <value>new status EXAMP DONE --name Done --color green</value>
   </data>
 
   <data name="Command.New.Ticket.Description">
@@ -288,7 +288,7 @@
   </data>
 
   <data name="Command.New.Ticket.Example.0">
-    <value>new ticket "Add login feature" ABC --status TODO</value>
+    <value>new ticket "Add login feature" --project ABC --status TODO</value>
   </data>
 
   <data name="Command.New.Ticket.Example.1">
@@ -296,7 +296,7 @@
   </data>
 
   <data name="Command.New.Ticket.Example.2">
-    <value>new ticket "Update docs" ABC --status IN-PROGRESS --description "Update API documentation"</value>
+    <value>new ticket "Update docs" --project ABC --status IN-PROGRESS --description "Update API documentation"</value>
   </data>
 
   <data name="Command.New.Comment.Description">
