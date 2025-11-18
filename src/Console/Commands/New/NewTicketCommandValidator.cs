@@ -35,15 +35,6 @@ internal class NewTicketCommandValidator(
             return result;
         }
 
-        // Validate that either StatusKey or StatusId is provided
-        if (command.StatusKey is null && command.StatusId is null)
-        {
-            result.AddError(new ValidationError(
-                "Either --status or --status-id must be provided.",
-                nameof(command.StatusKey)));
-            return result;
-        }
-
         // Resolve and validate ProjectId
         long? projectId = command.ProjectId;
         if (projectId is null && command.ProjectKey is not null)

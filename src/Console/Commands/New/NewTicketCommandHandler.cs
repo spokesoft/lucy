@@ -2,6 +2,7 @@ using AppCreateTicketCommand = Lucy.Application.Tickets.Commands.CreateTicket.Cr
 using Lucy.Application.Interfaces;
 using Lucy.Application.Projects.Queries.GetProjectIdByKey;
 using Lucy.Application.Statuses.Queries.GetStatusByKey;
+using Lucy.Application.Statuses.Queries.ListStatuses;
 using Lucy.Console.Enums;
 using Lucy.Console.Interfaces;
 using Microsoft.Extensions.Localization;
@@ -56,20 +57,31 @@ internal class NewTicketCommandHandler(
         var statusId = command.StatusId;
         if (statusId is null)
         {
-            if (command.StatusKey is null)
+            if (command.StatusKey is not null)
             {
-                throw new InvalidOperationException("Either --status or --status-id must be provided.");
+                var statusQuery = new GetStatusByKeyQuery(projectId.Value, command.StatusKey);
+                var status = await _mediator.Send(statusQuery, token);
+
+                if (status is null)
+                {
+                    throw new InvalidOperationException($"Status with key '{command.StatusKey}' not found in project.");
+                }
+
+                statusId = status.Id;
             }
-
-            var statusQuery = new GetStatusByKeyQuery(projectId.Value, command.StatusKey);
-            var status = await _mediator.Send(statusQuery, token);
-
-            if (status is null)
+            else
             {
-                throw new InvalidOperationException($"Status with key '{command.StatusKey}' not found in project.");
-            }
+                // No status specified, use the first status by order
+                var listStatusesQuery = new ListStatusesQuery(projectId.Value);
+                var statuses = await _mediator.Send(listStatusesQuery, token);
 
-            statusId = status.Id;
+                if (statuses.Count == 0)
+                {
+                    throw new InvalidOperationException("Project has no statuses. Create a status first.");
+                }
+
+                statusId = statuses[0].Id;
+            }
         }
 
         var request = new AppCreateTicketCommand(

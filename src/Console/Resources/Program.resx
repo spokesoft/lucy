@@ -288,11 +288,11 @@
   </data>
 
   <data name="Command.New.Ticket.Example.0">
-    <value>new ticket "Add login feature" --project ABC --status TODO</value>
+    <value>new ticket "Add login feature" --project ABC</value>
   </data>
 
   <data name="Command.New.Ticket.Example.1">
-    <value>new ticket "Fix bug" --project-id 1 --status-id 2</value>
+    <value>new ticket "Fix bug" --project ABC --status TODO</value>
   </data>
 
   <data name="Command.New.Ticket.Example.2">

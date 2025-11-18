@@ -8,6 +8,7 @@ namespace Lucy.Console.Commands.New;
 /// </summary>
 /// <remarks>
 /// A project and status can be identified by either their keys or their IDs.
+/// If no status is provided, the ticket will be added to the first status by order.
 /// </remarks>
 public class NewTicketCommand : NewCommand
 {
