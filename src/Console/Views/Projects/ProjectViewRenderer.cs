@@ -26,7 +26,7 @@ public class ProjectViewRenderer : IViewRenderer<(ProjectDto, IEnumerable<Commen
 
         console.WriteLine();
 
-        var title = GetTitle(localizer, console.Profile);
+        var title = GetTitle(project, localizer, console.Profile);
         var content = BuildContent(project, commentList, ticketCountList, localizer);
 
         var panel = new Panel(content)
@@ -121,10 +121,14 @@ public class ProjectViewRenderer : IViewRenderer<(ProjectDto, IEnumerable<Commen
     /// <summary>
     /// Gets the title for the project view.
     /// </summary>
-    private static string GetTitle(IStringLocalizer localizer, Profile options)
-        => options.Capabilities.Unicode
+    private static string GetTitle(ProjectDto project, IStringLocalizer localizer, Profile options)
+    {
+        var baseTitle = options.Capabilities.Unicode
             ? $":file_folder: {localizer["View.ShowProject.Title"]}"
             : localizer["View.ShowProject.Title"];
+
+        return $"{baseTitle} [blue][[{project.Key}]][/]";
+    }
 
     /// <summary>
     /// Gets the project details formatted as markup.
@@ -139,8 +143,7 @@ public class ProjectViewRenderer : IViewRenderer<(ProjectDto, IEnumerable<Commen
             ? $"[dim]{localizer["Empty.String"]}[/]"
             : project.Description;
 
-        return $"[bold]{localizer["Property.Project.Key"]}:[/] [blue]{project.Key}[/]\n" +
-               $"[bold]{localizer["Property.Project.Name"]}:[/] {name}\n" +
+        return $"[bold]{localizer["Property.Project.Name"]}:[/] {name}\n" +
                $"[bold]{localizer["Property.Project.Description"]}:[/] {description}\n" +
                $"[dim]{localizer["Property.UpdatedAt"]}:[/] [dim]{project.UpdatedAt:yyyy-MM-dd HH:mm:ss}[/]";
     }
