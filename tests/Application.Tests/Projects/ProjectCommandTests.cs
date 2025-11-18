@@ -237,13 +237,16 @@ public class ProjectCommandTests
     public async Task UpdateProjectCommandValidator_ShouldValidate()
     {
         // Arrange
+        var existingProject = new Project("OLD-KEY", "Old Name", "Old Description");
+        existingProject.Id = 1;
+
+        _readOnlyUnitOfWorkMock
+            .Setup(u => u.Projects.GetByIdAsync(1, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(existingProject);
+
         _readOnlyUnitOfWorkMock
             .Setup(u => u.Projects.ExistsByKeyAsync("VALID-KEY", It.IsAny<CancellationToken>()))
             .ReturnsAsync(false);
-
-        _readOnlyUnitOfWorkMock
-            .Setup(u => u.Projects.ExistsByIdAsync(1, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(true);
 
         var validator = new UpdateProjectCommandValidator(_readOnlyUnitOfWorkMock.Object);
         var command = new UpdateProjectCommand(1, "VALID-KEY", "Valid Name", "Valid Description");
@@ -260,8 +263,8 @@ public class ProjectCommandTests
     {
         // Arrange
         _readOnlyUnitOfWorkMock
-            .Setup(u => u.Projects.ExistsByIdAsync(1, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(false);
+            .Setup(u => u.Projects.GetByIdAsync(1, It.IsAny<CancellationToken>()))
+            .ReturnsAsync((Project?)null);
 
         var validator = new UpdateProjectCommandValidator(_readOnlyUnitOfWorkMock.Object);
         var command = new UpdateProjectCommand(1, "VALID-KEY", "Valid Name", "Valid Description");
@@ -278,9 +281,12 @@ public class ProjectCommandTests
     public async Task UpdateProjectCommandValidator_ShouldInvalidate_WhenKeyIsInvalid()
     {
         // Arrange
+        var existingProject = new Project("OLD-KEY", "Old Name", "Old Description");
+        existingProject.Id = 1;
+
         _readOnlyUnitOfWorkMock
-            .Setup(u => u.Projects.ExistsByIdAsync(1, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(true);
+            .Setup(u => u.Projects.GetByIdAsync(1, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(existingProject);
 
         var validator = new UpdateProjectCommandValidator(_readOnlyUnitOfWorkMock.Object);
 
@@ -313,12 +319,15 @@ public class ProjectCommandTests
     public async Task UpdateProjectCommandValidator_ShouldInvalidate_WhenKeyIsNotUnique()
     {
         // Arrange
-        _readOnlyUnitOfWorkMock
-            .Setup(u => u.Projects.ExistsByKeyAsync("DUPLICATE", It.IsAny<CancellationToken>()))
-            .ReturnsAsync(true);
+        var existingProject = new Project("OLD-KEY", "Old Name", "Old Description");
+        existingProject.Id = 1;
 
         _readOnlyUnitOfWorkMock
-            .Setup(u => u.Projects.ExistsByIdAsync(1, It.IsAny<CancellationToken>()))
+            .Setup(u => u.Projects.GetByIdAsync(1, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(existingProject);
+
+        _readOnlyUnitOfWorkMock
+            .Setup(u => u.Projects.ExistsByKeyAsync("DUPLICATE", It.IsAny<CancellationToken>()))
             .ReturnsAsync(true);
 
         var validator = new UpdateProjectCommandValidator(_readOnlyUnitOfWorkMock.Object);
@@ -336,13 +345,16 @@ public class ProjectCommandTests
     public async Task UpdateProjectCommandValidator_ShouldInvalidate_WhenNameIsInvalid()
     {
         // Arrange
+        var existingProject = new Project("OLD-KEY", "Old Name", "Old Description");
+        existingProject.Id = 1;
+
+        _readOnlyUnitOfWorkMock
+            .Setup(u => u.Projects.GetByIdAsync(1, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(existingProject);
+
         _readOnlyUnitOfWorkMock
             .Setup(u => u.Projects.ExistsByKeyAsync("VALID-KEY", It.IsAny<CancellationToken>()))
             .ReturnsAsync(false);
-
-        _readOnlyUnitOfWorkMock
-            .Setup(u => u.Projects.ExistsByIdAsync(1, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(true);
 
         var validator = new UpdateProjectCommandValidator(_readOnlyUnitOfWorkMock.Object);
         var command = new UpdateProjectCommand(1, "VALID-KEY", new string('A', 101), "Valid Description");
@@ -359,13 +371,16 @@ public class ProjectCommandTests
     public async Task UpdateProjectCommandValidator_ShouldInvalidate_WhenDescriptionIsInvalid()
     {
         // Arrange
+        var existingProject = new Project("OLD-KEY", "Old Name", "Old Description");
+        existingProject.Id = 1;
+
+        _readOnlyUnitOfWorkMock
+            .Setup(u => u.Projects.GetByIdAsync(1, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(existingProject);
+
         _readOnlyUnitOfWorkMock
             .Setup(u => u.Projects.ExistsByKeyAsync("VALID-KEY", It.IsAny<CancellationToken>()))
             .ReturnsAsync(false);
-
-        _readOnlyUnitOfWorkMock
-            .Setup(u => u.Projects.ExistsByIdAsync(1, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(true);
 
         var validator = new UpdateProjectCommandValidator(_readOnlyUnitOfWorkMock.Object);
         var command = new UpdateProjectCommand(1, "VALID-KEY", "Valid Name", new string('A', 501));

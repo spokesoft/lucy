@@ -37,24 +37,41 @@ public class UpdateProjectCommandValidator(
     {
         var result = new ValidationResult();
 
-        if (!await _uow.Projects.ExistsByIdAsync(request.Id, token))
+        var project = await _uow.Projects.GetByIdAsync(request.Id, token);
+        if (project is null)
         {
             return ValidationResult.Error(ValidationCode.ProjectNotFound, nameof(request.Id), request.Id);
         }
-        else
+
+        if (request.Key is null && request.Name is null && request.Description is null)
+            return ValidationResult.Error(ValidationCode.ProjectNoDataToUpdate);
+
+        if (request.Key is not null)
         {
-            if (request.Key is null && request.Name is null && request.Description is null)
-                return ValidationResult.Error(ValidationCode.ProjectNoDataToUpdate);
+            var normalizedKey = request.Key.ToUpperInvariant();
 
-            if (request.Key is not null)
+            // Only validate key if it's being changed
+            if (normalizedKey != project.Key)
                 result.AddResult(await _keyValidator.ValidateAsync(request.Key, token));
-
-            if (request.Name is not null)
-                result.AddResult(_nameValidator.Validate(request.Name));
-
-            if (request.Description is not null)
-                result.AddResult(_descriptionValidator.Validate(request.Description));
+            else
+            {
+                // Still validate format even if key isn't changing
+                if (string.IsNullOrWhiteSpace(request.Key))
+                    result.AddError(ValidationCode.ProjectKeyRequired, "Key");
+                else if (!char.IsLetter(request.Key[0]))
+                    result.AddError(ValidationCode.ProjectKeyStartWithLetter, "Key", request.Key);
+                else if (request.Key.Length < 3 || request.Key.Length > 10)
+                    result.AddError(ValidationCode.ProjectKeyLength, "Key", request.Key.Length);
+                else if (!request.Key.All(c => char.IsLetterOrDigit(c) || c == '-' || c == '_'))
+                    result.AddError(ValidationCode.ProjectKeyInvalidCharacters, "Key", request.Key);
+            }
         }
+
+        if (request.Name is not null)
+            result.AddResult(_nameValidator.Validate(request.Name));
+
+        if (request.Description is not null)
+            result.AddResult(_descriptionValidator.Validate(request.Description));
 
         return result;
     }
