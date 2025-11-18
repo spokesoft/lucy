@@ -1,6 +1,8 @@
 using Lucy.Application.Comments.DTOs;
 using Lucy.Application.Comments.Queries.ListTicketComments;
 using Lucy.Application.Interfaces;
+using Lucy.Application.Statuses.DTOs;
+using Lucy.Application.Statuses.Queries.GetStatusById;
 using Lucy.Application.Tickets.DTOs;
 using Lucy.Application.Tickets.Queries.GetTicketById;
 using Lucy.Application.Tickets.Queries.GetTicketByKey;
@@ -17,7 +19,7 @@ public class ShowTicketCommandHandlerTests
 {
     private readonly TestConsole _console;
     private readonly Mock<IStringLocalizer<Program>> _localizerMock;
-    private readonly Mock<IViewRenderer<(TicketDto, IEnumerable<CommentDto>)>> _viewRendererMock;
+    private readonly Mock<IViewRenderer<(TicketDto, StatusDto?, IEnumerable<CommentDto>)>> _viewRendererMock;
     private readonly Mock<IMediator> _mediatorMock;
     private readonly ShowTicketCommandHandler _handler;
 
@@ -25,7 +27,7 @@ public class ShowTicketCommandHandlerTests
     {
         _console = new TestConsole();
         _localizerMock = new Mock<IStringLocalizer<Program>>();
-        _viewRendererMock = new Mock<IViewRenderer<(TicketDto, IEnumerable<CommentDto>)>>();
+        _viewRendererMock = new Mock<IViewRenderer<(TicketDto, StatusDto?, IEnumerable<CommentDto>)>>();
         _mediatorMock = new Mock<IMediator>();
 
         _handler = new ShowTicketCommandHandler(
@@ -57,10 +59,21 @@ public class ShowTicketCommandHandlerTests
             UpdatedAt = DateTime.UtcNow
         };
         var comments = new List<TicketCommentDto>();
+        var status = new StatusDto
+        {
+            Id = 1L,
+            ProjectId = 1L,
+            Key = "TODO",
+            Name = "To Do",
+            Order = 0
+        };
 
         _mediatorMock
             .Setup(m => m.Send(It.IsAny<GetTicketByIdQuery>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(ticket);
+        _mediatorMock
+            .Setup(m => m.Send(It.IsAny<GetStatusByIdQuery>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(status);
         _mediatorMock
             .Setup(m => m.Send(It.IsAny<ListTicketCommentsQuery>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(comments);
@@ -73,7 +86,7 @@ public class ShowTicketCommandHandlerTests
 
         _viewRendererMock.Verify(
             v => v.RenderAsync(
-                It.Is<(TicketDto, IEnumerable<CommentDto>)>(t => t.Item1 == ticket && t.Item2 == comments),
+                It.Is<(TicketDto, StatusDto?, IEnumerable<CommentDto>)>(t => t.Item1 == ticket && t.Item2 == status && t.Item3 == comments),
                 _console,
                 _localizerMock.Object,
                 It.IsAny<CancellationToken>()),
@@ -102,10 +115,21 @@ public class ShowTicketCommandHandlerTests
             UpdatedAt = DateTime.UtcNow
         };
         var comments = new List<TicketCommentDto>();
+        var status = new StatusDto
+        {
+            Id = 1L,
+            ProjectId = 1L,
+            Key = "TODO",
+            Name = "To Do",
+            Order = 0
+        };
 
         _mediatorMock
             .Setup(m => m.Send(It.IsAny<GetTicketByKeyQuery>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(ticket);
+        _mediatorMock
+            .Setup(m => m.Send(It.IsAny<GetStatusByIdQuery>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(status);
         _mediatorMock
             .Setup(m => m.Send(It.IsAny<ListTicketCommentsQuery>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(comments);
@@ -118,7 +142,7 @@ public class ShowTicketCommandHandlerTests
 
         _viewRendererMock.Verify(
             v => v.RenderAsync(
-                It.Is<(TicketDto, IEnumerable<CommentDto>)>(t => t.Item1 == ticket && t.Item2 == comments),
+                It.Is<(TicketDto, StatusDto?, IEnumerable<CommentDto>)>(t => t.Item1 == ticket && t.Item2 == status && t.Item3 == comments),
                 _console,
                 _localizerMock.Object,
                 It.IsAny<CancellationToken>()),

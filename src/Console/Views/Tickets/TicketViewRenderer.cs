@@ -1,4 +1,5 @@
 using Lucy.Application.Comments.DTOs;
+using Lucy.Application.Statuses.DTOs;
 using Lucy.Application.Tickets.DTOs;
 using Lucy.Console.Interfaces;
 using Microsoft.Extensions.Localization;
@@ -9,22 +10,22 @@ namespace Lucy.Console.Views.Tickets;
 /// <summary>
 /// Renders the ticket view to the console.
 /// </summary>
-public class TicketViewRenderer : IViewRenderer<(TicketDto, IEnumerable<CommentDto>)>
+public class TicketViewRenderer : IViewRenderer<(TicketDto, StatusDto?, IEnumerable<CommentDto>)>
 {
     /// <inheritdoc />
     public async Task RenderAsync(
-        (TicketDto, IEnumerable<CommentDto>) model,
+        (TicketDto, StatusDto?, IEnumerable<CommentDto>) model,
         IAnsiConsole console,
         IStringLocalizer localizer,
         CancellationToken token = default)
     {
-        var (ticket, comments) = model;
+        var (ticket, status, comments) = model;
         var commentList = comments.ToList();
 
         console.WriteLine();
 
-        var title = GetTitle(localizer, console.Profile);
-        var content = BuildContent(ticket, commentList, localizer);
+        var title = GetTitle(ticket, localizer, console.Profile);
+        var content = BuildContent(ticket, status, commentList, localizer);
 
         var panel = new Panel(content)
             .Header(title, Justify.Left)
@@ -47,10 +48,10 @@ public class TicketViewRenderer : IViewRenderer<(TicketDto, IEnumerable<CommentD
     /// <summary>
     /// Builds the complete content including details and comments.
     /// </summary>
-    private static Rows BuildContent(TicketDto ticket, List<CommentDto> commentList, IStringLocalizer localizer)
+    private static Rows BuildContent(TicketDto ticket, StatusDto? status, List<CommentDto> commentList, IStringLocalizer localizer)
     {
         // Ticket details
-        var detailsMarkup = GetTicketDetailsMarkup(ticket, localizer);
+        var detailsMarkup = GetTicketDetailsMarkup(ticket, status, localizer);
         var detailsText = new Markup(detailsMarkup);
 
         // Comments section
@@ -83,15 +84,19 @@ public class TicketViewRenderer : IViewRenderer<(TicketDto, IEnumerable<CommentD
     }    /// <summary>
     /// Gets the title for the ticket view.
     /// </summary>
-    private static string GetTitle(IStringLocalizer localizer, Profile options)
-        => options.Capabilities.Unicode
+    private static string GetTitle(TicketDto ticket, IStringLocalizer localizer, Profile options)
+    {
+        var baseTitle = options.Capabilities.Unicode
             ? $":ticket: {localizer["View.ShowTicket.Title"]}"
             : localizer["View.ShowTicket.Title"];
+
+        return $"{baseTitle} [blue][[{ticket.Key}]][/]";
+    }
 
     /// <summary>
     /// Gets the ticket details formatted as markup.
     /// </summary>
-    private static string GetTicketDetailsMarkup(TicketDto ticket, IStringLocalizer localizer)
+    private static string GetTicketDetailsMarkup(TicketDto ticket, StatusDto? status, IStringLocalizer localizer)
     {
         var ticketTitle = string.IsNullOrWhiteSpace(ticket.Title)
             ? $"[dim]{localizer["Empty.String"]}[/]"
@@ -101,7 +106,12 @@ public class TicketViewRenderer : IViewRenderer<(TicketDto, IEnumerable<CommentD
             ? $"[dim]{localizer["Empty.String"]}[/]"
             : ticket.Description;
 
-        return $"[bold]{localizer["Property.Ticket.Key"]}:[/] [blue]{ticket.Key}[/]\n" +
+        var statusColor = status?.Color.ToString().ToLower() ?? "grey";
+        var statusDisplay = status is not null
+            ? $"[{statusColor}]{status.Key}[/]"
+            : $"[dim]{localizer["Empty.String"]}[/]";
+
+        return $"[bold]{localizer["Property.Status"]}:[/] {statusDisplay}\n" +
                $"[bold]{localizer["Property.Ticket.Title"]}:[/] {ticketTitle}\n" +
                $"[bold]{localizer["Property.Ticket.Description"]}:[/] {description}\n" +
                $"[dim]{localizer["Property.UpdatedAt"]}:[/] [dim]{ticket.UpdatedAt:yyyy-MM-dd HH:mm:ss}[/]";
