@@ -37,7 +37,7 @@ public class CommentRepositoryTests
 
         // Get the first status for the ticket
         var status = project.Statuses.First();
-        var ticket = new Ticket(project.Id, status.Id, "TEST-1", "Test Ticket", "Test ticket description");
+        var ticket = new Ticket(project.Id, status.Id, "TEST-1", 1, "Test Ticket", "Test ticket description");
         context.Tickets.Add(ticket);
         await context.SaveChangesAsync();
         context.ChangeTracker.Clear();
@@ -378,7 +378,7 @@ public class CommentRepositoryTests
         await writeContext.SaveChangesAsync();
 
         var status = project.Statuses.First();
-        var ticket = new Ticket(project.Id, status.Id, "TEST2-1", "Empty Ticket", null);
+        var ticket = new Ticket(project.Id, status.Id, "TEST2-1", 2, "Empty Ticket", null);
         writeContext.Tickets.Add(ticket);
         await writeContext.SaveChangesAsync();
         writeContext.ChangeTracker.Clear();
@@ -458,7 +458,7 @@ public class CommentRepositoryTests
         await writeContext.SaveChangesAsync();
 
         var status = project.Statuses.First();
-        var ticket = new Ticket(project.Id, status.Id, "ORDER2-1", "Order Ticket", null);
+        var ticket = new Ticket(project.Id, status.Id, "ORDER2-1", 3, "Order Ticket", null);
         writeContext.Tickets.Add(ticket);
         await writeContext.SaveChangesAsync();
 

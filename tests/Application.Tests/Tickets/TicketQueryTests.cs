@@ -25,9 +25,9 @@ public class TicketQueryTests
         // Arrange
         var tickets = new List<Ticket>
         {
-            new Ticket(1, 2, "PROJ-1", "First Ticket", "Description 1"),
-            new Ticket(1, 2, "PROJ-2", "Second Ticket", "Description 2"),
-            new Ticket(1, 2, "PROJ-3", "Third Ticket", "Description 3")
+              new Ticket(1, 2, "PROJ-1", 1, "First Ticket", "Description 1"),
+              new Ticket(1, 2, "PROJ-2", 2, "Second Ticket", "Description 2"),
+              new Ticket(1, 2, "PROJ-3", 3, "Third Ticket", "Description 3")
         };
 
         _readOnlyUnitOfWorkMock
@@ -105,7 +105,7 @@ public class TicketQueryTests
     public async Task GetTicketByIdQueryHandler_ShouldReturnTicket_WhenTicketExists()
     {
         // Arrange
-        var ticket = new Ticket(1, 2, "PROJ-1", "Test Ticket", "Test Description");
+        var ticket = new Ticket(1, 2, "PROJ-1", 1, "Test Ticket", "Test Description");
         ticket.Id = 1;
 
         _readOnlyUnitOfWorkMock
@@ -150,7 +150,7 @@ public class TicketQueryTests
     public async Task GetTicketByKeyQueryHandler_ShouldReturnTicket_WhenTicketExists()
     {
         // Arrange
-        var ticket = new Ticket(1, 2, "PROJ-1", "Test Ticket", "Test Description");
+        var ticket = new Ticket(1, 2, "PROJ-1", 1, "Test Ticket", "Test Description");
         ticket.Id = 1;
 
         _readOnlyUnitOfWorkMock

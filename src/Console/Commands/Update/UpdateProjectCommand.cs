@@ -35,4 +35,18 @@ public class UpdateProjectCommand : UpdateCommand
     [CommandOption("-d|--description <DESCRIPTION>")]
     [Description("Description of the project.")]
     public string? Description { get; set; }
+
+    /// <summary>
+    /// The new key for the project.
+    /// </summary>
+    [CommandOption("--new-key <NEW_KEY>")]
+    [Description("The new key for the project.")]
+    public string? NewKey { get; set; }
+
+    /// <summary>
+    /// Whether to cascade rename.
+    /// </summary>
+    [CommandOption("--cascade-rename")]
+    [Description("Whether to cascade rename.")]
+    public bool CascadeRename { get; set; } = false;
 }

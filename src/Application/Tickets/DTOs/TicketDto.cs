@@ -26,6 +26,11 @@ public class TicketDto
     public string Key { get; set; } = null!;
 
     /// <summary>
+    /// Ticket Number
+    /// </summary>
+    public int Number { get; set; }
+
+    /// <summary>
     /// Ticket Title
     /// </summary>
     public string Title { get; set; } = null!;

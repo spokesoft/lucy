@@ -18,6 +18,11 @@ public enum ConsoleValidationCode
     /// </summary>
     ProjectKeyNotFound,
 
+    /// <summary>
+    /// Indicates that the provided project key is invalid.
+    /// </summary>
+    InvalidProjectKey,
+
     #endregion
 
     #region Status Validation Codes

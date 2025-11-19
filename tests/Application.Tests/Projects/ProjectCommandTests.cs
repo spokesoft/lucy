@@ -4,6 +4,8 @@ using Lucy.Application.Projects.Commands.DeleteProject;
 using Lucy.Application.Projects.Commands.UpdateProject;
 using Lucy.Application.Projects.Repositories;
 using Lucy.Domain.Entities;
+using Lucy.Application.Sequences.Repositories;
+using Lucy.Application.Tickets.Repositories;
 using Moq;
 
 namespace Lucy.Application.Tests.Projects;
@@ -13,13 +15,19 @@ public class ProjectCommandTests
     private readonly Mock<IUnitOfWork> _unitOfWorkMock;
     private readonly Mock<IReadOnlyUnitOfWork> _readOnlyUnitOfWorkMock;
     private readonly Mock<IProjectRepository> _projectRepositoryMock;
+    private readonly Mock<ISequenceRepository> _sequenceRepositoryMock;
+    private readonly Mock<ITicketRepository> _ticketRepositoryMock;
 
     public ProjectCommandTests()
     {
         _unitOfWorkMock = new Mock<IUnitOfWork>();
         _readOnlyUnitOfWorkMock = new Mock<IReadOnlyUnitOfWork>();
         _projectRepositoryMock = new Mock<IProjectRepository>();
+        _sequenceRepositoryMock = new Mock<ISequenceRepository>();
+        _ticketRepositoryMock = new Mock<ITicketRepository>();
         _unitOfWorkMock.Setup(u => u.Projects).Returns(_projectRepositoryMock.Object);
+        _unitOfWorkMock.Setup(u => u.Sequences).Returns(_sequenceRepositoryMock.Object);
+        _unitOfWorkMock.Setup(u => u.Tickets).Returns(_ticketRepositoryMock.Object);
     }
 
     [Fact]

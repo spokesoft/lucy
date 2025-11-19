@@ -154,7 +154,7 @@ public class TicketCommandTests
     public async Task DeleteTicketCommandHandler_ShouldDeleteTicket_WhenTicketExists()
     {
         // Arrange
-        var ticket = new Ticket(1, 2, "TEST-1", "Test Ticket", "This is a test ticket");
+        var ticket = new Ticket(1, 2, "TEST-1", 1, "Test Ticket", "This is a test ticket");
 
         _ticketRepositoryMock.Setup(
             repo => repo.GetByIdAsync(1, CancellationToken.None)).ReturnsAsync(ticket);
@@ -189,7 +189,7 @@ public class TicketCommandTests
     public async Task UpdateTicketCommandHandler_ShouldUpdateStatus_WhenStatusIdIsProvided()
     {
         // Arrange
-        var ticket = new Ticket(1, 2, "TEST-1", "Test Ticket", "This is a test ticket");
+        var ticket = new Ticket(1, 2, "TEST-1", 1, "Test Ticket", "This is a test ticket");
 
         _ticketRepositoryMock.Setup(
             repo => repo.GetByIdAsync(1, CancellationToken.None)).ReturnsAsync(ticket);
@@ -210,7 +210,7 @@ public class TicketCommandTests
     public async Task UpdateTicketCommandHandler_ShouldUpdateTitle_WhenTitleIsProvided()
     {
         // Arrange
-        var ticket = new Ticket(1, 2, "TEST-1", "Old Title", "This is a test ticket");
+        var ticket = new Ticket(1, 2, "TEST-1", 1, "Old Title", "This is a test ticket");
 
         _ticketRepositoryMock.Setup(
             repo => repo.GetByIdAsync(1, CancellationToken.None)).ReturnsAsync(ticket);
@@ -231,7 +231,7 @@ public class TicketCommandTests
     public async Task UpdateTicketCommandHandler_ShouldUpdateDescription_WhenDescriptionIsProvided()
     {
         // Arrange
-        var ticket = new Ticket(1, 2, "TEST-1", "Test Ticket", "Old Description");
+        var ticket = new Ticket(1, 2, "TEST-1", 1, "Test Ticket", "Old Description");
 
         _ticketRepositoryMock.Setup(
             repo => repo.GetByIdAsync(1, CancellationToken.None)).ReturnsAsync(ticket);
@@ -252,7 +252,7 @@ public class TicketCommandTests
     public async Task UpdateTicketCommandHandler_ShouldUpdateAllProperties_WhenAllAreProvided()
     {
         // Arrange
-        var ticket = new Ticket(1, 2, "TEST-1", "Old Title", "Old Description");
+        var ticket = new Ticket(1, 2, "TEST-1", 1, "Old Title", "Old Description");
 
         _ticketRepositoryMock.Setup(
             repo => repo.GetByIdAsync(1, CancellationToken.None)).ReturnsAsync(ticket);
@@ -478,7 +478,7 @@ public class TicketCommandTests
     public async Task UpdateTicketCommandValidator_ShouldValidate()
     {
         // Arrange
-        var ticket = new Ticket(1, 2, "TEST-1", "Test Ticket", "This is a test ticket");
+        var ticket = new Ticket(1, 2, "TEST-1", 1, "Test Ticket", "This is a test ticket");
         var status = new Status(1, "TODO", 1, "To Do", "Tasks to be done", StatusColor.Gray);
 
         _readOnlyUnitOfWorkMock
@@ -526,7 +526,7 @@ public class TicketCommandTests
     public async Task UpdateTicketCommandValidator_ShouldInvalidate_WhenStatusDoesNotExist()
     {
         // Arrange
-        var ticket = new Ticket(1, 2, "TEST-1", "Test Ticket", "This is a test ticket");
+        var ticket = new Ticket(1, 2, "TEST-1", 1, "Test Ticket", "This is a test ticket");
 
         _readOnlyUnitOfWorkMock
             .Setup(u => u.Tickets.GetByIdAsync(1, It.IsAny<CancellationToken>()))
@@ -551,7 +551,7 @@ public class TicketCommandTests
     public async Task UpdateTicketCommandValidator_ShouldInvalidate_WhenStatusNotInProject()
     {
         // Arrange
-        var ticket = new Ticket(1, 2, "TEST-1", "Test Ticket", "This is a test ticket");
+        var ticket = new Ticket(1, 2, "TEST-1", 1, "Test Ticket", "This is a test ticket");
         var status = new Status(2, "TODO", 1, "To Do", "Tasks to be done", StatusColor.Gray);
 
         _readOnlyUnitOfWorkMock
@@ -577,7 +577,7 @@ public class TicketCommandTests
     public async Task UpdateTicketCommandValidator_ShouldInvalidate_WhenTitleIsEmpty()
     {
         // Arrange
-        var ticket = new Ticket(1, 2, "TEST-1", "Test Ticket", "This is a test ticket");
+        var ticket = new Ticket(1, 2, "TEST-1", 1, "Test Ticket", "This is a test ticket");
 
         _readOnlyUnitOfWorkMock
             .Setup(u => u.Tickets.GetByIdAsync(1, It.IsAny<CancellationToken>()))
@@ -598,7 +598,7 @@ public class TicketCommandTests
     public async Task UpdateTicketCommandValidator_ShouldInvalidate_WhenTitleTooLong()
     {
         // Arrange
-        var ticket = new Ticket(1, 2, "TEST-1", "Test Ticket", "This is a test ticket");
+        var ticket = new Ticket(1, 2, "TEST-1", 1, "Test Ticket", "This is a test ticket");
 
         _readOnlyUnitOfWorkMock
             .Setup(u => u.Tickets.GetByIdAsync(1, It.IsAny<CancellationToken>()))
@@ -619,7 +619,7 @@ public class TicketCommandTests
     public async Task UpdateTicketCommandValidator_ShouldInvalidate_WhenDescriptionTooLong()
     {
         // Arrange
-        var ticket = new Ticket(1, 2, "TEST-1", "Test Ticket", "This is a test ticket");
+        var ticket = new Ticket(1, 2, "TEST-1", 1, "Test Ticket", "This is a test ticket");
 
         _readOnlyUnitOfWorkMock
             .Setup(u => u.Tickets.GetByIdAsync(1, It.IsAny<CancellationToken>()))
@@ -640,7 +640,7 @@ public class TicketCommandTests
     public async Task UpdateTicketCommandValidator_ShouldInvalidate_WhenNoDataToUpdate()
     {
         // Arrange
-        var ticket = new Ticket(1, 2, "TEST-1", "Test Ticket", "This is a test ticket");
+        var ticket = new Ticket(1, 2, "TEST-1", 1, "Test Ticket", "This is a test ticket");
 
         _readOnlyUnitOfWorkMock
             .Setup(u => u.Tickets.GetByIdAsync(1, It.IsAny<CancellationToken>()))

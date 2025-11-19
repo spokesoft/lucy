@@ -13,4 +13,5 @@ public record UpdateProjectCommand(
     long Id,
     string? Key,
     string? Name,
-    string? Description) : IRequest;
+    string? Description,
+    bool CascadeRename = false) : IRequest;

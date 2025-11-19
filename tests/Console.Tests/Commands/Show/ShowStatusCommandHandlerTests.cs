@@ -1,5 +1,6 @@
 using Lucy.Application.Interfaces;
 using Lucy.Application.Projects.Queries.GetProjectIdByKey;
+using Lucy.Application.Projects.Queries.GetProjectById;
 using Lucy.Application.Statuses.DTOs;
 using Lucy.Application.Statuses.Queries.GetStatusById;
 using Lucy.Application.Statuses.Queries.GetStatusByKey;
@@ -10,6 +11,8 @@ using Lucy.Domain.Enums;
 using Microsoft.Extensions.Localization;
 using Moq;
 using Spectre.Console.Testing;
+using Lucy.Application.Projects.DTOs;
+using Lucy.Application.Tickets.DTOs;
 
 namespace Lucy.Console.Tests.Commands.Show;
 
@@ -17,7 +20,7 @@ public class ShowStatusCommandHandlerTests
 {
     private readonly TestConsole _console;
     private readonly Mock<IStringLocalizer<Program>> _localizerMock;
-    private readonly Mock<IViewRenderer<StatusDto>> _viewRendererMock;
+    private readonly Mock<IViewRenderer<(StatusDto, ProjectDto, List<TicketDto>)>> _viewRendererMock;
     private readonly Mock<IMediator> _mediatorMock;
     private readonly ShowStatusCommandHandler _handler;
 
@@ -25,7 +28,7 @@ public class ShowStatusCommandHandlerTests
     {
         _console = new TestConsole();
         _localizerMock = new Mock<IStringLocalizer<Program>>();
-        _viewRendererMock = new Mock<IViewRenderer<StatusDto>>();
+        _viewRendererMock = new Mock<IViewRenderer<(StatusDto, ProjectDto, List<TicketDto>)>>();
         _mediatorMock = new Mock<IMediator>();
 
         _handler = new ShowStatusCommandHandler(
@@ -64,15 +67,33 @@ public class ShowStatusCommandHandlerTests
             .Setup(m => m.Send(It.IsAny<GetStatusByIdQuery>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(status);
 
+        var dummyProject = new ProjectDto {
+            Id = status.ProjectId,
+            Key = "EXAMP",
+            Name = "Example Project",
+            Description = "Project Description",
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+        };
+        _mediatorMock
+            .Setup(m => m.Send(It.IsAny<GetProjectByIdQuery>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(dummyProject);
+
+        var dummyTickets = new List<TicketDto>();
+
         // Act
         var result = await _handler.HandleAsync(null!, command, CancellationToken.None);
 
         // Assert
         Assert.Equal(ExitCode.Success, result);
 
+        // dummyProject and dummyTickets declared above
         _viewRendererMock.Verify(
             v => v.RenderAsync(
-                status,
+                It.Is<(StatusDto, ProjectDto, List<TicketDto>)>(t =>
+                    t.Item1.Id == status.Id &&
+                    t.Item2.Id == dummyProject.Id &&
+                    t.Item3.Count == dummyTickets.Count),
                 _console,
                 _localizerMock.Object,
                 It.IsAny<CancellationToken>()),
@@ -87,6 +108,7 @@ public class ShowStatusCommandHandlerTests
         var statusId = 5L;
         var projectKey = "EXAMP";
         var statusKey = "TODO";
+
         var command = new ShowStatusCommand
         {
             StatusId = null,
@@ -94,6 +116,7 @@ public class ShowStatusCommandHandlerTests
             ProjectKey = projectKey,
             ProjectId = null
         };
+
         var statusDto = new StatusDto
         {
             Id = statusId,
@@ -110,22 +133,41 @@ public class ShowStatusCommandHandlerTests
         _mediatorMock
             .Setup(m => m.Send(It.IsAny<GetProjectIdByKeyQuery>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(projectId);
+
         _mediatorMock
             .Setup(m => m.Send(It.IsAny<GetStatusByKeyQuery>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(statusDto);
+
         _mediatorMock
             .Setup(m => m.Send(It.IsAny<GetStatusByIdQuery>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(statusDto);
+
+        var dummyProject = new ProjectDto {
+            Id = projectId,
+            Key = projectKey,
+            Name = "Example Project",
+            Description = "Project Description",
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+        };
+
+        _mediatorMock
+            .Setup(m => m.Send(It.IsAny<GetProjectByIdQuery>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(dummyProject);
+
+        var dummyTickets = new List<TicketDto>();
 
         // Act
         var result = await _handler.HandleAsync(null!, command, CancellationToken.None);
 
         // Assert
         Assert.Equal(ExitCode.Success, result);
-
         _viewRendererMock.Verify(
             v => v.RenderAsync(
-                statusDto,
+                It.Is<(StatusDto, ProjectDto, List<TicketDto>)>(t =>
+                    t.Item1.Id == statusDto.Id &&
+                    t.Item2.Id == dummyProject.Id &&
+                    t.Item3.Count == dummyTickets.Count),
                 _console,
                 _localizerMock.Object,
                 It.IsAny<CancellationToken>()),
@@ -139,6 +181,7 @@ public class ShowStatusCommandHandlerTests
         var projectId = 1L;
         var statusId = 5L;
         var statusKey = "TODO";
+
         var command = new ShowStatusCommand
         {
             StatusId = null,
@@ -146,6 +189,7 @@ public class ShowStatusCommandHandlerTests
             ProjectKey = null,
             ProjectId = projectId
         };
+
         var statusDto = new StatusDto
         {
             Id = statusId,
@@ -162,19 +206,37 @@ public class ShowStatusCommandHandlerTests
         _mediatorMock
             .Setup(m => m.Send(It.IsAny<GetStatusByKeyQuery>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(statusDto);
+
         _mediatorMock
             .Setup(m => m.Send(It.IsAny<GetStatusByIdQuery>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(statusDto);
+
+        var dummyProject = new ProjectDto {
+            Id = projectId,
+            Key = "EXAMP",
+            Name = "Example Project",
+            Description = "Project Description",
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+        };
+
+        _mediatorMock
+            .Setup(m => m.Send(It.IsAny<GetProjectByIdQuery>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(dummyProject);
+
+        var dummyTickets = new List<TicketDto>();
 
         // Act
         var result = await _handler.HandleAsync(null!, command, CancellationToken.None);
 
         // Assert
         Assert.Equal(ExitCode.Success, result);
-
         _viewRendererMock.Verify(
             v => v.RenderAsync(
-                statusDto,
+                It.Is<(StatusDto, ProjectDto, List<TicketDto>)>(t =>
+                    t.Item1.Id == statusDto.Id &&
+                    t.Item2.Id == dummyProject.Id &&
+                    t.Item3.Count == dummyTickets.Count),
                 _console,
                 _localizerMock.Object,
                 It.IsAny<CancellationToken>()),
@@ -197,6 +259,7 @@ public class ShowStatusCommandHandlerTests
         _mediatorMock
             .Setup(m => m.Send(It.IsAny<GetStatusByIdQuery>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((StatusDto?)null);
+
         _localizerMock
             .Setup(l => l["Error.Status.NotFound"])
             .Returns(new LocalizedString("Error.Status.NotFound", "Status not found"));

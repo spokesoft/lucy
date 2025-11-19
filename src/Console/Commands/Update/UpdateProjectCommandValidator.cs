@@ -39,6 +39,17 @@ public class UpdateProjectCommandValidator(
             }
         }
 
+        if (!string.IsNullOrWhiteSpace(command.NewKey))
+        {
+            if (command.NewKey.Length < 3)
+            {
+                return ValidationResult.Error(
+                    ConsoleValidationCode.InvalidProjectKey,
+                    nameof(command.NewKey),
+                    command.NewKey);
+            }
+        }
+
         return ValidationResult.Success;
     }
 }

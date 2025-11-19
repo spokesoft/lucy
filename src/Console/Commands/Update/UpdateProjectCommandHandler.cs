@@ -33,16 +33,17 @@ internal class UpdateProjectCommandHandler(
 
         var request = new AppUpdateProjectCommand(
             projectId!.Value,
-            command.Key,
+            command.NewKey,
             command.Name,
-            command.Description);
+            command.Description,
+            command.CascadeRename);
 
         await _mediator.Send(request, token);
 
         if (command.Key is null)
             _console.MarkupLine("[green]:check_mark:[/] Project [blue]{0}[/] successfully updated", projectId);
         else
-            _console.MarkupLine("[green]:check_mark:[/] Project [blue]{0}[/] successfully updated.", command.Key);
+            _console.MarkupLine("[green]:check_mark:[/] Project [blue]{0}[/] successfully updated.", command.NewKey ?? command.Key);
 
         return ExitCode.Success;
     }

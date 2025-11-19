@@ -34,9 +34,9 @@ public class TicketRepositoryTests
         var status1 = statuses[0]; // TODO
         var status2 = statuses[2]; // DONE
 
-        var ticket1 = new Ticket(project.Id, status1.Id, "TEST-1", "First Ticket", "Description 1");
-        var ticket2 = new Ticket(project.Id, status1.Id, "TEST-2", "Second Ticket", "Description 2");
-        var ticket3 = new Ticket(project.Id, status2.Id, "TEST-3", "Third Ticket", "Description 3");
+        var ticket1 = new Ticket(project.Id, status1.Id, "TEST-1", 1, "First Ticket", "Description 1");
+        var ticket2 = new Ticket(project.Id, status1.Id, "TEST-2", 2, "Second Ticket", "Description 2");
+        var ticket3 = new Ticket(project.Id, status2.Id, "TEST-3", 3, "Third Ticket", "Description 3");
 
         context.Tickets.AddRange(ticket1, ticket2, ticket3);
         await context.SaveChangesAsync();
@@ -56,7 +56,7 @@ public class TicketRepositoryTests
         await SeedDatabaseAsync(context);
 
         var repository = new TicketRepository(context);
-        var newTicket = new Ticket(1, 1, "TEST-4", "Fourth Ticket", "Description 4");
+        var newTicket = new Ticket(1, 1, "TEST-4", 4, "Fourth Ticket", "Description 4");
 
         // Act
         await repository.AddAsync(newTicket);

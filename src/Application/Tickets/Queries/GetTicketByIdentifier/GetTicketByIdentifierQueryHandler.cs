@@ -25,6 +25,7 @@ public class GetTicketByKeyQueryHandler(
                 ProjectId = task.Result.ProjectId,
                 StatusId = task.Result.StatusId,
                 Key = task.Result.Key,
+                Number = task.Result.Number,
                 Title = task.Result.Title,
                 Description = task.Result.Description,
                 CreatedAt = task.Result.CreatedAt,

@@ -15,8 +15,5 @@ public class GetTicketCountsByProjectIdQueryHandler(IReadOnlyUnitOfWork unitOfWo
     public async Task<IEnumerable<TicketCountByStatusDto>> HandleAsync(
         GetTicketCountsByProjectIdQuery request,
         CancellationToken token = default)
-    {
-        var counts = await _unitOfWork.Tickets.GetTicketCountsByProjectIdAsync(request.ProjectId, token);
-        return counts;
-    }
+        => await _unitOfWork.Tickets.GetTicketCountsByProjectIdAsync(request.ProjectId, token);
 }

@@ -1,5 +1,6 @@
 using Lucy.Application.Interfaces;
 using Lucy.Application.Statuses.Queries.GetStatusByKey;
+using Lucy.Application.Tickets.DTOs;
 using Lucy.Application.Tickets.Queries.GetTicketById;
 using Lucy.Application.Tickets.Queries.GetTicketByKey;
 using Lucy.Application.Validation;
@@ -37,7 +38,7 @@ internal class UpdateTicketCommandValidator(
         }
 
         // Validate that the ticket exists
-        Lucy.Application.Tickets.DTOs.TicketDto? ticket;
+        TicketDto? ticket;
         if (command.Id.HasValue)
         {
             var ticketQuery = new GetTicketByIdQuery(command.Id.Value);

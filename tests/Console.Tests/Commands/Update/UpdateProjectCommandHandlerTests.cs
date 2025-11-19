@@ -40,7 +40,7 @@ public class UpdateProjectCommandHandlerTests
             .Setup(m => m.Send(
                 It.Is<GetProjectIdByKeyQuery>(q => q.Key == command.Key),
                 It.IsAny<CancellationToken>()))
-            .ReturnsAsync(projectId);
+            .ReturnsAsync(projectId);;
 
         // Act
         var result = await _handler.HandleAsync(null!, command, CancellationToken.None);
@@ -53,7 +53,7 @@ public class UpdateProjectCommandHandlerTests
             m => m.Send(
                 It.Is<Application.Projects.Commands.UpdateProject.UpdateProjectCommand>(c =>
                     c.Id == projectId &&
-                    c.Key == command.Key &&
+                    c.Key == null &&
                     c.Name == command.Name &&
                     c.Description == command.Description),
                 It.IsAny<CancellationToken>()),
@@ -101,7 +101,9 @@ public class UpdateProjectCommandHandlerTests
             Key = "TEST",
             Id = null,
             Name = "Updated Project",
-            Description = null
+            Description = null,
+            NewKey = null,
+            CascadeRename = false
         };
 
         _mediatorMock
@@ -121,9 +123,10 @@ public class UpdateProjectCommandHandlerTests
             m => m.Send(
                 It.Is<Application.Projects.Commands.UpdateProject.UpdateProjectCommand>(c =>
                     c.Id == projectId &&
-                    c.Key == command.Key &&
+                    c.Key == null &&
                     c.Name == command.Name &&
-                    c.Description == command.Description),
+                    c.Description == command.Description &&
+                    c.CascadeRename == command.CascadeRename),
                 It.IsAny<CancellationToken>()),
             Times.Once);
     }

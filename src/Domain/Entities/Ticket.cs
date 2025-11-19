@@ -21,6 +21,11 @@ public class Ticket : DomainEntity<long>
     public string Key { get; private set; }
 
     /// <summary>
+    /// The ticket number within the project (e.g., 123 from "PROJ-123").
+    /// </summary>
+    public int Number { get; private set; }
+
+    /// <summary>
     /// The title of the ticket.
     /// </summary>
     public string Title { get; private set; }
@@ -52,11 +57,13 @@ public class Ticket : DomainEntity<long>
         long projectId,
         long statusId,
         string key,
+        int number,
         string title,
         string? description = null)
     {
         ProjectId = projectId;
         StatusId = statusId;
+        Number = number;
         Key = null!;
         Title = null!;
 
@@ -77,6 +84,19 @@ public class Ticket : DomainEntity<long>
             throw new ArgumentException("Ticket key cannot exceed 20 characters.", nameof(key));
 
         Key = key;
+    }
+
+    /// <summary>
+    /// Updates the ticket number.
+    /// </summary>
+    /// <param name="number"></param>
+    /// <exception cref="ArgumentException"></exception>
+    public void UpdateNumber(int number)
+    {
+        if (number <= 0)
+            throw new ArgumentException("Ticket number must be a positive integer.", nameof(number));
+
+        Number = number;
     }
 
     /// <summary>

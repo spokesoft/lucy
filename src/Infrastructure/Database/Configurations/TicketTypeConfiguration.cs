@@ -16,6 +16,7 @@ public class TicketTypeConfiguration : IEntityTypeConfiguration<Ticket>
         builder.Property(t => t.ProjectId).IsRequired();
         builder.Property(t => t.StatusId).IsRequired();
         builder.Property(t => t.Key).IsRequired().HasMaxLength(20);
+        builder.Property(t => t.Number).IsRequired();
         builder.Property(t => t.Title).IsRequired().HasMaxLength(200);
         builder.Property(t => t.Description).HasMaxLength(5000);
 

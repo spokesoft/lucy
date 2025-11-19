@@ -29,6 +29,7 @@ public class ListTicketsQueryHandler(
             ProjectId = ticket.ProjectId,
             StatusId = ticket.StatusId,
             Key = ticket.Key,
+            Number = ticket.Number,
             Title = ticket.Title,
             Description = ticket.Description,
             CreatedAt = ticket.CreatedAt,

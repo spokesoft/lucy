@@ -31,12 +31,13 @@ public class CreateTicketCommandHandler(
             ?? throw new InvalidOperationException("Ticket sequence not found for project.");
 
         // Generate the ticket identifier
-        var identifier = sequence.Next();
+        var key = sequence.Next();
 
         var ticket = new Ticket(
             request.ProjectId,
             request.StatusId,
-            identifier,
+            key,
+            sequence.Value,
             request.Title,
             request.Description);
 

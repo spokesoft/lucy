@@ -13,7 +13,7 @@ public class TicketTests
         var title = "Test Ticket";
         var description = "This is a test ticket.";
 
-        var ticket = new Ticket(projectId, statusId, key, title, description);
+        var ticket = new Ticket(projectId, statusId, key, 123, title, description);
 
         Assert.Equal(projectId, ticket.ProjectId);
         Assert.Equal(statusId, ticket.StatusId);
@@ -30,7 +30,7 @@ public class TicketTests
         var key = "PROJ-123";
         var title = "Test Ticket";
 
-        var ticket = new Ticket(projectId, statusId, key, title, null);
+        var ticket = new Ticket(projectId, statusId, key, 123, title, null);
 
         Assert.Null(ticket.Description);
     }
@@ -42,9 +42,9 @@ public class TicketTests
         var statusId = 2L;
         var title = "Test Ticket";
 
-        Assert.Throws<ArgumentException>(() => new Ticket(projectId, statusId, null!, title));
-        Assert.Throws<ArgumentException>(() => new Ticket(projectId, statusId, string.Empty, title));
-        Assert.Throws<ArgumentException>(() => new Ticket(projectId, statusId, "   ", title));
+        Assert.Throws<ArgumentException>(() => new Ticket(projectId, statusId, null!, 123, title));
+        Assert.Throws<ArgumentException>(() => new Ticket(projectId, statusId, string.Empty, 123, title));
+        Assert.Throws<ArgumentException>(() => new Ticket(projectId, statusId, "   ", 123, title));
     }
 
     [Fact]
@@ -54,9 +54,9 @@ public class TicketTests
         var statusId = 2L;
         var key = "PROJ-123";
 
-        Assert.Throws<ArgumentException>(() => new Ticket(projectId, statusId, key, null!));
-        Assert.Throws<ArgumentException>(() => new Ticket(projectId, statusId, key, string.Empty));
-        Assert.Throws<ArgumentException>(() => new Ticket(projectId, statusId, key, "   "));
+        Assert.Throws<ArgumentException>(() => new Ticket(projectId, statusId, key, 123, null!));
+        Assert.Throws<ArgumentException>(() => new Ticket(projectId, statusId, key, 123, string.Empty));
+        Assert.Throws<ArgumentException>(() => new Ticket(projectId, statusId, key, 123, "   "));
     }
 
     [Fact]
@@ -67,7 +67,7 @@ public class TicketTests
         var key = new string('A', 21);
         var title = "Test Ticket";
 
-        Assert.Throws<ArgumentException>(() => new Ticket(projectId, statusId, key, title));
+        Assert.Throws<ArgumentException>(() => new Ticket(projectId, statusId, key, 123, title));
     }
 
     [Fact]
@@ -78,7 +78,7 @@ public class TicketTests
         var key = new string('A', 20);
         var title = "Test Ticket";
 
-        var ticket = new Ticket(projectId, statusId, key, title);
+        var ticket = new Ticket(projectId, statusId, key, 123, title);
 
         Assert.Equal(key, ticket.Key);
     }
@@ -91,7 +91,7 @@ public class TicketTests
         var key = "PROJ-123";
         var title = new string('A', 201);
 
-        Assert.Throws<ArgumentException>(() => new Ticket(projectId, statusId, key, title));
+        Assert.Throws<ArgumentException>(() => new Ticket(projectId, statusId, key, 123, title));
     }
 
     [Fact]
@@ -102,7 +102,7 @@ public class TicketTests
         var key = "PROJ-123";
         var title = new string('A', 200);
 
-        var ticket = new Ticket(projectId, statusId, key, title);
+        var ticket = new Ticket(projectId, statusId, key, 123, title);
 
         Assert.Equal(title, ticket.Title);
     }
@@ -116,7 +116,7 @@ public class TicketTests
         var title = "Test Ticket";
         var description = new string('A', 5001);
 
-        Assert.Throws<ArgumentException>(() => new Ticket(projectId, statusId, key, title, description));
+        Assert.Throws<ArgumentException>(() => new Ticket(projectId, statusId, key, 123, title, description));
     }
 
     [Fact]
@@ -128,7 +128,7 @@ public class TicketTests
         var title = "Test Ticket";
         var description = new string('A', 5000);
 
-        var ticket = new Ticket(projectId, statusId, key, title, description);
+        var ticket = new Ticket(projectId, statusId, key, 123, title, description);
 
         Assert.Equal(description, ticket.Description);
     }
@@ -136,7 +136,7 @@ public class TicketTests
     [Fact]
     public void UpdateKey_ShouldUpdateKey()
     {
-        var ticket = new Ticket(1L, 2L, "PROJ-123", "Test Ticket");
+        var ticket = new Ticket(1L, 2L, "PROJ-123", 123, "Test Ticket");
 
         ticket.UpdateKey("PROJ-456");
 
@@ -146,7 +146,7 @@ public class TicketTests
     [Fact]
     public void UpdateKey_ShouldThrowException_WhenKeyIsNullOrEmpty()
     {
-        var ticket = new Ticket(1L, 2L, "PROJ-123", "Test Ticket");
+        var ticket = new Ticket(1L, 2L, "PROJ-123", 123, "Test Ticket");
 
         Assert.Throws<ArgumentException>(() => ticket.UpdateKey(null!));
         Assert.Throws<ArgumentException>(() => ticket.UpdateKey(string.Empty));
@@ -156,7 +156,7 @@ public class TicketTests
     [Fact]
     public void UpdateKey_ShouldThrowException_WhenKeyExceeds20Characters()
     {
-        var ticket = new Ticket(1L, 2L, "PROJ-123", "Test Ticket");
+        var ticket = new Ticket(1L, 2L, "PROJ-123", 123, "Test Ticket");
         var longKey = new string('A', 21);
 
         Assert.Throws<ArgumentException>(() => ticket.UpdateKey(longKey));
@@ -165,7 +165,7 @@ public class TicketTests
     [Fact]
     public void UpdateKey_ShouldAcceptKeyWith20Characters()
     {
-        var ticket = new Ticket(1L, 2L, "PROJ-123", "Test Ticket");
+        var ticket = new Ticket(1L, 2L, "PROJ-123", 123, "Test Ticket");
         var maxKey = new string('A', 20);
 
         ticket.UpdateKey(maxKey);
@@ -176,7 +176,7 @@ public class TicketTests
     [Fact]
     public void UpdateTitle_ShouldUpdateTitle()
     {
-        var ticket = new Ticket(1L, 2L, "PROJ-123", "Original Title");
+        var ticket = new Ticket(1L, 2L, "PROJ-123", 123, "Original Title");
 
         ticket.UpdateTitle("Updated Title");
 
@@ -186,7 +186,7 @@ public class TicketTests
     [Fact]
     public void UpdateTitle_ShouldThrowException_WhenTitleIsNullOrEmpty()
     {
-        var ticket = new Ticket(1L, 2L, "PROJ-123", "Test Ticket");
+        var ticket = new Ticket(1L, 2L, "PROJ-123", 1, "Test Ticket", null);
 
         Assert.Throws<ArgumentException>(() => ticket.UpdateTitle(null!));
         Assert.Throws<ArgumentException>(() => ticket.UpdateTitle(string.Empty));
@@ -196,7 +196,7 @@ public class TicketTests
     [Fact]
     public void UpdateTitle_ShouldThrowException_WhenTitleExceeds200Characters()
     {
-        var ticket = new Ticket(1L, 2L, "PROJ-123", "Test Ticket");
+        var ticket = new Ticket(1L, 2L, "PROJ-123", 1, "Test Ticket", null);
         var longTitle = new string('A', 201);
 
         Assert.Throws<ArgumentException>(() => ticket.UpdateTitle(longTitle));
@@ -205,7 +205,7 @@ public class TicketTests
     [Fact]
     public void UpdateTitle_ShouldAcceptTitleWith200Characters()
     {
-        var ticket = new Ticket(1L, 2L, "PROJ-123", "Test Ticket");
+        var ticket = new Ticket(1L, 2L, "PROJ-123", 1, "Test Ticket", null);
         var maxTitle = new string('A', 200);
 
         ticket.UpdateTitle(maxTitle);
@@ -216,7 +216,7 @@ public class TicketTests
     [Fact]
     public void UpdateDescription_ShouldUpdateDescription()
     {
-        var ticket = new Ticket(1L, 2L, "PROJ-123", "Test Ticket", "Original Description");
+        var ticket = new Ticket(1L, 2L, "PROJ-123", 1, "Test Ticket", "Original Description");
 
         ticket.UpdateDescription("Updated Description");
 
@@ -226,7 +226,7 @@ public class TicketTests
     [Fact]
     public void UpdateDescription_ShouldAllowNull()
     {
-        var ticket = new Ticket(1L, 2L, "PROJ-123", "Test Ticket", "Original Description");
+        var ticket = new Ticket(1L, 2L, "PROJ-123", 1, "Test Ticket", "Original Description");
 
         ticket.UpdateDescription(null);
 
@@ -236,7 +236,7 @@ public class TicketTests
     [Fact]
     public void UpdateDescription_ShouldThrowException_WhenDescriptionExceeds5000Characters()
     {
-        var ticket = new Ticket(1L, 2L, "PROJ-123", "Test Ticket");
+        var ticket = new Ticket(1L, 2L, "PROJ-123", 1, "Test Ticket", null);
         var longDescription = new string('A', 5001);
 
         Assert.Throws<ArgumentException>(() => ticket.UpdateDescription(longDescription));
@@ -245,7 +245,7 @@ public class TicketTests
     [Fact]
     public void UpdateDescription_ShouldAcceptDescriptionWith5000Characters()
     {
-        var ticket = new Ticket(1L, 2L, "PROJ-123", "Test Ticket");
+        var ticket = new Ticket(1L, 2L, "PROJ-123", 1, "Test Ticket", null);
         var maxDescription = new string('A', 5000);
 
         ticket.UpdateDescription(maxDescription);
@@ -256,7 +256,7 @@ public class TicketTests
     [Fact]
     public void UpdateStatus_ShouldUpdateStatusId()
     {
-        var ticket = new Ticket(1L, 2L, "PROJ-123", "Test Ticket");
+        var ticket = new Ticket(1L, 2L, "PROJ-123", 1, "Test Ticket", null);
 
         ticket.UpdateStatus(3L);
 
@@ -266,7 +266,7 @@ public class TicketTests
     [Fact]
     public void UpdateStatus_ShouldAllowMultipleUpdates()
     {
-        var ticket = new Ticket(1L, 2L, "PROJ-123", "Test Ticket");
+        var ticket = new Ticket(1L, 2L, "PROJ-123", 1, "Test Ticket", null);
 
         ticket.UpdateStatus(3L);
         Assert.Equal(3L, ticket.StatusId);
