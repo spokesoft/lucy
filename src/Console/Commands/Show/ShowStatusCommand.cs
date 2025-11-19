@@ -15,6 +15,13 @@ namespace Lucy.Console.Commands.Show;
 public class ShowStatusCommand : ShowCommand
 {
     /// <summary>
+    /// Whether to include tickets in the status view.
+    /// </summary>
+    [CommandOption("--include-tickets")]
+    [Description("Include tickets for this status in the output.")]
+    public bool IncludeTickets { get; set; }
+
+    /// <summary>
     /// The key of the project the status belongs to.
     /// </summary>
     [CommandArgument(0, "[project-key]")]

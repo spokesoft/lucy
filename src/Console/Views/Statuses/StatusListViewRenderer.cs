@@ -27,15 +27,14 @@ public class StatusListViewRenderer : IViewRenderer<IEnumerable<StatusDto>>
         var table = new Table()
             .Border(TableBorder.SimpleHeavy)
             .Title(title)
-            .Caption(caption, new Style(foreground: Color.Grey));
+            .Caption(caption, new Style(foreground: Color.Grey))
+            .Width(80);
 
         table.AddColumn(localizer["Property.Id"]);
+        table.AddColumn("#"); // Use '#' for table column header
         table.AddColumn(localizer["Property.Status.Key"]);
-        table.AddColumn(localizer["Property.Status.Order"]);
         table.AddColumn(localizer["Property.Status.Name"]);
         table.AddColumn(localizer["Property.Status.Description"]);
-        table.AddColumn(localizer["Property.Status.Color"]);
-        table.AddColumn(localizer["Property.UpdatedAt"]);
 
         foreach (var status in statusList)
         {
@@ -47,16 +46,14 @@ public class StatusListViewRenderer : IViewRenderer<IEnumerable<StatusDto>>
                 ? $"[grey70]{localizer["Empty.String"]}[/]"
                 : status.Description;
 
-            var colorDisplay = GetColorDisplay(status.Color);
+            var coloredKey = GetColoredKey(status.Key, status.Color);
 
             table.AddRow(
                 $"[gray]{status.Id}[/]",
-                $"[blue]{status.Key}[/]",
                 status.Order.ToString(),
+                coloredKey,
                 name,
-                description,
-                colorDisplay,
-                status.UpdatedAt.ToString("yyyy-MM-dd HH:mm:ss"));
+                description);
         }
 
         console.Write(table);
@@ -80,21 +77,21 @@ public class StatusListViewRenderer : IViewRenderer<IEnumerable<StatusDto>>
             localizer["View.StatusList.Caption", firstIndex, lastIndex, count];
 
     /// <summary>
-    /// Gets the color display markup for a status color.
+    /// Gets the colored key display markup for a status.
     /// </summary>
-    private static string GetColorDisplay(StatusColor color)
+    private static string GetColoredKey(string key, StatusColor color)
     {
         var colorName = color.ToString().ToLower();
         return color switch
         {
-            StatusColor.Red => $"[red]{colorName}[/]",
-            StatusColor.Orange => $"[orangered1]{colorName}[/]",
-            StatusColor.Yellow => $"[yellow]{colorName}[/]",
-            StatusColor.Green => $"[green]{colorName}[/]",
-            StatusColor.Blue => $"[blue]{colorName}[/]",
-            StatusColor.Purple => $"[purple]{colorName}[/]",
-            StatusColor.Gray => $"[gray]{colorName}[/]",
-            _ => colorName
+            StatusColor.Red => $"[red]{key}[/]",
+            StatusColor.Orange => $"[orangered1]{key}[/]",
+            StatusColor.Yellow => $"[yellow]{key}[/]",
+            StatusColor.Green => $"[green]{key}[/]",
+            StatusColor.Blue => $"[blue]{key}[/]",
+            StatusColor.Purple => $"[purple]{key}[/]",
+            StatusColor.Gray => $"[gray]{key}[/]",
+            _ => key
         };
     }
 }

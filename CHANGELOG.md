@@ -9,9 +9,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 ### Changed
+
+- New status command now takes project key first, then status key.
+- New ticket command takes project option instead of ordinal argument.
+- New ticket command defaults to first project status if none specified.
+- Show ticket command now displays status details.
+- Show project command now displays key in panel header.
+- Show status command now has option to include tickets.
+- Made adjustments to views to improve layout and readability.
+
 ### Deprecated
 ### Removed
 ### Fixed
+
+- Fixed missing registration for delete status.
+- Fixed issue with update project command validating project key even when not specified.
+
 ### Security
 
 ## [0.0.5] - 2025-11-17

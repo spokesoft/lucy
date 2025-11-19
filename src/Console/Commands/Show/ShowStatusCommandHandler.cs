@@ -1,8 +1,12 @@
 using Lucy.Application.Interfaces;
+using Lucy.Application.Projects.DTOs;
+using Lucy.Application.Projects.Queries.GetProjectById;
 using Lucy.Application.Projects.Queries.GetProjectIdByKey;
 using Lucy.Application.Statuses.DTOs;
 using Lucy.Application.Statuses.Queries.GetStatusById;
 using Lucy.Application.Statuses.Queries.GetStatusByKey;
+using Lucy.Application.Tickets.DTOs;
+using Lucy.Application.Tickets.Queries.ListTickets;
 using Lucy.Console.Enums;
 using Lucy.Console.Interfaces;
 using Microsoft.Extensions.Localization;
@@ -17,7 +21,7 @@ namespace Lucy.Console.Commands.Show;
 internal class ShowStatusCommandHandler(
     IAnsiConsole console,
     IStringLocalizer<Program> localizer,
-    IViewRenderer<StatusDto> viewRenderer,
+    IViewRenderer<(StatusDto, ProjectDto, List<TicketDto>)> viewRenderer,
     IMediator mediator) : ICommandHandler<ShowStatusCommand>
 {
     /// <summary>
@@ -33,7 +37,7 @@ internal class ShowStatusCommandHandler(
     /// <summary>
     /// The view renderer for rendering the status details.
     /// </summary>
-    private readonly IViewRenderer<StatusDto> _view = viewRenderer;
+    private readonly IViewRenderer<(StatusDto, ProjectDto, List<TicketDto>)> _view = viewRenderer;
 
     /// <summary>
     /// The mediator instance for sending commands and queries.
@@ -89,7 +93,24 @@ internal class ShowStatusCommandHandler(
             return ExitCode.Error;
         }
 
-        await _view.RenderAsync(status, _console, _localizer, token);
+        var getProjectQuery = new GetProjectByIdQuery(status.ProjectId);
+        var project = await _mediator.Send(getProjectQuery, token);
+
+        if (project is null)
+        {
+            _console.MarkupLine($"[red]{_localizer["Error.Project.NotFound"]}[/]");
+            return ExitCode.Error;
+        }
+
+        var tickets = new List<TicketDto>();
+
+        if (command.IncludeTickets)
+        {
+            var ticketsQuery = new ListTicketsQuery(project.Id, status.Id);
+            tickets = await _mediator.Send(ticketsQuery, token);
+        }
+
+        await _view.RenderAsync((status, project, tickets), _console, _localizer, token);
         return ExitCode.Success;
     }
 }

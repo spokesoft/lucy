@@ -25,7 +25,8 @@ public class ProjectListViewRenderer : IViewRenderer<IEnumerable<ProjectDto>>
         var table = new Table()
             .Border(TableBorder.SimpleHeavy)
             .Title(title)
-            .Caption(caption, new Style(foreground: Color.Grey));
+            .Caption(caption, new Style(foreground: Color.Grey))
+            .Width(80);
 
         table.AddColumn(localizer["Property.Id"]);
         table.AddColumn(localizer["Property.Project.Key"]);

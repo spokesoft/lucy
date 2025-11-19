@@ -115,6 +115,10 @@
     <value>Key</value>
   </data>
 
+  <data name="Property.Status.ProjectKey">
+    <value>Project Key</value>
+  </data>
+
   <data name="Property.Project.Name">
     <value>Name</value>
   </data>
