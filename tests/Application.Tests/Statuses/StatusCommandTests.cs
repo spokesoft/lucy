@@ -4,6 +4,7 @@ using Lucy.Application.Statuses.Commands.CreateStatus;
 using Lucy.Application.Statuses.Commands.DeleteStatus;
 using Lucy.Application.Statuses.Commands.UpdateStatus;
 using Lucy.Application.Statuses.Repositories;
+using Lucy.Application.Tickets.Repositories;
 using Lucy.Domain.Entities;
 using Lucy.Domain.Enums;
 using Moq;
@@ -16,6 +17,7 @@ public class StatusCommandTests
     private readonly Mock<IReadOnlyUnitOfWork> _readOnlyUnitOfWorkMock;
     private readonly Mock<IStatusRepository> _statusRepositoryMock;
     private readonly Mock<IProjectRepository> _projectRepositoryMock;
+    private readonly Mock<ITicketRepository> _ticketRepositoryMock;
 
     public StatusCommandTests()
     {
@@ -23,8 +25,11 @@ public class StatusCommandTests
         _readOnlyUnitOfWorkMock = new Mock<IReadOnlyUnitOfWork>();
         _statusRepositoryMock = new Mock<IStatusRepository>();
         _projectRepositoryMock = new Mock<IProjectRepository>();
+        _ticketRepositoryMock = new Mock<ITicketRepository>();
+
         _unitOfWorkMock.Setup(u => u.Statuses).Returns(_statusRepositoryMock.Object);
         _unitOfWorkMock.Setup(u => u.Projects).Returns(_projectRepositoryMock.Object);
+        _unitOfWorkMock.Setup(u => u.Tickets).Returns(_ticketRepositoryMock.Object);
     }
 
     [Fact]
@@ -142,9 +147,21 @@ public class StatusCommandTests
     {
         // Arrange
         var status = new Status(1, "TODO", 1, "To Do", "Tasks to be done", StatusColor.Gray);
+        var done = new Status(2, "DONE", 2, "Done", "Completed tasks", StatusColor.Green);
 
         _statusRepositoryMock.Setup(
             repo => repo.GetByIdAsync(1, CancellationToken.None)).ReturnsAsync(status);
+
+        _statusRepositoryMock.Setup(
+            repo => repo.GetByProjectIdAsync(status.ProjectId, CancellationToken.None))
+            .ReturnsAsync([status, done]);
+
+        _statusRepositoryMock.Setup(
+            repo => repo.GetByKeyAsync(status.ProjectId, status.Key, CancellationToken.None))
+            .ReturnsAsync(status);
+
+        _ticketRepositoryMock.Setup(
+            repo => repo.GetByStatusIdAsync(1, CancellationToken.None)).ReturnsAsync([]);
 
         var handler = new DeleteStatusCommandHandler(_unitOfWorkMock.Object);
         var command = new DeleteStatusCommand(1);

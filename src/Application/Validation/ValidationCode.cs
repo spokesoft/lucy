@@ -106,6 +106,16 @@ public enum ValidationCode
     /// </summary>
     StatusNoDataToUpdate,
 
+    /// <summary>
+    /// Indicates that the reassignment status was not found.
+    /// </summary>
+    ReassignStatusNotFound,
+
+    /// <summary>
+    /// Indicates that the reassignment status was not found using key.
+    /// </summary>
+    ReassignStatusKeyNotFound,
+
     #endregion
 
     #region Ticket Validation Codes

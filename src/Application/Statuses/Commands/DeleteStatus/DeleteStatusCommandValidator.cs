@@ -22,6 +22,22 @@ public class DeleteStatusCommandValidator(
         if (!await _uow.Statuses.ExistsByIdAsync(request.Id, token))
             return ValidationResult.Error(ValidationCode.StatusNotFound, "Id", request.Id);
 
+        if (request.ReassignToId.HasValue
+            && !await _uow.Statuses.ExistsByIdAsync(request.ReassignToId.Value, token))
+        {
+            return ValidationResult.Error(ValidationCode.ReassignStatusNotFound, "ReassignToId", request.ReassignToId);
+        }
+
+        if (!string.IsNullOrWhiteSpace(request.ReassignTo))
+        {
+            var status = await _uow.Statuses.GetByIdAsync(request.Id, token);
+            var reassign = await _uow.Statuses.GetByKeyAsync(status!.ProjectId, request.ReassignTo, token);
+            if (reassign == null)
+            {
+                return ValidationResult.Error(ValidationCode.ReassignStatusKeyNotFound, "ReassignTo", request.ReassignTo);
+            }
+        }
+
         return ValidationResult.Success;
     }
 }
