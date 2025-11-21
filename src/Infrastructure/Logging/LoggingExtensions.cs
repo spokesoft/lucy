@@ -27,7 +27,7 @@ public static class LoggingExtensions
         if (options.Database.DataSource == null)
         {
             var dataDirectory = ApplicationData.GetPath();
-            options.Database.DataSource = Path.Combine(dataDirectory, options.Database.DataSourceFileName);
+            options.Database.DataSource = Path.Combine(dataDirectory, options.Database.DefaultFileName);
         }
 
         section.Bind(options);

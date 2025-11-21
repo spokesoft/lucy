@@ -20,7 +20,7 @@ public sealed class DatabaseOptions : DatabaseOptionsBase
     /// <summary>
     /// The default name of the data source file.
     /// </summary>
-    public string DataSourceFileName { get; set; } = "lucy.db";
+    public string DefaultFileName { get; set; } = "lucy.db";
 }
 
 /// <summary>

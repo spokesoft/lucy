@@ -22,7 +22,7 @@ public static class DatabaseExtensions
         if (options.DataSource == null)
         {
             var dataDirectory = ApplicationData.GetPath();
-            options.DataSource = Path.Combine(dataDirectory, options.DataSourceFileName);
+            options.DataSource = Path.Combine(dataDirectory, options.DefaultFileName);
         }
 
         section.Bind(options);

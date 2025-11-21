@@ -18,9 +18,9 @@ public sealed class DatabaseLoggingOptions : DatabaseOptionsBase
     public string? DataSource { get; set; }
 
     /// <summary>
-    /// The default name of the data source file.
+    /// The default file name for the SQLite database.
     /// </summary>
-    public string DataSourceFileName { get; set; } = "logs.db";
+    public string DefaultFileName { get; set; } = "logs.db";
 
     /// <summary>
     /// The timeout (in seconds) to wait for the logging service to stop gracefully.
