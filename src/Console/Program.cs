@@ -15,8 +15,9 @@ using Spectre.Console.Cli;
 var services = new ServiceCollection();
 
 var configuration = new ConfigurationBuilder()
+    .SetBasePath(ApplicationData.GetPath())
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
-    .AddEnvironmentVariables(prefix: "LUCY_")
+    .AddEnvironmentVariables(prefix: "Lucy_")
     .Build();
 
 services
@@ -26,7 +27,6 @@ services
     .AddCommands();
 
 // Build the service provider
-//  Dispose it when done to clean up any resources
 using var provider = services.BuildServiceProvider();
 
 var app = new CommandApp();

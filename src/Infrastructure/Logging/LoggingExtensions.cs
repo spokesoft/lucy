@@ -24,6 +24,12 @@ public static class LoggingExtensions
         var section = configuration.GetSection(LoggingOptions.SectionName);
         var options = new LoggingOptions();
 
+        if (options.Database.DataSource == null)
+        {
+            var dataDirectory = ApplicationData.GetPath();
+            options.Database.DataSource = Path.Combine(dataDirectory, options.Database.DataSourceFileName);
+        }
+
         section.Bind(options);
 
         services.Configure<DatabaseLoggingOptions>(dlo =>

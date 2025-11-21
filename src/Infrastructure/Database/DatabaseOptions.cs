@@ -15,7 +15,12 @@ public sealed class DatabaseOptions : DatabaseOptionsBase
     /// <summary>
     /// The data source (file path) for the SQLite database.
     /// </summary>
-    public string DataSource { get; set; } = "lucy.db";
+    public string? DataSource { get; set; }
+
+    /// <summary>
+    /// The default name of the data source file.
+    /// </summary>
+    public string DataSourceFileName { get; set; } = "lucy.db";
 }
 
 /// <summary>

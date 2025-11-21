@@ -19,15 +19,21 @@ public static class DatabaseExtensions
         var section = configuration.GetSection(DatabaseOptions.SectionName);
         var options = new DatabaseOptions();
 
+        if (options.DataSource == null)
+        {
+            var dataDirectory = ApplicationData.GetPath();
+            options.DataSource = Path.Combine(dataDirectory, options.DataSourceFileName);
+        }
+
         section.Bind(options);
 
         services
-            .AddDbContext<LucyDbContext>(config
-                => config.UseSqlite(BuildConnectionString(options, SqliteOpenMode.ReadWriteCreate)))
-            .AddDbContext<LucyReadContext>(config
-                => config.UseSqlite(BuildConnectionString(options, SqliteOpenMode.ReadOnly)))
-            .AddDbContext<LucyWriteContext>(config
-                => config.UseSqlite(BuildConnectionString(options, SqliteOpenMode.ReadWrite)))
+            .AddDbContext<LucyDbContext>(
+                c => c.UseSqlite(BuildConnectionString(options, SqliteOpenMode.ReadWriteCreate)))
+            .AddDbContext<LucyReadContext>(
+                c => c.UseSqlite(BuildConnectionString(options, SqliteOpenMode.ReadOnly)))
+            .AddDbContext<LucyWriteContext>(
+                c => c.UseSqlite(BuildConnectionString(options, SqliteOpenMode.ReadWrite)))
             .AddScoped<IUnitOfWork, UnitOfWork>()
             .AddScoped<IReadOnlyUnitOfWork, ReadOnlyUnitOfWork>()
             .AddSingleton<IDatabaseMigrator, LucyDatabaseMigrator>();
