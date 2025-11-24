@@ -27,13 +27,12 @@ public class TicketListViewRenderer : IViewRenderer<(IEnumerable<TicketDto>, Dic
         var table = new Table()
             .Border(TableBorder.SimpleHeavy)
             .Title(title)
-            .Caption(caption, new Style(foreground: Color.Grey));
+            .Caption(caption, new Style(foreground: Color.Grey))
+            .Width(80);
 
         table.AddColumn(localizer["Property.Ticket.Key"]);
-        table.AddColumn(localizer["Property.Ticket.Title"]);
-        table.AddColumn(localizer["Property.Ticket.Description"]);
         table.AddColumn(localizer["Property.Status"]);
-        table.AddColumn(localizer["Property.CreatedAt"]);
+        table.AddColumn(localizer["Property.Ticket.Title"]);
         table.AddColumn(localizer["Property.UpdatedAt"]);
 
         foreach (var ticket in ticketList)
@@ -42,21 +41,15 @@ public class TicketListViewRenderer : IViewRenderer<(IEnumerable<TicketDto>, Dic
                 ? $"[grey70]{localizer["Empty.String"]}[/]"
                 : ticket.Title;
 
-            var description = string.IsNullOrWhiteSpace(ticket.Description)
-                ? $"[grey70]{localizer["Empty.String"]}[/]"
-                : ticket.Description;
-
             var status = statusLookup.TryGetValue(ticket.StatusId, out var statusInfo)
                 ? $"[{statusInfo.Color}]{statusInfo.Key}[/]"
                 : $"[gray]{ticket.StatusId}[/]";
 
             table.AddRow(
-                $"[blue]{ticket.Key}[/]",
-                ticketTitle,
-                description,
+                $"[{statusInfo.Color}]{ticket.Key}[/]",
                 status,
-                ticket.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss"),
-                ticket.UpdatedAt.ToString("yyyy-MM-dd HH:mm:ss"));
+                ticketTitle,
+                ticket.UpdatedAt.ToString("yyyy-MM-dd"));
         }
 
         console.Write(table);
