@@ -19,13 +19,13 @@ public static class DatabaseExtensions
         var section = configuration.GetSection(DatabaseOptions.SectionName);
         var options = new DatabaseOptions();
 
-        if (options.DataSource == null)
+        section.Bind(options);
+
+        if (string.IsNullOrEmpty(options.DataSource))
         {
             var dataDirectory = ApplicationData.GetPath();
             options.DataSource = Path.Combine(dataDirectory, options.DefaultFileName);
         }
-
-        section.Bind(options);
 
         services
             .AddDbContext<LucyDbContext>(

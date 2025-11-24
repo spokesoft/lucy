@@ -24,16 +24,23 @@ public static class LoggingExtensions
         var section = configuration.GetSection(LoggingOptions.SectionName);
         var options = new LoggingOptions();
 
-        if (options.Database.DataSource == null)
+        section.Bind(options);
+
+        if (string.IsNullOrEmpty(options.Database.DataSource))
         {
             var dataDirectory = ApplicationData.GetPath();
             options.Database.DataSource = Path.Combine(dataDirectory, options.Database.DefaultFileName);
         }
 
-        section.Bind(options);
-
         services.Configure<DatabaseLoggingOptions>(dlo =>
-            section.GetSection(DatabaseLoggingOptions.SectionName).Bind(dlo));
+        {
+            dlo.DataSource = options.Database.DataSource;
+            dlo.Cache = options.Database.Cache;
+            dlo.Pooling = options.Database.Pooling;
+            dlo.ForeignKeys = options.Database.ForeignKeys;
+            dlo.RecursiveTriggers = options.Database.RecursiveTriggers;
+            dlo.DefaultTimeout = options.Database.DefaultTimeout;
+        });
 
         services.AddLogging(builder =>
         {
