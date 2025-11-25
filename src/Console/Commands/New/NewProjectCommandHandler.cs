@@ -44,7 +44,7 @@ internal class NewProjectCommandHandler(
 
         var id = await _mediator.Send(request, token);
 
-        _console.MarkupLine(_localizer["Messages.CreatedProjectWithKey", command.Key, id]);
+        _console.MarkupLine("[green]:check_mark:[/] " + _localizer["Messages.CreatedProjectWithKey", command.Key, id]);
 
         return ExitCode.Success;
     }

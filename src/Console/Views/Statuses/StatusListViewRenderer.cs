@@ -56,7 +56,10 @@ public class StatusListViewRenderer : IViewRenderer<IEnumerable<StatusDto>>
                 description);
         }
 
+        console.WriteLine();
         console.Write(table);
+        console.WriteLine();
+
         await Task.CompletedTask;
     }
 

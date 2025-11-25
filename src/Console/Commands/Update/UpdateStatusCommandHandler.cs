@@ -68,12 +68,12 @@ internal class UpdateStatusCommandHandler(
         if (command.StatusKey is null)
         {
             var message = _localizer["Messages.UpdatedStatusWithId", statusId];
-            _console.MarkupLine(message);
+            _console.MarkupLine("[green]:check_mark:[/] " + message);
         }
         else
         {
             var message = _localizer["Messages.UpdatedStatusWithKey", command.StatusKey];
-            _console.MarkupLine(message);
+            _console.MarkupLine("[green]:check_mark:[/] " + message);
         }
 
         return ExitCode.Success;

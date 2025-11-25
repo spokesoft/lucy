@@ -52,7 +52,10 @@ public class ProjectListViewRenderer : IViewRenderer<IEnumerable<ProjectDto>>
                 project.UpdatedAt.ToString("yyyy-MM-dd HH:mm:ss"));
         }
 
+        console.WriteLine();
         console.Write(table);
+        console.WriteLine();
+
         await Task.CompletedTask;
     }
 

@@ -32,7 +32,7 @@ internal class UpdateCommentCommandHandler(
 
         await _mediator.Send(request, token);
 
-        _console.MarkupLine(_localizer["Messages.UpdatedComment", command.Id]);
+        _console.MarkupLine("[green]:check_mark:[/] " + _localizer["Messages.UpdatedComment", command.Id]);
 
         return ExitCode.Success;
     }

@@ -29,7 +29,7 @@ internal class DeleteCommentCommandHandler(
         var request = new AppDeleteCommentCommand(command.Id);
         await _mediator.Send(request, token);
 
-        _console.MarkupLine(_localizer["Messages.DeletedComment", command.Id]);
+        _console.MarkupLine("[green]:check_mark:[/] " + _localizer["Messages.DeletedComment", command.Id]);
 
         return ExitCode.Success;
     }

@@ -558,71 +558,71 @@
   </data>
 
   <data name="Messages.DeletedProjectWithKey">
-    <value>[green]✓[/] Deleted project [yellow]{0}[/] [gray]ID={1}[/]</value>
+    <value>Deleted project [yellow]{0}[/] [gray]ID={1}[/]</value>
   </data>
 
   <data name="Messages.DeletedProjectWithId">
-    <value>[green]✓[/] Deleted project [gray]ID={0}[/]</value>
+    <value>Deleted project [gray]ID={0}[/]</value>
   </data>
 
   <data name="Messages.DeletedStatusWithKeys">
-    <value>[green]✓[/] Deleted status [yellow]{0}[/] from project [yellow]{1}[/] [gray]ID={2}[/]</value>
+    <value>Deleted status [yellow]{0}[/] from project [yellow]{1}[/] [gray]ID={2}[/]</value>
   </data>
 
   <data name="Messages.DeletedStatusWithKey">
-    <value>[green]✓[/] Deleted status [yellow]{0}[/] [gray]ID={1}[/]</value>
+    <value>Deleted status [yellow]{0}[/] [gray]ID={1}[/]</value>
   </data>
 
   <data name="Messages.DeletedStatusWithId">
-    <value>[green]✓[/] Deleted status [gray]ID={0}[/]</value>
+    <value>Deleted status [gray]ID={0}[/]</value>
   </data>
 
   <data name="Messages.CreatedProjectWithKey">
-    <value>[green]✓[/] Created project [yellow]{0}[/] [gray]ID={1}[/]</value>
+    <value>Created project [yellow]{0}[/] [gray]ID={1}[/]</value>
   </data>
 
   <data name="Messages.CreatedStatusWithKeys">
-    <value>[green]✓[/] Created status [yellow]{0}[/] in project [yellow]{1}[/] [gray]ID={2}[/]</value>
+    <value>Created status [yellow]{0}[/] in project [yellow]{1}[/] [gray]ID={2}[/]</value>
   </data>
 
   <data name="Messages.CreatedStatusWithKey">
-    <value>[green]✓[/] Created status [yellow]{0}[/] [gray]ID={1}[/]</value>
+    <value>Created status [yellow]{0}[/] [gray]ID={1}[/]</value>
   </data>
 
   <data name="Messages.CreatedTicket">
-    <value>[green]✓[/] Created ticket [yellow]{0}[/] [gray]ID={1}[/]</value>
+    <value>Created ticket [yellow]{0}[/] [gray]ID={1}[/]</value>
   </data>
 
   <data name="Messages.UpdatedTicket">
-    <value>[green]✓[/] Updated ticket [gray]ID={0}[/]</value>
+    <value>Updated ticket [gray]ID={0}[/]</value>
   </data>
 
   <data name="Messages.DeletedTicket">
-    <value>[green]✓[/] Deleted ticket [gray]ID={0}[/]</value>
+    <value>Deleted ticket [gray]ID={0}[/]</value>
   </data>
 
   <data name="Messages.DeletedComment">
-    <value>[green]✓[/] Deleted comment [gray]ID={0}[/]</value>
+    <value>Deleted comment [gray]ID={0}[/]</value>
   </data>
 
   <data name="Messages.CreatedProjectComment">
-    <value>[green]✓[/] Created project comment [gray]ID={0}[/]</value>
+    <value>Created project comment [gray]ID={0}[/]</value>
   </data>
 
   <data name="Messages.CreatedTicketComment">
-    <value>[green]✓[/] Created ticket comment [gray]ID={0}[/]</value>
+    <value>Created ticket comment [gray]ID={0}[/]</value>
   </data>
 
   <data name="Messages.UpdatedComment">
-    <value>[green]✓[/] Updated comment [gray]ID={0}[/]</value>
+    <value>Updated comment [gray]ID={0}[/]</value>
   </data>
 
   <data name="Messages.UpdatedStatusWithId">
-    <value>[green]✓[/] Updated status [gray]ID={0}[/]</value>
+    <value>Updated status [gray]ID={0}[/]</value>
   </data>
 
   <data name="Messages.UpdatedStatusWithKey">
-    <value>[green]✓[/] Updated status [yellow]{0}[/]</value>
+    <value>Updated status [yellow]{0}[/]</value>
   </data>
 
   <!-- Database migration log messages -->

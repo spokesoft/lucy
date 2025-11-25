@@ -92,7 +92,7 @@ internal class NewTicketCommandHandler(
 
         var id = await _mediator.Send(request, token);
 
-        _console.MarkupLine(_localizer["Messages.CreatedTicket", command.Title, id]);
+        _console.MarkupLine("[green]:check_mark:[/] " + _localizer["Messages.CreatedTicket", command.Title, id]);
 
         return ExitCode.Success;
     }

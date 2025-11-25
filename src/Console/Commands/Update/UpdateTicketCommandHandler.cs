@@ -91,7 +91,7 @@ internal class UpdateTicketCommandHandler(
 
         await _mediator.Send(request, token);
 
-        _console.MarkupLine(_localizer["Messages.UpdatedTicket", ticketId]);
+        _console.MarkupLine("[green]:check_mark:[/] " + _localizer["Messages.UpdatedTicket", ticketId]);
 
         return ExitCode.Success;
     }

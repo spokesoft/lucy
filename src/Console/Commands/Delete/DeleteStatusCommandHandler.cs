@@ -58,11 +58,11 @@ internal class DeleteStatusCommandHandler(
         await _mediator.Send(request, token);
 
         if (command.ProjectKey is not null && command.StatusKey is not null)
-            _console.MarkupLine(_localizer["Messages.DeletedStatusWithKeys", command.StatusKey, command.ProjectKey, statusId]);
+            _console.MarkupLine("[green]:check_mark:[/] " + _localizer["Messages.DeletedStatusWithKeys", command.StatusKey, command.ProjectKey, statusId]);
         else if (command.StatusKey is not null)
-            _console.MarkupLine(_localizer["Messages.DeletedStatusWithKey", command.StatusKey, statusId]);
+            _console.MarkupLine("[green]:check_mark:[/] " + _localizer["Messages.DeletedStatusWithKey", command.StatusKey, statusId]);
         else
-            _console.MarkupLine(_localizer["Messages.DeletedStatusWithId", statusId]);
+            _console.MarkupLine("[green]:check_mark:[/] " + _localizer["Messages.DeletedStatusWithId", statusId]);
 
         return ExitCode.Success;
     }

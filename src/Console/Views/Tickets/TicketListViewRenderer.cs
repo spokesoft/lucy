@@ -52,7 +52,10 @@ public class TicketListViewRenderer : IViewRenderer<(IEnumerable<TicketDto>, Dic
                 ticket.UpdatedAt.ToString("yyyy-MM-dd"));
         }
 
+        console.WriteLine();
         console.Write(table);
+        console.WriteLine();
+
         await Task.CompletedTask;
     }
 

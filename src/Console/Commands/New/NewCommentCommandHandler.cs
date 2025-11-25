@@ -80,13 +80,13 @@ internal class NewCommentCommandHandler(
         {
             var request = new AppCreateTicketCommentCommand(ticketId.Value, command.Content);
             commentId = await _mediator.Send(request, token);
-            _console.MarkupLine(_localizer["Messages.CreatedTicketComment", commentId]);
+            _console.MarkupLine("[green]:check_mark:[/] " + _localizer["Messages.CreatedTicketComment", commentId]);
         }
         else if (projectId.HasValue)
         {
             var request = new AppCreateProjectCommentCommand(projectId.Value, command.Content);
             commentId = await _mediator.Send(request, token);
-            _console.MarkupLine(_localizer["Messages.CreatedProjectComment", commentId]);
+            _console.MarkupLine("[green]:check_mark:[/] " + _localizer["Messages.CreatedProjectComment", commentId]);
         }
         else
         {

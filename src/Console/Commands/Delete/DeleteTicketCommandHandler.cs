@@ -60,7 +60,7 @@ internal class DeleteTicketCommandHandler(
         var request = new AppDeleteTicketCommand(ticketId);
         await _mediator.Send(request, token);
 
-        _console.MarkupLine(_localizer["Messages.DeletedTicket", ticketId]);
+        _console.MarkupLine("[green]:check_mark:[/] " + _localizer["Messages.DeletedTicket", ticketId]);
 
         return ExitCode.Success;
     }

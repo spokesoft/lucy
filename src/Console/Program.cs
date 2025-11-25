@@ -20,6 +20,8 @@ var configuration = new ConfigurationBuilder()
     .AddEnvironmentVariables(prefix: "Lucy_")
     .Build();
 
+Console.OutputEncoding = System.Text.Encoding.UTF8;
+
 services
     .AddLocalization(options => options.ResourcesPath = "Resources")
     .AddInfrastructure(configuration)

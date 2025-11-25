@@ -5,6 +5,7 @@ using Spectre.Console.Cli;
 using Spectre.Console;
 using Lucy.Application.Interfaces;
 using Lucy.Application.Projects.Queries.GetProjectIdByKey;
+using Microsoft.Extensions.Localization;
 
 namespace Lucy.Console.Commands.Update;
 
@@ -13,9 +14,11 @@ namespace Lucy.Console.Commands.Update;
 /// </summary>
 internal class UpdateProjectCommandHandler(
     IAnsiConsole console,
+    IStringLocalizer<Program> localizer,
     IMediator mediator) : ICommandHandler<UpdateProjectCommand>
 {
     private readonly IAnsiConsole _console = console;
+    private readonly IStringLocalizer<Program> _localizer = localizer;
     private readonly IMediator _mediator = mediator;
 
     /// <inheritdoc />
@@ -40,10 +43,11 @@ internal class UpdateProjectCommandHandler(
 
         await _mediator.Send(request, token);
 
-        if (command.Key is null)
-            _console.MarkupLine("[green]:check_mark:[/] Project [blue]{0}[/] successfully updated", projectId);
-        else
-            _console.MarkupLine("[green]:check_mark:[/] Project [blue]{0}[/] successfully updated.", command.NewKey ?? command.Key);
+
+        var updatedKey = command.NewKey ?? command.Key;
+        var keyOrId = updatedKey ?? projectId?.ToString() ?? "";
+        var message = _localizer["Messages.UpdatedProject", keyOrId];
+        _console.MarkupLine("[green]:check_mark:[/] " + message);
 
         return ExitCode.Success;
     }

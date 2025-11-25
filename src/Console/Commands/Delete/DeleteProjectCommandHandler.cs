@@ -49,9 +49,9 @@ internal class DeleteProjectCommandHandler(
         await _mediator.Send(request, token);
 
         if (command.Key is not null)
-            _console.MarkupLine(_localizer["Messages.DeletedProjectWithKey", command.Key, projectId]);
+            _console.MarkupLine("[green]:check_mark:[/] " + _localizer["Messages.DeletedProjectWithKey", command.Key, projectId]);
         else
-            _console.MarkupLine(_localizer["Messages.DeletedProjectWithId", projectId]);
+            _console.MarkupLine("[green]:check_mark:[/] " + _localizer["Messages.DeletedProjectWithId", projectId]);
 
         return ExitCode.Success;
     }
