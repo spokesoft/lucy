@@ -1,6 +1,6 @@
 namespace Lucy.Domain.Enums;
 
-public enum StatusColor
+public enum Color
 {
     Red,
     Green,

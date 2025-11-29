@@ -40,7 +40,7 @@ public class TicketCommandTests
     {
         // Arrange
         var project = new Project("TEST", "Test Project", "Test Description");
-        var status = new Status(1, "TODO", 1, "To Do", "Tasks to be done", StatusColor.Gray);
+        var status = new Status(1, "TODO", 1, "To Do", "Tasks to be done", Color.Gray);
         var sequence = new Sequence(SequenceType.Ticket, 1, 0, "TEST-{0}");
 
         _projectRepositoryMock
@@ -128,7 +128,7 @@ public class TicketCommandTests
     {
         // Arrange
         var project = new Project("TEST", "Test Project", "Test Description");
-        var status = new Status(1, "TODO", 1, "To Do", "Tasks to be done", StatusColor.Gray);
+        var status = new Status(1, "TODO", 1, "To Do", "Tasks to be done", Color.Gray);
 
         _projectRepositoryMock
             .Setup(repo => repo.GetByIdAsync(1, It.IsAny<CancellationToken>()))
@@ -292,7 +292,7 @@ public class TicketCommandTests
     {
         // Arrange
         var project = new Project("TEST", "Test Project", "Test Description");
-        var status = new Status(1, "TODO", 1, "To Do", "Tasks to be done", StatusColor.Gray);
+        var status = new Status(1, "TODO", 1, "To Do", "Tasks to be done", Color.Gray);
 
         _readOnlyUnitOfWorkMock
             .Setup(u => u.Projects.ExistsByIdAsync(1, It.IsAny<CancellationToken>()))
@@ -362,7 +362,7 @@ public class TicketCommandTests
     public async Task CreateTicketCommandValidator_ShouldInvalidate_WhenStatusNotInProject()
     {
         // Arrange
-        var status = new Status(2, "TODO", 1, "To Do", "Tasks to be done", StatusColor.Gray);
+        var status = new Status(2, "TODO", 1, "To Do", "Tasks to be done", Color.Gray);
 
         _readOnlyUnitOfWorkMock
             .Setup(u => u.Projects.ExistsByIdAsync(1, It.IsAny<CancellationToken>()))
@@ -391,7 +391,7 @@ public class TicketCommandTests
     public async Task CreateTicketCommandValidator_ShouldInvalidate_WhenTitleIsEmpty()
     {
         // Arrange
-        var status = new Status(1, "TODO", 1, "To Do", "Tasks to be done", StatusColor.Gray);
+        var status = new Status(1, "TODO", 1, "To Do", "Tasks to be done", Color.Gray);
 
         _readOnlyUnitOfWorkMock
             .Setup(u => u.Projects.ExistsByIdAsync(1, It.IsAny<CancellationToken>()))
@@ -420,7 +420,7 @@ public class TicketCommandTests
     public async Task CreateTicketCommandValidator_ShouldInvalidate_WhenTitleTooLong()
     {
         // Arrange
-        var status = new Status(1, "TODO", 1, "To Do", "Tasks to be done", StatusColor.Gray);
+        var status = new Status(1, "TODO", 1, "To Do", "Tasks to be done", Color.Gray);
 
         _readOnlyUnitOfWorkMock
             .Setup(u => u.Projects.ExistsByIdAsync(1, It.IsAny<CancellationToken>()))
@@ -449,7 +449,7 @@ public class TicketCommandTests
     public async Task CreateTicketCommandValidator_ShouldInvalidate_WhenDescriptionTooLong()
     {
         // Arrange
-        var status = new Status(1, "TODO", 1, "To Do", "Tasks to be done", StatusColor.Gray);
+        var status = new Status(1, "TODO", 1, "To Do", "Tasks to be done", Color.Gray);
 
         _readOnlyUnitOfWorkMock
             .Setup(u => u.Projects.ExistsByIdAsync(1, It.IsAny<CancellationToken>()))
@@ -479,7 +479,7 @@ public class TicketCommandTests
     {
         // Arrange
         var ticket = new Ticket(1, 2, "TEST-1", 1, "Test Ticket", "This is a test ticket");
-        var status = new Status(1, "TODO", 1, "To Do", "Tasks to be done", StatusColor.Gray);
+        var status = new Status(1, "TODO", 1, "To Do", "Tasks to be done", Color.Gray);
 
         _readOnlyUnitOfWorkMock
             .Setup(u => u.Tickets.GetByIdAsync(1, It.IsAny<CancellationToken>()))
@@ -552,7 +552,7 @@ public class TicketCommandTests
     {
         // Arrange
         var ticket = new Ticket(1, 2, "TEST-1", 1, "Test Ticket", "This is a test ticket");
-        var status = new Status(2, "TODO", 1, "To Do", "Tasks to be done", StatusColor.Gray);
+        var status = new Status(2, "TODO", 1, "To Do", "Tasks to be done", Color.Gray);
 
         _readOnlyUnitOfWorkMock
             .Setup(u => u.Tickets.GetByIdAsync(1, It.IsAny<CancellationToken>()))

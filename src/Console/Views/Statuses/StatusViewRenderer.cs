@@ -2,10 +2,10 @@ using Lucy.Application.Projects.DTOs;
 using Lucy.Application.Statuses.DTOs;
 using Lucy.Application.Tickets.DTOs;
 using Lucy.Console.Interfaces;
-using Lucy.Domain.Enums;
 using Microsoft.Extensions.Localization;
 using Spectre.Console;
-using Spectre.Console.Rendering;
+
+using DomainColor = Lucy.Domain.Enums.Color;
 
 namespace Lucy.Console.Views.Statuses;
 
@@ -118,17 +118,17 @@ public class StatusViewRenderer : IViewRenderer<(StatusDto, ProjectDto, List<Tic
     /// <summary>
     /// Gets the colored key with brackets for a status.
     /// </summary>
-    private static string GetColoredKey(string key, StatusColor color)
+    private static string GetColoredKey(string key, DomainColor color)
     {
         return color switch
         {
-            StatusColor.Red => $"[red][[{key}]][/]",
-            StatusColor.Orange => $"[orangered1][[{key}]][/]",
-            StatusColor.Yellow => $"[yellow][[{key}]][/]",
-            StatusColor.Green => $"[green][[{key}]][/]",
-            StatusColor.Blue => $"[blue][[{key}]][/]",
-            StatusColor.Purple => $"[purple][[{key}]][/]",
-            StatusColor.Gray => $"[gray][[{key}]][/]",
+            DomainColor.Red => $"[red][[{key}]][/]",
+            DomainColor.Orange => $"[orangered1][[{key}]][/]",
+            DomainColor.Yellow => $"[yellow][[{key}]][/]",
+            DomainColor.Green => $"[green][[{key}]][/]",
+            DomainColor.Blue => $"[blue][[{key}]][/]",
+            DomainColor.Purple => $"[purple][[{key}]][/]",
+            DomainColor.Gray => $"[gray][[{key}]][/]",
             _ => $"[[{key}]]"
         };
     }
@@ -136,18 +136,18 @@ public class StatusViewRenderer : IViewRenderer<(StatusDto, ProjectDto, List<Tic
     /// <summary>
     /// Gets the color display markup for a status color.
     /// </summary>
-    private static string GetColorDisplay(StatusColor color)
+    private static string GetColorDisplay(DomainColor color)
     {
         var colorName = color.ToString().ToLower();
         return color switch
         {
-            StatusColor.Red => $"[red]●[/] {colorName}",
-            StatusColor.Orange => $"[orangered1]●[/] {colorName}",
-            StatusColor.Yellow => $"[yellow]●[/] {colorName}",
-            StatusColor.Green => $"[green]●[/] {colorName}",
-            StatusColor.Blue => $"[blue]●[/] {colorName}",
-            StatusColor.Purple => $"[purple]●[/] {colorName}",
-            StatusColor.Gray => $"[gray]●[/] {colorName}",
+            DomainColor.Red => $"[red]●[/] {colorName}",
+            DomainColor.Orange => $"[orangered1]●[/] {colorName}",
+            DomainColor.Yellow => $"[yellow]●[/] {colorName}",
+            DomainColor.Green => $"[green]●[/] {colorName}",
+            DomainColor.Blue => $"[blue]●[/] {colorName}",
+            DomainColor.Purple => $"[purple]●[/] {colorName}",
+            DomainColor.Gray => $"[gray]●[/] {colorName}",
             _ => colorName
         };
     }

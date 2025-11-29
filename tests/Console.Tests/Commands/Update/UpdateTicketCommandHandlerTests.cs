@@ -166,7 +166,7 @@ public class UpdateTicketCommandHandlerTests
             Name = "Done",
             Description = "Completed tasks",
             Order = 3,
-            Color = Domain.Enums.StatusColor.Green,
+            Color = Domain.Enums.Color.Green,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
         };

@@ -53,8 +53,8 @@ public class ListTicketsCommandHandlerTests
 
         var statuses = new List<StatusDto>
         {
-            new() { Id = 1, ProjectId = projectId, Key = "TODO", Name = "To Do", Color = Domain.Enums.StatusColor.Gray, Order = 1, Description = "", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow },
-            new() { Id = 2, ProjectId = projectId, Key = "DONE", Name = "Done", Color = Domain.Enums.StatusColor.Green, Order = 2, Description = "", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow }
+            new() { Id = 1, ProjectId = projectId, Key = "TODO", Name = "To Do", Color = Domain.Enums.Color.Gray, Order = 1, Description = "", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow },
+            new() { Id = 2, ProjectId = projectId, Key = "DONE", Name = "Done", Color = Domain.Enums.Color.Green, Order = 2, Description = "", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow }
         };
 
         _mediatorMock
@@ -108,7 +108,7 @@ public class ListTicketsCommandHandlerTests
 
         var statuses = new List<StatusDto>
         {
-            new() { Id = 1, ProjectId = projectId, Key = "TODO", Name = "To Do", Color = Domain.Enums.StatusColor.Gray, Order = 1, Description = "", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow }
+            new() { Id = 1, ProjectId = projectId, Key = "TODO", Name = "To Do", Color = Domain.Enums.Color.Gray, Order = 1, Description = "", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow }
         };
 
         _mediatorMock

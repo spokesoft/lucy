@@ -26,9 +26,9 @@ public class StatusQueryTests
         // Arrange
         var statuses = new List<Status>
         {
-            new Status(1, "TODO", 1, "To Do", "Tasks to do", StatusColor.Gray),
-            new Status(1, "INPROG", 2, "In Progress", "Tasks in progress", StatusColor.Blue),
-            new Status(1, "DONE", 3, "Done", "Completed tasks", StatusColor.Green)
+            new Status(1, "TODO", 1, "To Do", "Tasks to do", Color.Gray),
+            new Status(1, "INPROG", 2, "In Progress", "Tasks in progress", Color.Blue),
+            new Status(1, "DONE", 3, "Done", "Completed tasks", Color.Green)
         };
 
         _readOnlyUnitOfWorkMock
@@ -106,7 +106,7 @@ public class StatusQueryTests
     public async Task GetStatusByIdQueryHandler_ShouldReturnStatus_WhenStatusExists()
     {
         // Arrange
-        var status = new Status(1, "TODO", 1, "To Do", "Tasks to do", StatusColor.Gray);
+        var status = new Status(1, "TODO", 1, "To Do", "Tasks to do", Color.Gray);
         status.Id = 1;
 
         _readOnlyUnitOfWorkMock
@@ -125,7 +125,7 @@ public class StatusQueryTests
         Assert.Equal("TODO", result.Key);
         Assert.Equal("To Do", result.Name);
         Assert.Equal("Tasks to do", result.Description);
-        Assert.Equal(StatusColor.Gray, result.Color);
+        Assert.Equal(Color.Gray, result.Color);
     }
 
     [Fact]
@@ -150,7 +150,7 @@ public class StatusQueryTests
     public async Task GetStatusByKeyQueryHandler_ShouldReturnStatus_WhenStatusExists()
     {
         // Arrange
-        var status = new Status(1, "TODO", 1, "To Do", "Tasks to do", StatusColor.Gray);
+        var status = new Status(1, "TODO", 1, "To Do", "Tasks to do", Color.Gray);
         status.Id = 1;
 
         _readOnlyUnitOfWorkMock
@@ -169,7 +169,7 @@ public class StatusQueryTests
         Assert.Equal("TODO", result.Key);
         Assert.Equal("To Do", result.Name);
         Assert.Equal("Tasks to do", result.Description);
-        Assert.Equal(StatusColor.Gray, result.Color);
+        Assert.Equal(Color.Gray, result.Color);
     }
 
     [Fact]

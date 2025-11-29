@@ -63,7 +63,7 @@ public class StatusRepositoryTests
         var (project, statuses) = await SeedDatabaseAsync(context);
 
         var repository = new StatusRepository(context);
-        var newStatus = new Status(project.Id, "REVIEW", 4, "Review", "Under review", StatusColor.Yellow);
+        var newStatus = new Status(project.Id, "REVIEW", 4, "Review", "Under review", Color.Yellow);
 
         // Act
         await repository.AddAsync(newStatus);

@@ -20,7 +20,7 @@ public class StatusTypeConfiguration : IEntityTypeConfiguration<Status>
         builder.Property(s => s.Name).HasMaxLength(50);
         builder.Property(s => s.Description).HasMaxLength(100);
         builder.Property(s => s.Color)
-            .HasConversion<StatusColorConverter>()
+            .HasConversion<ColorConverter>()
             .IsRequired();
 
         builder.HasIndex(s => new { s.ProjectId, s.Key }).IsUnique();

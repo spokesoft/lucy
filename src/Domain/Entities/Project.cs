@@ -66,19 +66,19 @@ public class Project : DomainEntity<long>
                 order: 1,
                 name: "To Do",
                 description: "Tasks that need to be done",
-                color: StatusColor.Gray),
+                color: Color.Gray),
 
             new Status(Id, "IN-PROGRESS",
                 order: 2,
                 name: "In Progress",
                 description: "Tasks that are in progress",
-                color: StatusColor.Blue),
+                color: Color.Blue),
 
             new Status(Id, "DONE",
                 order: 3,
                 name: "Done",
                 description: "Completed tasks",
-                color: StatusColor.Green)
+                color: Color.Green)
         ];
     }
 

@@ -55,7 +55,7 @@ public class ListStatusesCommandHandlerTests
                 Order = 1,
                 Name = "To Do",
                 Description = "Tasks to do",
-                Color = StatusColor.Gray,
+                Color = Color.Gray,
                 CreatedAt = DateTime.Parse("2025-11-15 16:01:15Z").ToUniversalTime(),
                 UpdatedAt = DateTime.Parse("2025-11-15 16:01:15Z").ToUniversalTime()
             },
@@ -67,7 +67,7 @@ public class ListStatusesCommandHandlerTests
                 Order = 2,
                 Name = "In Progress",
                 Description = "Work in progress",
-                Color = StatusColor.Blue,
+                Color = Color.Blue,
                 CreatedAt = DateTime.Parse("2025-11-15 16:01:15Z").ToUniversalTime(),
                 UpdatedAt = DateTime.Parse("2025-11-15 16:01:15Z").ToUniversalTime()
             }
@@ -120,7 +120,7 @@ public class ListStatusesCommandHandlerTests
                 Order = 1,
                 Name = "To Do",
                 Description = "Tasks to do",
-                Color = StatusColor.Gray,
+                Color = Color.Gray,
                 CreatedAt = DateTime.Parse("2025-11-15 16:01:15Z").ToUniversalTime(),
                 UpdatedAt = DateTime.Parse("2025-11-15 16:01:15Z").ToUniversalTime()
             }

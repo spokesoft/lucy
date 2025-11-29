@@ -35,7 +35,7 @@ public class Status : DomainEntity<long>
     /// <summary>
     /// The color of the status.
     /// </summary>
-    public StatusColor Color { get; private set; } = StatusColor.Gray;
+    public Color Color { get; private set; } = Color.Gray;
 
     /// <summary>
     /// The project this status belongs to.
@@ -64,7 +64,7 @@ public class Status : DomainEntity<long>
         int order,
         string? name = null,
         string? description = null,
-        StatusColor? color = null)
+        Color? color = null)
     {
         ProjectId = projectId;
         Key = null!;
@@ -128,5 +128,5 @@ public class Status : DomainEntity<long>
     /// <summary>
     /// Updates the color of the status.
     /// </summary>
-    public void UpdateColor(StatusColor color) => Color = color;
+    public void UpdateColor(Color color) => Color = color;
 }

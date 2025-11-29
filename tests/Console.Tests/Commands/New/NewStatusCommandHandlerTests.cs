@@ -53,7 +53,7 @@ public class NewStatusCommandHandlerTests
             Name = "To Do",
             Description = "Tasks to do",
             Order = 1,
-            Color = StatusColor.Gray
+            Color = Color.Gray
         };
 
         _mediatorMock
@@ -99,7 +99,7 @@ public class NewStatusCommandHandlerTests
             Name = "To Do",
             Description = "Tasks to do",
             Order = 1,
-            Color = StatusColor.Gray
+            Color = Color.Gray
         };
 
         _mediatorMock

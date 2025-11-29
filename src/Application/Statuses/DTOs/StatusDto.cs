@@ -40,7 +40,7 @@ public class StatusDto
     /// <summary>
     /// Status Color
     /// </summary>
-    public StatusColor Color { get; set; }
+    public Color Color { get; set; }
 
     /// <summary>
     /// Status Creation Date

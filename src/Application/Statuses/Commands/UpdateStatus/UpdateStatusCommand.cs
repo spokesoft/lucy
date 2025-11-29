@@ -18,4 +18,4 @@ public record UpdateStatusCommand(
     int? Order,
     string? Name,
     string? Description,
-    StatusColor? Color) : IRequest;
+    Color? Color) : IRequest;

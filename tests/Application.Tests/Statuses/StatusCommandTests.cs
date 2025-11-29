@@ -52,7 +52,7 @@ public class StatusCommandTests
             .Returns(Task.CompletedTask);
 
         var handler = new CreateStatusCommandHandler(_unitOfWorkMock.Object);
-        var command = new CreateStatusCommand(1, "TODO", null, "To Do", "Tasks to be done", StatusColor.Gray);
+        var command = new CreateStatusCommand(1, "TODO", null, "To Do", "Tasks to be done", Color.Gray);
 
         // Act
         var result = await handler.HandleAsync(command, CancellationToken.None);
@@ -66,7 +66,7 @@ public class StatusCommandTests
                 s.Key == "TODO" &&
                 s.Name == "To Do" &&
                 s.Description == "Tasks to be done" &&
-                s.Color == StatusColor.Gray
+                s.Color == Color.Gray
             ),
             It.IsAny<CancellationToken>()
         ), Times.Once);
@@ -94,7 +94,7 @@ public class StatusCommandTests
             .Returns(Task.CompletedTask);
 
         var handler = new CreateStatusCommandHandler(_unitOfWorkMock.Object);
-        var command = new CreateStatusCommand(1, "TODO", 1, "To Do", "Tasks to be done", StatusColor.Gray);
+        var command = new CreateStatusCommand(1, "TODO", 1, "To Do", "Tasks to be done", Color.Gray);
 
         // Act
         var result = await handler.HandleAsync(command, CancellationToken.None);
@@ -113,7 +113,7 @@ public class StatusCommandTests
             .ReturnsAsync((Project)null!);
 
         var handler = new CreateStatusCommandHandler(_unitOfWorkMock.Object);
-        var command = new CreateStatusCommand(1, "TODO", null, "To Do", "Tasks to be done", StatusColor.Gray);
+        var command = new CreateStatusCommand(1, "TODO", null, "To Do", "Tasks to be done", Color.Gray);
 
         // Act & Assert
         await Assert.ThrowsAsync<InvalidOperationException>(
@@ -135,7 +135,7 @@ public class StatusCommandTests
             .ReturnsAsync(new List<Status>());
 
         var handler = new CreateStatusCommandHandler(_unitOfWorkMock.Object);
-        var command = new CreateStatusCommand(1, "", null, "To Do", "Tasks to be done", StatusColor.Gray);
+        var command = new CreateStatusCommand(1, "", null, "To Do", "Tasks to be done", Color.Gray);
 
         // Act & Assert
         await Assert.ThrowsAsync<ArgumentException>(
@@ -146,8 +146,8 @@ public class StatusCommandTests
     public async Task DeleteStatusCommandHandler_ShouldDeleteStatus_WhenStatusExists()
     {
         // Arrange
-        var status = new Status(1, "TODO", 1, "To Do", "Tasks to be done", StatusColor.Gray);
-        var done = new Status(2, "DONE", 2, "Done", "Completed tasks", StatusColor.Green);
+        var status = new Status(1, "TODO", 1, "To Do", "Tasks to be done", Color.Gray);
+        var done = new Status(2, "DONE", 2, "Done", "Completed tasks", Color.Green);
 
         _statusRepositoryMock.Setup(
             repo => repo.GetByIdAsync(1, CancellationToken.None)).ReturnsAsync(status);
@@ -193,13 +193,13 @@ public class StatusCommandTests
     public async Task UpdateStatusCommandHandler_ShouldUpdateStatus_WhenValidCommandIsGiven()
     {
         // Arrange
-        var status = new Status(1, "TODO", 1, "To Do", "Old Description", StatusColor.Gray);
+        var status = new Status(1, "TODO", 1, "To Do", "Old Description", Color.Gray);
 
         _statusRepositoryMock.Setup(
             repo => repo.GetByIdAsync(1, CancellationToken.None)).ReturnsAsync(status);
 
         var handler = new UpdateStatusCommandHandler(_unitOfWorkMock.Object);
-        var command = new UpdateStatusCommand(1, null, null, "New Name", "New Description", StatusColor.Blue);
+        var command = new UpdateStatusCommand(1, null, null, "New Name", "New Description", Color.Blue);
 
         // Act
         await handler.HandleAsync(command, CancellationToken.None);
@@ -207,7 +207,7 @@ public class StatusCommandTests
         // Assert
         Assert.Equal("New Name", status.Name);
         Assert.Equal("New Description", status.Description);
-        Assert.Equal(StatusColor.Blue, status.Color);
+        Assert.Equal(Color.Blue, status.Color);
 
         _unitOfWorkMock.Verify(
             u => u.SaveChangesAsync(CancellationToken.None), Times.Once);
@@ -222,7 +222,7 @@ public class StatusCommandTests
             .ReturnsAsync((Status)null!);
 
         var handler = new UpdateStatusCommandHandler(_unitOfWorkMock.Object);
-        var command = new UpdateStatusCommand(1, null, null, "New Name", "New Description", StatusColor.Blue);
+        var command = new UpdateStatusCommand(1, null, null, "New Name", "New Description", Color.Blue);
 
         // Act & Assert
         await Assert.ThrowsAsync<InvalidOperationException>(() => handler
@@ -242,7 +242,7 @@ public class StatusCommandTests
             .ReturnsAsync(new List<Status>());
 
         var validator = new CreateStatusCommandValidator(_readOnlyUnitOfWorkMock.Object);
-        var command = new CreateStatusCommand(1, "TODO", null, "To Do", "Tasks to be done", StatusColor.Gray);
+        var command = new CreateStatusCommand(1, "TODO", null, "To Do", "Tasks to be done", Color.Gray);
 
         // Act
         var result = await validator.ValidateAsync(command);
@@ -260,7 +260,7 @@ public class StatusCommandTests
             .ReturnsAsync(false);
 
         var validator = new CreateStatusCommandValidator(_readOnlyUnitOfWorkMock.Object);
-        var command = new CreateStatusCommand(1, "TODO", null, "To Do", "Tasks to be done", StatusColor.Gray);
+        var command = new CreateStatusCommand(1, "TODO", null, "To Do", "Tasks to be done", Color.Gray);
 
         // Act
         var result = await validator.ValidateAsync(command);
@@ -283,7 +283,7 @@ public class StatusCommandTests
             .ReturnsAsync(new List<Status>());
 
         var validator = new CreateStatusCommandValidator(_readOnlyUnitOfWorkMock.Object);
-        var command = new CreateStatusCommand(1, "", null, "To Do", "Tasks to be done", StatusColor.Gray);
+        var command = new CreateStatusCommand(1, "", null, "To Do", "Tasks to be done", Color.Gray);
 
         // Act
         var result = await validator.ValidateAsync(command);
@@ -306,7 +306,7 @@ public class StatusCommandTests
             .ReturnsAsync(new List<Status>());
 
         var validator = new CreateStatusCommandValidator(_readOnlyUnitOfWorkMock.Object);
-        var command = new CreateStatusCommand(1, "TODO", null, new string('A', 51), "Tasks to be done", StatusColor.Gray);
+        var command = new CreateStatusCommand(1, "TODO", null, new string('A', 51), "Tasks to be done", Color.Gray);
 
         // Act
         var result = await validator.ValidateAsync(command);
@@ -329,7 +329,7 @@ public class StatusCommandTests
             .ReturnsAsync(new List<Status>());
 
         var validator = new CreateStatusCommandValidator(_readOnlyUnitOfWorkMock.Object);
-        var command = new CreateStatusCommand(1, "TODO", null, "To Do", new string('A', 101), StatusColor.Gray);
+        var command = new CreateStatusCommand(1, "TODO", null, "To Do", new string('A', 101), Color.Gray);
 
         // Act
         var result = await validator.ValidateAsync(command);
@@ -343,7 +343,7 @@ public class StatusCommandTests
     public async Task CreateStatusCommandValidator_ShouldInvalidate_WhenKeyIsNotUnique()
     {
         // Arrange
-        var existingStatus = new Status(1, "TODO", 1, "Existing", "Existing Status", StatusColor.Gray);
+        var existingStatus = new Status(1, "TODO", 1, "Existing", "Existing Status", Color.Gray);
 
         _readOnlyUnitOfWorkMock
             .Setup(u => u.Projects.ExistsByIdAsync(1, It.IsAny<CancellationToken>()))
@@ -354,7 +354,7 @@ public class StatusCommandTests
             .ReturnsAsync(new List<Status> { existingStatus });
 
         var validator = new CreateStatusCommandValidator(_readOnlyUnitOfWorkMock.Object);
-        var command = new CreateStatusCommand(1, "TODO", null, "To Do", "Tasks to be done", StatusColor.Gray);
+        var command = new CreateStatusCommand(1, "TODO", null, "To Do", "Tasks to be done", Color.Gray);
 
         // Act
         var result = await validator.ValidateAsync(command);
@@ -377,7 +377,7 @@ public class StatusCommandTests
             .ReturnsAsync(new List<Status>());
 
         var validator = new CreateStatusCommandValidator(_readOnlyUnitOfWorkMock.Object);
-        var command = new CreateStatusCommand(1, "TODO", -1, "To Do", "Tasks to be done", StatusColor.Gray);
+        var command = new CreateStatusCommand(1, "TODO", -1, "To Do", "Tasks to be done", Color.Gray);
 
         // Act
         var result = await validator.ValidateAsync(command);
@@ -391,7 +391,7 @@ public class StatusCommandTests
     public async Task UpdateStatusCommandValidator_ShouldValidate()
     {
         // Arrange
-        var status = new Status(1, "TODO", 1, "To Do", "Tasks to be done", StatusColor.Gray);
+        var status = new Status(1, "TODO", 1, "To Do", "Tasks to be done", Color.Gray);
 
         _readOnlyUnitOfWorkMock
             .Setup(u => u.Statuses.GetByIdAsync(1, It.IsAny<CancellationToken>()))
@@ -402,7 +402,7 @@ public class StatusCommandTests
             .ReturnsAsync(new List<Status> { status });
 
         var validator = new UpdateStatusCommandValidator(_readOnlyUnitOfWorkMock.Object);
-        var command = new UpdateStatusCommand(1, "DONE", null, "Done", "Completed tasks", StatusColor.Green);
+        var command = new UpdateStatusCommand(1, "DONE", null, "Done", "Completed tasks", Color.Green);
 
         // Act
         var result = await validator.ValidateAsync(command);
@@ -420,7 +420,7 @@ public class StatusCommandTests
             .ReturnsAsync((Status)null!);
 
         var validator = new UpdateStatusCommandValidator(_readOnlyUnitOfWorkMock.Object);
-        var command = new UpdateStatusCommand(1, "DONE", null, "Done", "Completed tasks", StatusColor.Green);
+        var command = new UpdateStatusCommand(1, "DONE", null, "Done", "Completed tasks", Color.Green);
 
         // Act
         var result = await validator.ValidateAsync(command);
@@ -434,7 +434,7 @@ public class StatusCommandTests
     public async Task UpdateStatusCommandValidator_ShouldInvalidate_WhenKeyIsInvalid()
     {
         // Arrange
-        var status = new Status(1, "TODO", 1, "To Do", "Tasks to be done", StatusColor.Gray);
+        var status = new Status(1, "TODO", 1, "To Do", "Tasks to be done", Color.Gray);
 
         _readOnlyUnitOfWorkMock
             .Setup(u => u.Statuses.GetByIdAsync(1, It.IsAny<CancellationToken>()))
@@ -446,10 +446,10 @@ public class StatusCommandTests
 
         var validator = new UpdateStatusCommandValidator(_readOnlyUnitOfWorkMock.Object);
 
-        var command1 = new UpdateStatusCommand(1, string.Empty, null, "Done", "Completed", StatusColor.Green);
-        var command2 = new UpdateStatusCommand(1, " ", null, "Done", "Completed", StatusColor.Green);
-        var command3 = new UpdateStatusCommand(1, "1ABC", null, "Done", "Completed", StatusColor.Green);
-        var command4 = new UpdateStatusCommand(1, "KEYISTOOLONGHERE", null, "Done", "Completed", StatusColor.Green);
+        var command1 = new UpdateStatusCommand(1, string.Empty, null, "Done", "Completed", Color.Green);
+        var command2 = new UpdateStatusCommand(1, " ", null, "Done", "Completed", Color.Green);
+        var command3 = new UpdateStatusCommand(1, "1ABC", null, "Done", "Completed", Color.Green);
+        var command4 = new UpdateStatusCommand(1, "KEYISTOOLONGHERE", null, "Done", "Completed", Color.Green);
 
         // Act
         var result1 = await validator.ValidateAsync(command1);
@@ -475,8 +475,8 @@ public class StatusCommandTests
     public async Task UpdateStatusCommandValidator_ShouldInvalidate_WhenKeyIsNotUnique()
     {
         // Arrange
-        var status1 = new Status(1, "TODO", 1, "To Do", "Tasks to be done", StatusColor.Gray);
-        var status2 = new Status(1, "DONE", 2, "Done", "Completed", StatusColor.Green);
+        var status1 = new Status(1, "TODO", 1, "To Do", "Tasks to be done", Color.Gray);
+        var status2 = new Status(1, "DONE", 2, "Done", "Completed", Color.Green);
 
         _readOnlyUnitOfWorkMock
             .Setup(u => u.Statuses.GetByIdAsync(1, It.IsAny<CancellationToken>()))
@@ -487,7 +487,7 @@ public class StatusCommandTests
             .ReturnsAsync(new List<Status> { status1, status2 });
 
         var validator = new UpdateStatusCommandValidator(_readOnlyUnitOfWorkMock.Object);
-        var command = new UpdateStatusCommand(1, "DONE", null, "To Do Updated", "Updated", StatusColor.Gray);
+        var command = new UpdateStatusCommand(1, "DONE", null, "To Do Updated", "Updated", Color.Gray);
 
         // Act
         var result = await validator.ValidateAsync(command);
@@ -501,7 +501,7 @@ public class StatusCommandTests
     public async Task UpdateStatusCommandValidator_ShouldInvalidate_WhenNameIsInvalid()
     {
         // Arrange
-        var status = new Status(1, "TODO", 1, "To Do", "Tasks to be done", StatusColor.Gray);
+        var status = new Status(1, "TODO", 1, "To Do", "Tasks to be done", Color.Gray);
 
         _readOnlyUnitOfWorkMock
             .Setup(u => u.Statuses.GetByIdAsync(1, It.IsAny<CancellationToken>()))
@@ -512,7 +512,7 @@ public class StatusCommandTests
             .ReturnsAsync(new List<Status> { status });
 
         var validator = new UpdateStatusCommandValidator(_readOnlyUnitOfWorkMock.Object);
-        var command = new UpdateStatusCommand(1, "DONE", null, new string('A', 51), "Completed", StatusColor.Green);
+        var command = new UpdateStatusCommand(1, "DONE", null, new string('A', 51), "Completed", Color.Green);
 
         // Act
         var result = await validator.ValidateAsync(command);
@@ -526,7 +526,7 @@ public class StatusCommandTests
     public async Task UpdateStatusCommandValidator_ShouldInvalidate_WhenDescriptionIsInvalid()
     {
         // Arrange
-        var status = new Status(1, "TODO", 1, "To Do", "Tasks to be done", StatusColor.Gray);
+        var status = new Status(1, "TODO", 1, "To Do", "Tasks to be done", Color.Gray);
 
         _readOnlyUnitOfWorkMock
             .Setup(u => u.Statuses.GetByIdAsync(1, It.IsAny<CancellationToken>()))
@@ -537,7 +537,7 @@ public class StatusCommandTests
             .ReturnsAsync(new List<Status> { status });
 
         var validator = new UpdateStatusCommandValidator(_readOnlyUnitOfWorkMock.Object);
-        var command = new UpdateStatusCommand(1, "DONE", null, "Done", new string('A', 101), StatusColor.Green);
+        var command = new UpdateStatusCommand(1, "DONE", null, "Done", new string('A', 101), Color.Green);
 
         // Act
         var result = await validator.ValidateAsync(command);

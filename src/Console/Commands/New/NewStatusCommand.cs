@@ -60,5 +60,5 @@ public class NewStatusCommand : NewCommand
     /// </summary>
     [CommandOption("-c|--color <COLOR>")]
     [Description("The color of the status.")]
-    public StatusColor? Color { get; set; }
+    public Color? Color { get; set; }
 }

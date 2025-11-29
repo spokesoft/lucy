@@ -58,7 +58,7 @@ public class UpdateStatusCommandHandlerTests
             Order = 2,
             Name = "Updated Name",
             Description = "Updated Description",
-            Color = StatusColor.Blue
+            Color = Color.Blue
         };
         var statusDto = new StatusDto
         {
@@ -68,7 +68,7 @@ public class UpdateStatusCommandHandlerTests
             Order = 1,
             Name = "To Do",
             Description = "Tasks to do",
-            Color = StatusColor.Gray,
+            Color = Color.Gray,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
         };
@@ -132,7 +132,7 @@ public class UpdateStatusCommandHandlerTests
             Order = 1,
             Name = "To Do",
             Description = "Tasks to do",
-            Color = StatusColor.Gray,
+            Color = Color.Gray,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
         };
@@ -178,7 +178,7 @@ public class UpdateStatusCommandHandlerTests
             Order = null,
             Name = "Updated Name",
             Description = "Updated Description",
-            Color = StatusColor.Green
+            Color = Color.Green
         };
 
         // Act
@@ -228,7 +228,7 @@ public class UpdateStatusCommandHandlerTests
             Order = 1,
             Name = "To Do",
             Description = "Tasks to do",
-            Color = StatusColor.Gray,
+            Color = Color.Gray,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
         };

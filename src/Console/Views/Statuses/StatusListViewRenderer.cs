@@ -1,8 +1,9 @@
 using Lucy.Application.Statuses.DTOs;
 using Lucy.Console.Interfaces;
-using Lucy.Domain.Enums;
 using Microsoft.Extensions.Localization;
 using Spectre.Console;
+
+using DomainColor = Lucy.Domain.Enums.Color;
 
 namespace Lucy.Console.Views.Statuses;
 
@@ -82,18 +83,18 @@ public class StatusListViewRenderer : IViewRenderer<IEnumerable<StatusDto>>
     /// <summary>
     /// Gets the colored key display markup for a status.
     /// </summary>
-    private static string GetColoredKey(string key, StatusColor color)
+    private static string GetColoredKey(string key, DomainColor color)
     {
         var colorName = color.ToString().ToLower();
         return color switch
         {
-            StatusColor.Red => $"[red]{key}[/]",
-            StatusColor.Orange => $"[orangered1]{key}[/]",
-            StatusColor.Yellow => $"[yellow]{key}[/]",
-            StatusColor.Green => $"[green]{key}[/]",
-            StatusColor.Blue => $"[blue]{key}[/]",
-            StatusColor.Purple => $"[purple]{key}[/]",
-            StatusColor.Gray => $"[gray]{key}[/]",
+            DomainColor.Red => $"[red]{key}[/]",
+            DomainColor.Orange => $"[orangered1]{key}[/]",
+            DomainColor.Yellow => $"[yellow]{key}[/]",
+            DomainColor.Green => $"[green]{key}[/]",
+            DomainColor.Blue => $"[blue]{key}[/]",
+            DomainColor.Purple => $"[purple]{key}[/]",
+            DomainColor.Gray => $"[gray]{key}[/]",
             _ => key
         };
     }

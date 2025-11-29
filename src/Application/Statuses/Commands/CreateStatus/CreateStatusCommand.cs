@@ -18,4 +18,4 @@ public record CreateStatusCommand(
     int? Order,
     string? Name,
     string? Description,
-    StatusColor? Color) : IRequest<long>;
+    Color? Color) : IRequest<long>;
