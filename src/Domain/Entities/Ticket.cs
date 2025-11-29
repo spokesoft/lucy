@@ -51,6 +51,11 @@ public class Ticket : DomainEntity<long>
     public ICollection<TicketComment> Comments { get; private set; } = [];
 
     /// <summary>
+    /// The ticket tags associated with the ticket.
+    /// </summary>
+    public ICollection<TicketTag> TicketTags { get; private set; } = [];
+
+    /// <summary>
     /// Initializes a new instance of the class.
     /// </summary>
     public Ticket(

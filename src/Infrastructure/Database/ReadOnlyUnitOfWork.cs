@@ -3,7 +3,9 @@ using Lucy.Application.Interfaces;
 using Lucy.Application.Projects.Repositories;
 using Lucy.Application.Sequences.Repositories;
 using Lucy.Application.Statuses.Repositories;
+using Lucy.Application.Tags.Repositories;
 using Lucy.Application.Tickets.Repositories;
+using Lucy.Application.TicketTags.Repositories;
 using Lucy.Infrastructure.Repositories;
 
 namespace Lucy.Infrastructure.Database;
@@ -25,9 +27,19 @@ public class ReadOnlyUnitOfWork(
     public IStatusReadOnlyRepository Statuses { get; } = new StatusReadOnlyRepository(context);
 
     /// <summary>
+    /// Tag read-only repository
+    /// </summary>
+    public ITagReadOnlyRepository Tags { get; } = new TagReadOnlyRepository(context);
+
+    /// <summary>
     /// Ticket read-only repository
     /// </summary>
     public ITicketReadOnlyRepository Tickets { get; } = new TicketReadOnlyRepository(context);
+
+    /// <summary>
+    /// TicketTag read-only repository
+    /// </summary>
+    public ITicketTagReadOnlyRepository TicketTags { get; } = new TicketTagReadOnlyRepository(context);
 
     /// <summary>
     /// Sequence read-only repository

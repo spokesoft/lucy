@@ -42,5 +42,12 @@ public class TicketTypeConfiguration : IEntityTypeConfiguration<Ticket>
             .HasForeignKey(c => c.TicketId)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
+
+        // Configure the relationship with TicketTags
+        builder.HasMany(t => t.TicketTags)
+            .WithOne(tt => tt.Ticket)
+            .HasForeignKey(tt => tt.TicketId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired();
     }
 }

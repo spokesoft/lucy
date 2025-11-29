@@ -2,7 +2,9 @@ using Lucy.Application.Comments.Repositories;
 using Lucy.Application.Projects.Repositories;
 using Lucy.Application.Sequences.Repositories;
 using Lucy.Application.Statuses.Repositories;
+using Lucy.Application.Tags.Repositories;
 using Lucy.Application.Tickets.Repositories;
+using Lucy.Application.TicketTags.Repositories;
 
 namespace Lucy.Application.Interfaces;
 
@@ -22,9 +24,19 @@ public interface IUnitOfWork
     public IStatusRepository Statuses { get; }
 
     /// <summary>
+    /// Repository for Tag entities.
+    /// </summary>
+    public ITagRepository Tags { get; }
+
+    /// <summary>
     /// Repository for Ticket entities.
     /// </summary>
     public ITicketRepository Tickets { get; }
+
+    /// <summary>
+    /// Repository for TicketTag entities.
+    /// </summary>
+    public ITicketTagRepository TicketTags { get; }
 
     /// <summary>
     /// Repository for Sequence entities.

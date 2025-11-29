@@ -118,6 +118,50 @@ public enum ValidationCode
 
     #endregion
 
+
+    #region Tag Validation Codes
+
+    /// <summary>
+    /// Indicates that the specified tag was not found.
+    /// </summary>
+    TagNotFound,
+
+    /// <summary>
+    /// Indicates that the tag key is required but was not provided.
+    /// </summary>
+    TagKeyRequired,
+
+    /// <summary>
+    /// Indicates that the tag key contains invalid characters.
+    /// </summary>
+    TagKeyInvalidCharacters,
+
+    /// <summary>
+    /// Indicates that the tag key must start with a letter.
+    /// </summary>
+    TagKeyStartWithLetter,
+
+    /// <summary>
+    /// Indicates that the tag key length is invalid.
+    /// </summary>
+    TagKeyLength,
+
+    /// <summary>
+    /// Indicates that the tag key already exists.
+    /// </summary>
+    TagKeyExists,
+
+    /// <summary>
+    /// Indicates that the tag name length is invalid.
+    /// </summary>
+    TagNameLength,
+
+    /// <summary>
+    /// Indicates that the tag description length is invalid.
+    /// </summary>
+    TagDescriptionLength,
+
+    #endregion
     #region Ticket Validation Codes
 
     /// <summary>

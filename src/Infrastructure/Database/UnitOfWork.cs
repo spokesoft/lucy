@@ -3,7 +3,9 @@ using Lucy.Application.Interfaces;
 using Lucy.Application.Projects.Repositories;
 using Lucy.Application.Sequences.Repositories;
 using Lucy.Application.Statuses.Repositories;
+using Lucy.Application.Tags.Repositories;
 using Lucy.Application.Tickets.Repositories;
+using Lucy.Application.TicketTags.Repositories;
 using Lucy.Infrastructure.Repositories;
 
 namespace Lucy.Infrastructure.Database;
@@ -30,9 +32,19 @@ public class UnitOfWork(
     public IStatusRepository Statuses { get; } = new StatusRepository(context);
 
     /// <summary>
+    /// Tag repository
+    /// </summary>
+    public ITagRepository Tags { get; } = new TagRepository(context);
+
+    /// <summary>
     /// Ticket repository
     /// </summary>
     public ITicketRepository Tickets { get; } = new TicketRepository(context);
+
+    /// <summary>
+    /// TicketTag repository
+    /// </summary>
+    public ITicketTagRepository TicketTags { get; } = new TicketTagRepository(context);
 
     /// <summary>
     /// Sequence repository

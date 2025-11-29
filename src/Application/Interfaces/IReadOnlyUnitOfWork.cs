@@ -2,7 +2,9 @@ using Lucy.Application.Comments.Repositories;
 using Lucy.Application.Projects.Repositories;
 using Lucy.Application.Sequences.Repositories;
 using Lucy.Application.Statuses.Repositories;
+using Lucy.Application.Tags.Repositories;
 using Lucy.Application.Tickets.Repositories;
+using Lucy.Application.TicketTags.Repositories;
 
 namespace Lucy.Application.Interfaces;
 
@@ -22,9 +24,19 @@ public interface IReadOnlyUnitOfWork
     public IStatusReadOnlyRepository Statuses { get; }
 
     /// <summary>
+    /// Read-only repository for Tag entities.
+    /// </summary>
+    public ITagReadOnlyRepository Tags { get; }
+
+    /// <summary>
     /// Read-only repository for Ticket entities.
     /// </summary>
     public ITicketReadOnlyRepository Tickets { get; }
+
+    /// <summary>
+    /// Read-only repository for TicketTag entities.
+    /// </summary>
+    public ITicketTagReadOnlyRepository TicketTags { get; }
 
     /// <summary>
     /// Read-only repository for Sequence entities.

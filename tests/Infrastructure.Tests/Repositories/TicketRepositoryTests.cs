@@ -6,7 +6,7 @@ using Lucy.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace Lucy.Tests.Infrastructure.Repositories;
+namespace Lucy.Infrastructure.Tests.Repositories;
 
 [Collection("Database collection")]
 public class TicketRepositoryTests

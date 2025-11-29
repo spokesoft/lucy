@@ -33,6 +33,11 @@ public class Project : DomainEntity<long>
     public ICollection<Status> Statuses { get; private set; } = [];
 
     /// <summary>
+    /// The tags associated with the project.
+    /// </summary>
+    public ICollection<Tag> Tags { get; private set; } = [];
+
+    /// <summary>
     /// The tickets associated with the project.
     /// </summary>
     public ICollection<Ticket> Tickets { get; private set; } = [];
