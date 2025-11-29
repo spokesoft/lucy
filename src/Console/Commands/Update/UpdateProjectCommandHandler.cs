@@ -43,11 +43,10 @@ internal class UpdateProjectCommandHandler(
 
         await _mediator.Send(request, token);
 
-
         var updatedKey = command.NewKey ?? command.Key;
         var keyOrId = updatedKey ?? projectId?.ToString() ?? "";
-        var message = _localizer["Messages.UpdatedProject", keyOrId];
-        _console.MarkupLine("[green]:check_mark:[/] " + message);
+        var message = _localizer["Messages.UpdatedProject", projectId!];
+        _console.MarkupLine($"[green]:check_mark:[/] {message}");
 
         return ExitCode.Success;
     }
