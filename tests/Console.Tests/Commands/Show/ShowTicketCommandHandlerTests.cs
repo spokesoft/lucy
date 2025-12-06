@@ -1,6 +1,8 @@
 using Lucy.Application.Comments.DTOs;
 using Lucy.Application.Comments.Queries.ListTicketComments;
 using Lucy.Application.Interfaces;
+using Lucy.Application.Tags.DTOs;
+using Lucy.Application.TicketTags.Queries.ListTagsByTicketId;
 using Lucy.Application.Statuses.DTOs;
 using Lucy.Application.Statuses.Queries.GetStatusById;
 using Lucy.Application.Tickets.DTOs;
@@ -19,7 +21,7 @@ public class ShowTicketCommandHandlerTests
 {
     private readonly TestConsole _console;
     private readonly Mock<IStringLocalizer<Program>> _localizerMock;
-    private readonly Mock<IViewRenderer<(TicketDto, StatusDto?, IEnumerable<CommentDto>)>> _viewRendererMock;
+    private readonly Mock<IViewRenderer<(TicketDto, StatusDto?, IEnumerable<CommentDto>, IEnumerable<TagDto>)>> _viewRendererMock;
     private readonly Mock<IMediator> _mediatorMock;
     private readonly ShowTicketCommandHandler _handler;
 
@@ -27,7 +29,7 @@ public class ShowTicketCommandHandlerTests
     {
         _console = new TestConsole();
         _localizerMock = new Mock<IStringLocalizer<Program>>();
-        _viewRendererMock = new Mock<IViewRenderer<(TicketDto, StatusDto?, IEnumerable<CommentDto>)>>();
+        _viewRendererMock = new Mock<IViewRenderer<(TicketDto, StatusDto?, IEnumerable<CommentDto>, IEnumerable<TagDto>)>>();
         _mediatorMock = new Mock<IMediator>();
 
         _handler = new ShowTicketCommandHandler(
@@ -59,6 +61,7 @@ public class ShowTicketCommandHandlerTests
             UpdatedAt = DateTime.UtcNow
         };
         var comments = new List<TicketCommentDto>();
+        var tags = new List<TagDto>();
         var status = new StatusDto
         {
             Id = 1L,
@@ -77,6 +80,9 @@ public class ShowTicketCommandHandlerTests
         _mediatorMock
             .Setup(m => m.Send(It.IsAny<ListTicketCommentsQuery>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(comments);
+        _mediatorMock
+            .Setup(m => m.Send(It.IsAny<ListTagsByTicketIdQuery>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(tags);
 
         // Act
         var result = await _handler.HandleAsync(null!, command, CancellationToken.None);
@@ -86,7 +92,7 @@ public class ShowTicketCommandHandlerTests
 
         _viewRendererMock.Verify(
             v => v.RenderAsync(
-                It.Is<(TicketDto, StatusDto?, IEnumerable<CommentDto>)>(t => t.Item1 == ticket && t.Item2 == status && t.Item3 == comments),
+                It.Is<(TicketDto, StatusDto?, IEnumerable<CommentDto>, IEnumerable<TagDto>)>(t => t.Item1 == ticket && t.Item2 == status && t.Item3 == comments && t.Item4 == tags),
                 _console,
                 _localizerMock.Object,
                 It.IsAny<CancellationToken>()),
@@ -115,6 +121,7 @@ public class ShowTicketCommandHandlerTests
             UpdatedAt = DateTime.UtcNow
         };
         var comments = new List<TicketCommentDto>();
+        var tags = new List<TagDto>();
         var status = new StatusDto
         {
             Id = 1L,
@@ -133,6 +140,9 @@ public class ShowTicketCommandHandlerTests
         _mediatorMock
             .Setup(m => m.Send(It.IsAny<ListTicketCommentsQuery>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(comments);
+        _mediatorMock
+            .Setup(m => m.Send(It.IsAny<ListTagsByTicketIdQuery>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(tags);
 
         // Act
         var result = await _handler.HandleAsync(null!, command, CancellationToken.None);
@@ -142,7 +152,7 @@ public class ShowTicketCommandHandlerTests
 
         _viewRendererMock.Verify(
             v => v.RenderAsync(
-                It.Is<(TicketDto, StatusDto?, IEnumerable<CommentDto>)>(t => t.Item1 == ticket && t.Item2 == status && t.Item3 == comments),
+                It.Is<(TicketDto, StatusDto?, IEnumerable<CommentDto>, IEnumerable<TagDto>)>(t => t.Item1 == ticket && t.Item2 == status && t.Item3 == comments && t.Item4 == tags),
                 _console,
                 _localizerMock.Object,
                 It.IsAny<CancellationToken>()),

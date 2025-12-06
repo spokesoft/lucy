@@ -2,6 +2,7 @@ using Lucy.Application.Interfaces;
 using Lucy.Application.Projects.Queries.GetProjectIdByKey;
 using Lucy.Application.Statuses.Queries.GetStatusByKey;
 using Lucy.Application.Statuses.Queries.ListStatuses;
+using Lucy.Application.Tags.Queries.GetTagIdByKey;
 using Lucy.Application.Tickets.DTOs;
 using Lucy.Application.Tickets.Queries.ListTickets;
 using Lucy.Console.Enums;
@@ -45,7 +46,15 @@ internal class ListTicketsCommandHandler(
             statusId = status?.Id;
         }
 
-        var ticketsQuery = new ListTicketsQuery(projectId.Value, statusId);
+        // Resolve tag ID from key if needed
+        long? tagId = command.TagId;
+        if (tagId == null && !string.IsNullOrWhiteSpace(command.TagKey))
+        {
+            tagId = await _mediator.Send(
+                new GetTagIdByKeyQuery(projectId.Value, command.TagKey), token);
+        }
+
+        var ticketsQuery = new ListTicketsQuery(projectId.Value, statusId, TagId: tagId);
         var tickets = await _mediator.Send(ticketsQuery, token);
 
         var statusesQuery = new ListStatusesQuery(projectId.Value);

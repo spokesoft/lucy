@@ -12,4 +12,9 @@ public interface ITicketTagReadOnlyRepository : IReadOnlyRepository<TicketTag, l
     /// Gets a TicketTag by ticket ID and tag ID.
     /// </summary>
     public Task<TicketTag?> GetByTicketAndTagAsync(long ticketId, long tagId, CancellationToken token = default);
+
+    /// <summary>
+    /// Gets all tags associated with a ticket.
+    /// </summary>
+    Task<List<Tag>> GetTagsByTicketIdAsync(long ticketId, CancellationToken token = default);
 }

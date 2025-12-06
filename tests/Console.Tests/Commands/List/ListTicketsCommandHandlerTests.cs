@@ -2,6 +2,7 @@ using Lucy.Application.Interfaces;
 using Lucy.Application.Projects.Queries.GetProjectIdByKey;
 using Lucy.Application.Statuses.DTOs;
 using Lucy.Application.Statuses.Queries.ListStatuses;
+using Lucy.Application.Tags.Queries.GetTagIdByKey;
 using Lucy.Application.Tickets.DTOs;
 using Lucy.Application.Tickets.Queries.ListTickets;
 using Lucy.Console.Commands.List;
@@ -114,6 +115,62 @@ public class ListTicketsCommandHandlerTests
         _mediatorMock
             .Setup(m => m.Send(
                 It.Is<ListTicketsQuery>(q => q.ProjectId == projectId),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(tickets);
+
+        _mediatorMock
+            .Setup(m => m.Send(
+                It.Is<ListStatusesQuery>(q => q.ProjectId == projectId),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(statuses);
+
+        // Act
+        var result = await _handler.HandleAsync(null!, command, CancellationToken.None);
+
+        // Assert
+        Assert.Equal(ExitCode.Success, result);
+
+        _viewRendererMock.Verify(
+            v => v.RenderAsync(
+                It.Is<(IEnumerable<TicketDto>, Dictionary<long, (string Key, string Color)>)>(t =>
+                    t.Item1.Count() == 1 && t.Item2.Count == 1),
+                _console,
+                _localizerMock.Object,
+                It.IsAny<CancellationToken>()),
+            Times.Once);
+    }
+
+    [Fact]
+    public async Task HandleAsync_WithTagKey_FiltersByTag()
+    {
+        // Arrange
+        var projectId = 1L;
+        var tagId = 10L;
+        var command = new ListTicketsCommand
+        {
+            Id = projectId,
+            TagKey = "frontend"
+        };
+
+        var tickets = new List<TicketDto>
+        {
+            new() { Id = 1, ProjectId = projectId, StatusId = 1, Key = "ABC-1", Title = "Test 1", Description = null, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow }
+        };
+
+        var statuses = new List<StatusDto>
+        {
+            new() { Id = 1, ProjectId = projectId, Key = "TODO", Name = "To Do", Color = Domain.Enums.Color.Gray, Order = 1, Description = "", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow }
+        };
+
+        _mediatorMock
+            .Setup(m => m.Send(
+                It.Is<GetTagIdByKeyQuery>(q => q.ProjectId == projectId && q.Key == command.TagKey),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(tagId);
+
+        _mediatorMock
+            .Setup(m => m.Send(
+                It.Is<ListTicketsQuery>(q => q.ProjectId == projectId && q.TagId == tagId),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(tickets);
 

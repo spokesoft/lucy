@@ -33,10 +33,6 @@ try {
     & $bin update status DEMO REVIEW --name "In Review"
     & $bin update status DEMO REVIEW --description "Tasks that are in review"
 
-    # Define Tags
-    & $bin new tag URGENT --color red --project DEMO
-    & $bin new tag FEATURE --color blue --project DEMO
-
     # Manage Tickets
     & $bin new ticket "Implement authentication for pets" --project DEMO
     & $bin new ticket "Implement purr-based two-factor authentication (P2FA)" --project DEMO
@@ -45,6 +41,14 @@ try {
     & $bin update ticket DEMO-2 --status IN-PROGRESS
     & $bin update ticket DEMO-2 --description "See title for details"
     & $bin update ticket DEMO-3 --title "Develop laser pointer feature to redirect unproductive devs"
+
+    # Define Tags
+    & $bin new tag URGENT --color red --project DEMO
+    & $bin new tag FEATURE --color blue --project DEMO
+
+    # Assign Tags to Tickets
+    & $bin add tag DEMO-1 URGENT
+    & $bin add tag DEMO-2 FEATURE
 
     Write-Host "`nDemo setup complete!" -ForegroundColor Green
     & $bin show board DEMO

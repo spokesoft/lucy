@@ -11,8 +11,10 @@ namespace Lucy.Application.Tickets.Queries.ListTickets;
 /// <param name="StatusId">Optional status ID to filter tickets by.</param>
 /// <param name="SortBy">The field to sort by.</param>
 /// <param name="SortDirection">The direction to sort.</param>
+/// <param name="TagId">Optional tag ID to filter tickets by.</param>
 public record ListTicketsQuery(
     long ProjectId,
     long? StatusId = null,
     TicketSortField SortBy = TicketSortField.Id,
-    SortDirection SortDirection = SortDirection.Ascending) : IRequest<List<TicketDto>>;
+    SortDirection SortDirection = SortDirection.Ascending,
+    long? TagId = null) : IRequest<List<TicketDto>>;

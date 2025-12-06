@@ -278,6 +278,9 @@
   <data name="Property.Tag.Color">
     <value>Color</value>
   </data>
+  <data name="Property.Tags">
+    <value>Tags</value>
+  </data>
 
   <!-- ===================== -->
   <!--   View Resources   -->

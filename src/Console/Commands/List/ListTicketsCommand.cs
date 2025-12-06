@@ -35,4 +35,18 @@ public class ListTicketsCommand : ListCommand
     [CommandOption("--status-id")]
     [Description("The ID of the status to filter tickets by.")]
     public long? StatusId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the tag key to filter by.
+    /// </summary>
+    [CommandOption("-t|--tag")]
+    [Description("The key of the tag to filter tickets by.")]
+    public string? TagKey { get; set; }
+
+    /// <summary>
+    /// Gets or sets the tag ID to filter by.
+    /// </summary>
+    [CommandOption("--tag-id")]
+    [Description("The ID of the tag to filter tickets by.")]
+    public long? TagId { get; set; }
 }

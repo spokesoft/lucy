@@ -102,6 +102,64 @@ public class TicketQueryTests
     }
 
     [Fact]
+    public async Task ListTicketsQueryHandler_ShouldFilterByTagId()
+    {
+        // Arrange
+        _readOnlyUnitOfWorkMock
+            .Setup(u => u.Tickets.GetByProjectIdAndTagIdAsync(
+                1,
+                5,
+                TicketSortField.Id,
+                SortDirection.Ascending,
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new List<Ticket>());
+
+        var handler = new ListTicketsQueryHandler(_readOnlyUnitOfWorkMock.Object);
+        var query = new ListTicketsQuery(1, TagId: 5);
+
+        // Act
+        await handler.HandleAsync(query, CancellationToken.None);
+
+        // Assert
+        _readOnlyUnitOfWorkMock.Verify(u => u.Tickets.GetByProjectIdAndTagIdAsync(
+            1,
+            5,
+            TicketSortField.Id,
+            SortDirection.Ascending,
+            It.IsAny<CancellationToken>()), Times.Once);
+    }
+
+    [Fact]
+    public async Task ListTicketsQueryHandler_ShouldFilterByStatusAndTagId()
+    {
+        // Arrange
+        _readOnlyUnitOfWorkMock
+            .Setup(u => u.Tickets.GetByProjectIdStatusIdAndTagIdAsync(
+                1,
+                2,
+                5,
+                TicketSortField.Id,
+                SortDirection.Ascending,
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new List<Ticket>());
+
+        var handler = new ListTicketsQueryHandler(_readOnlyUnitOfWorkMock.Object);
+        var query = new ListTicketsQuery(1, 2, TagId: 5);
+
+        // Act
+        await handler.HandleAsync(query, CancellationToken.None);
+
+        // Assert
+        _readOnlyUnitOfWorkMock.Verify(u => u.Tickets.GetByProjectIdStatusIdAndTagIdAsync(
+            1,
+            2,
+            5,
+            TicketSortField.Id,
+            SortDirection.Ascending,
+            It.IsAny<CancellationToken>()), Times.Once);
+    }
+
+    [Fact]
     public async Task GetTicketByIdQueryHandler_ShouldReturnTicket_WhenTicketExists()
     {
         // Arrange

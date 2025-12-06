@@ -6,6 +6,8 @@ using Lucy.Application.Statuses.Queries.GetStatusById;
 using Lucy.Application.Tickets.DTOs;
 using Lucy.Application.Tickets.Queries.GetTicketById;
 using Lucy.Application.Tickets.Queries.GetTicketByKey;
+using Lucy.Application.TicketTags.Queries.ListTagsByTicketId;
+using Lucy.Application.Tags.DTOs;
 using Lucy.Console.Enums;
 using Lucy.Console.Interfaces;
 using Microsoft.Extensions.Localization;
@@ -20,7 +22,7 @@ namespace Lucy.Console.Commands.Show;
 internal class ShowTicketCommandHandler(
     IAnsiConsole console,
     IStringLocalizer<Program> localizer,
-    IViewRenderer<(TicketDto, StatusDto?, IEnumerable<CommentDto>)> viewRenderer,
+    IViewRenderer<(TicketDto, StatusDto?, IEnumerable<CommentDto>, IEnumerable<TagDto>)> viewRenderer,
     IMediator mediator) : ICommandHandler<ShowTicketCommand>
 {
     /// <summary>
@@ -36,7 +38,7 @@ internal class ShowTicketCommandHandler(
     /// <summary>
     /// The view renderer for rendering the ticket details.
     /// </summary>
-    private readonly IViewRenderer<(TicketDto, StatusDto?, IEnumerable<CommentDto>)> _view = viewRenderer;
+    private readonly IViewRenderer<(TicketDto, StatusDto?, IEnumerable<CommentDto>, IEnumerable<TagDto>)> _view = viewRenderer;
 
     /// <summary>
     /// The mediator instance for sending commands and queries.
@@ -74,7 +76,10 @@ internal class ShowTicketCommandHandler(
         var commentsQuery = new ListTicketCommentsQuery(ticket.Id);
         var comments = await _mediator.Send(commentsQuery, token);
 
-        await _view.RenderAsync((ticket, status, comments), _console, _localizer, token);
+        var tagsQuery = new ListTagsByTicketIdQuery(ticket.Id);
+        var tags = await _mediator.Send(tagsQuery, token);
+
+        await _view.RenderAsync((ticket, status, comments, tags), _console, _localizer, token);
         return ExitCode.Success;
     }
 }
