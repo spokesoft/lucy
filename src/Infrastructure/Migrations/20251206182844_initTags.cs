@@ -12,7 +12,7 @@ namespace Lucy.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Tag",
+                name: "Tags",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
@@ -27,9 +27,9 @@ namespace Lucy.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tag", x => x.Id);
+                    table.PrimaryKey("PK_Tags", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Tag_Projects_ProjectId",
+                        name: "FK_Tags_Projects_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "Projects",
                         principalColumn: "Id",
@@ -51,9 +51,9 @@ namespace Lucy.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_TicketTag", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TicketTag_Tag_TagId",
+                        name: "FK_TicketTag_Tags_TagId",
                         column: x => x.TagId,
-                        principalTable: "Tag",
+                        principalTable: "Tags",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -65,8 +65,8 @@ namespace Lucy.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tag_ProjectId_Key",
-                table: "Tag",
+                name: "IX_Tags_ProjectId_Key",
+                table: "Tags",
                 columns: new[] { "ProjectId", "Key" },
                 unique: true);
 
@@ -89,7 +89,7 @@ namespace Lucy.Infrastructure.Migrations
                 name: "TicketTag");
 
             migrationBuilder.DropTable(
-                name: "Tag");
+                name: "Tags");
         }
     }
 }

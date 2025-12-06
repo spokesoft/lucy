@@ -54,7 +54,7 @@ public class DeleteProjectCommandHandlerTests
 
         // Assert
         Assert.Equal(ExitCode.Success, result);
-        Assert.Contains("Messages.DeletedProjectWithKey", _console.Output);
+        Assert.Contains("Messages.DeletedProject", _console.Output);
 
         _mediatorMock.Verify(
             m => m.Send(
@@ -79,7 +79,7 @@ public class DeleteProjectCommandHandlerTests
 
         // Assert
         Assert.Equal(ExitCode.Success, result);
-        Assert.Contains("Messages.DeletedProjectWithId", _console.Output);
+        Assert.Contains("Messages.DeletedProject", _console.Output);
 
         _mediatorMock.Verify(
             m => m.Send(

@@ -25,6 +25,11 @@ public class LucyDbContext(DbContextOptions<LucyDbContext> options) : DbContext(
     public DbSet<Status> Statuses { get; set; }
 
     /// <summary>
+    /// Database set of tags.
+    /// </summary>
+    public DbSet<Tag> Tags { get; set; }
+
+    /// <summary>
     /// Database set of tickets.
     /// </summary>
     public DbSet<Ticket> Tickets { get; set; }

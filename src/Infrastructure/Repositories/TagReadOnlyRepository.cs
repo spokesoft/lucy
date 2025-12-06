@@ -13,11 +13,17 @@ public class TagReadOnlyRepository(
 {
     /// <inheritdoc />
     public Task<Tag?> GetByKeyAsync(long projectId, string key, CancellationToken token = default)
-        => _set.FirstOrDefaultAsync(tag => tag.ProjectId == projectId && tag.Key.Equals(key, StringComparison.OrdinalIgnoreCase), token);
+    {
+        var normalizedKey = key.ToUpperInvariant();
+        return _set.FirstOrDefaultAsync(tag => tag.ProjectId == projectId && tag.Key == normalizedKey, token);
+    }
 
     /// <inheritdoc />
     public Task<bool> ExistsByKeyAsync(long projectId, string key, CancellationToken token = default)
-        => _set.AnyAsync(tag => tag.ProjectId == projectId && tag.Key.Equals(key, StringComparison.OrdinalIgnoreCase), token);
+    {
+        var normalizedKey = key.ToUpperInvariant();
+        return _set.AnyAsync(tag => tag.ProjectId == projectId && tag.Key == normalizedKey, token);
+    }
 
     /// <inheritdoc />
     public Task<List<Tag>> GetByProjectIdAsync(long projectId, CancellationToken token = default)

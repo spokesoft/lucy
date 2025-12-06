@@ -1,5 +1,6 @@
+using AppCreateTagCommand = Lucy.Application.Tags.Commands.CreateTag.CreateTagCommand;
 using Lucy.Application.Interfaces;
-using Lucy.Application.Projects.Commands.CreateProject;
+using Lucy.Application.Projects.Queries.GetProjectIdByKey;
 using Lucy.Console.Enums;
 using Lucy.Console.Interfaces;
 using Microsoft.Extensions.Localization;
@@ -9,12 +10,12 @@ using Spectre.Console.Cli;
 namespace Lucy.Console.Commands.New;
 
 /// <summary>
-/// Handler for the <see cref="NewProjectCommand"/> command.
+/// Handler for the <see cref="NewTagCommand"/> command.
 /// </summary>
-internal class NewProjectCommandHandler(
+internal class NewTagCommandHandler(
     IAnsiConsole console,
     IStringLocalizer<Program> localizer,
-    IMediator mediator) : ICommandHandler<NewProjectCommand>
+    IMediator mediator) : ICommandHandler<NewTagCommand>
 {
     /// <summary>
     /// The console instance for outputting information.
@@ -34,17 +35,28 @@ internal class NewProjectCommandHandler(
     /// <inheritdoc />
     public async Task<ExitCode> HandleAsync(
         CommandContext context,
-        NewProjectCommand command,
+        NewTagCommand command,
         CancellationToken token = default)
     {
-        var request = new CreateProjectCommand(
+        var projectId = command.ProjectId;
+
+        if (projectId is null)
+        {
+            var projectQuery = new GetProjectIdByKeyQuery(command.ProjectKey!);
+            projectId = await _mediator.Send(projectQuery, token);
+        }
+
+        var request = new AppCreateTagCommand(
+            projectId!.Value,
             command.Key,
-            command.Name,
-            command.Description);
+            command.Label,
+            command.Description,
+            command.Color);
 
         var id = await _mediator.Send(request, token);
+        var projectKey = command.ProjectKey ?? projectId!.Value.ToString();
 
-        _console.MarkupLine("[green]:check_mark:[/] " + _localizer["Messages.CreatedProject", command.Key, id]);
+        _console.MarkupLine("[green]:check_mark:[/] " + _localizer["Messages.CreatedTag", command.Key, projectKey, id]);
 
         return ExitCode.Success;
     }

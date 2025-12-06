@@ -1,4 +1,5 @@
 using Lucy.Application.Interfaces;
+using Lucy.Domain.Enums;
 
 namespace Lucy.Application.Tags.Commands.CreateTag;
 
@@ -9,8 +10,10 @@ namespace Lucy.Application.Tags.Commands.CreateTag;
 /// <param name="Key">The unique key for the tag.</param>
 /// <param name="Label">The label of the tag.</param>
 /// <param name="Description">A brief description of the tag.</param>
+/// <param name="Color">The color of the tag.</param>
 public record CreateTagCommand(
     long ProjectId,
     string Key,
     string? Label,
-    string? Description) : IRequest<long>;
+    string? Description,
+    Color? Color) : IRequest<long>;

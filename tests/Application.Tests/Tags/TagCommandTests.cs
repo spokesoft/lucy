@@ -57,14 +57,14 @@ public class TagCommandTests
             .Returns(Task.CompletedTask);
 
         var handler = new CreateTagCommandHandler(_unitOfWorkMock.Object);
-        var command = new CreateTagCommand(1, "test-key", "Test Tag", "Test Description");
+        var command = new CreateTagCommand(1, "test-key", "Test Tag", "Test Description", Color.Blue);
 
         // Act
         var result = await handler.HandleAsync(command, CancellationToken.None);
 
         // Assert
         Assert.True(result > 0);
-        _tagRepositoryMock.Verify(repo => repo.AddAsync(It.Is<Tag>(t => t.ProjectId == 1 && t.Key == "TEST-KEY" && t.Label == "Test Tag" && t.Description == "Test Description"), It.IsAny<CancellationToken>()), Times.Once);
+        _tagRepositoryMock.Verify(repo => repo.AddAsync(It.Is<Tag>(t => t.ProjectId == 1 && t.Key == "TEST-KEY" && t.Label == "Test Tag" && t.Description == "Test Description" && t.Color == Color.Blue), It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Fact]
@@ -86,7 +86,7 @@ public class TagCommandTests
             .ReturnsAsync(false);
 
         var validator = new CreateTagCommandValidator(_readOnlyUnitOfWorkMock.Object);
-        var command = new CreateTagCommand(1, "test-key", "Test Tag", "Test Description");
+        var command = new CreateTagCommand(1, "test-key", "Test Tag", "Test Description", Color.Green);
 
         // Act
         var result = await validator.ValidateAsync(command, CancellationToken.None);
@@ -104,7 +104,7 @@ public class TagCommandTests
             .ReturnsAsync((Project)null!);
 
         var validator = new CreateTagCommandValidator(_readOnlyUnitOfWorkMock.Object);
-        var command = new CreateTagCommand(1, "test-key", "Test Tag", "Test Description");
+        var command = new CreateTagCommand(1, "test-key", "Test Tag", "Test Description", null);
 
         // Act
         var result = await validator.ValidateAsync(command, CancellationToken.None);
@@ -133,7 +133,7 @@ public class TagCommandTests
             .ReturnsAsync(true);
 
         var validator = new CreateTagCommandValidator(_readOnlyUnitOfWorkMock.Object);
-        var command = new CreateTagCommand(1, "test-key", "Test Tag", "Test Description");
+        var command = new CreateTagCommand(1, "test-key", "Test Tag", "Test Description", Color.Red);
 
         // Act
         var result = await validator.ValidateAsync(command, CancellationToken.None);
@@ -154,7 +154,7 @@ public class TagCommandTests
             .ReturnsAsync(tag);
 
         var handler = new UpdateTagCommandHandler(_unitOfWorkMock.Object);
-        var command = new UpdateTagCommand(1, "new-key", "New Tag", "New Description");
+        var command = new UpdateTagCommand(1, "new-key", "New Tag", "New Description", Color.Red);
 
         // Act
         await handler.HandleAsync(command, CancellationToken.None);
@@ -163,6 +163,7 @@ public class TagCommandTests
         Assert.Equal("NEW-KEY", tag.Key);
         Assert.Equal("New Tag", tag.Label);
         Assert.Equal("New Description", tag.Description);
+        Assert.Equal(Color.Red, tag.Color);
     }
 
     [Fact]
@@ -180,7 +181,7 @@ public class TagCommandTests
             .ReturnsAsync(false);
 
         var validator = new UpdateTagCommandValidator(_readOnlyUnitOfWorkMock.Object);
-        var command = new UpdateTagCommand(1, "new-key", "New Tag", "New Description");
+        var command = new UpdateTagCommand(1, "new-key", "New Tag", "New Description", null);
 
         // Act
         var result = await validator.ValidateAsync(command, CancellationToken.None);
@@ -198,7 +199,7 @@ public class TagCommandTests
             .ReturnsAsync((Tag)null!);
 
         var validator = new UpdateTagCommandValidator(_readOnlyUnitOfWorkMock.Object);
-        var command = new UpdateTagCommand(1, "new-key", "New Tag", "New Description");
+        var command = new UpdateTagCommand(1, "new-key", "New Tag", "New Description", null);
 
         // Act
         var result = await validator.ValidateAsync(command, CancellationToken.None);
@@ -223,7 +224,7 @@ public class TagCommandTests
             .ReturnsAsync(true);
 
         var validator = new UpdateTagCommandValidator(_readOnlyUnitOfWorkMock.Object);
-        var command = new UpdateTagCommand(1, "new-key", "New Tag", "New Description");
+        var command = new UpdateTagCommand(1, "new-key", "New Tag", "New Description", Color.Green);
 
         // Act
         var result = await validator.ValidateAsync(command, CancellationToken.None);

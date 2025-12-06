@@ -58,11 +58,17 @@
   <data name="Command.New.Comment.Description">
     <value>Create a new comment on a project or ticket.</value>
   </data>
+  <data name="Command.New.Tag.Description">
+    <value>Create a new tag.</value>
+  </data>
   <data name="Command.List.Projects.Description">
     <value>List all projects.</value>
   </data>
   <data name="Command.List.Statuses.Description">
     <value>List all statuses for a project.</value>
+  </data>
+  <data name="Command.List.Tags.Description">
+    <value>List all tags for a project.</value>
   </data>
   <data name="Command.List.Tickets.Description">
     <value>List all tickets for a project.</value>
@@ -79,6 +85,9 @@
   <data name="Command.Show.Status.Description">
     <value>Show details of a status.</value>
   </data>
+  <data name="Command.Show.Tag.Description">
+    <value>Show details of a tag.</value>
+  </data>
   <data name="Command.Show.Ticket.Description">
     <value>Show details of a ticket.</value>
   </data>
@@ -94,11 +103,17 @@
   <data name="Command.Update.Comment.Description">
     <value>Update an existing comment.</value>
   </data>
+  <data name="Command.Update.Tag.Description">
+    <value>Update an existing tag.</value>
+  </data>
   <data name="Command.Delete.Project.Description">
     <value>Delete a project.</value>
   </data>
   <data name="Command.Delete.Comment.Description">
     <value>Delete a comment.</value>
+  </data>
+  <data name="Command.Delete.Tag.Description">
+    <value>Delete a tag.</value>
   </data>
   <data name="Command.Delete.Status.Description">
     <value>Delete a status from a project.</value>
@@ -136,6 +151,12 @@
   </data>
   <data name="Command.Context.Comments">
     <value>comments</value>
+  </data>
+  <data name="Command.Context.Tag">
+    <value>tag</value>
+  </data>
+  <data name="Command.Context.Tags">
+    <value>tags</value>
   </data>
 
   <!-- ===================== -->
@@ -225,6 +246,22 @@
   </data>
 
   <!-- ===================== -->
+  <!--     Tag Properties    -->
+  <!-- ===================== -->
+  <data name="Property.Tag.Key">
+    <value>Key</value>
+  </data>
+  <data name="Property.Tag.Label">
+    <value>Label</value>
+  </data>
+  <data name="Property.Tag.Description">
+    <value>Description</value>
+  </data>
+  <data name="Property.Tag.Color">
+    <value>Color</value>
+  </data>
+
+  <!-- ===================== -->
   <!--   View Resources   -->
   <!-- ===================== -->
   <data name="View.ProjectList.Title">
@@ -263,11 +300,23 @@
   <data name="View.CommentList.Caption">
     <value>Displaying {0}-{1} of {2} comments</value>
   </data>
+  <data name="View.TagList.Title">
+    <value>Tag List</value>
+  </data>
+  <data name="View.TagList.NoTags">
+    <value>No tags found</value>
+  </data>
+  <data name="View.TagList.Caption">
+    <value>Displaying {0}-{1} of {2} tags</value>
+  </data>
   <data name="View.ShowProject.Title">
     <value>Project</value>
   </data>
   <data name="View.ShowStatus.Title">
     <value>Status</value>
+  </data>
+  <data name="View.ShowTag.Title">
+    <value>Tag</value>
   </data>
   <data name="View.ShowTicket.Title">
     <value>Ticket</value>
@@ -320,6 +369,12 @@
   <data name="Command.New.Comment.Example.2">
     <value>new comment --project-id 1 --content "Another project comment"</value>
   </data>
+  <data name="Command.New.Tag.Example.0">
+    <value>new tag EXAMP BUG --label "Bug"</value>
+  </data>
+  <data name="Command.New.Tag.Example.1">
+    <value>new tag EXAMP DOCS -l "Documentation" -d "Docs related"</value>
+  </data>
 
   <data name="Command.List.Projects.Example.0">
     <value>list projects</value>
@@ -329,6 +384,12 @@
   </data>
   <data name="Command.List.Statuses.Example.1">
     <value>list statuses --project-id 1</value>
+  </data>
+  <data name="Command.List.Tags.Example.0">
+    <value>list tags EXAMP</value>
+  </data>
+  <data name="Command.List.Tags.Example.1">
+    <value>list tags --project-id 1</value>
   </data>
   <data name="Command.List.Tickets.Example.0">
     <value>list tickets ABC</value>
@@ -363,6 +424,15 @@
   </data>
   <data name="Command.Show.Status.Example.2">
     <value>show status --id 1</value>
+  </data>
+  <data name="Command.Show.Tag.Example.0">
+    <value>show tag EXAMP BUG</value>
+  </data>
+  <data name="Command.Show.Tag.Example.1">
+    <value>show tag BUG --project-id 1</value>
+  </data>
+  <data name="Command.Show.Tag.Example.2">
+    <value>show tag --id 1</value>
   </data>
   <data name="Command.Show.Ticket.Example.0">
     <value>show ticket ABC-1</value>
@@ -407,6 +477,15 @@
   <data name="Command.Update.Comment.Example.1">
     <value>update comment 5 -c "New content"</value>
   </data>
+  <data name="Command.Update.Tag.Example.0">
+    <value>update tag ABC BUG --new-key BUGS</value>
+  </data>
+  <data name="Command.Update.Tag.Example.1">
+    <value>update tag --project-id 1 BUG --label "Bug"</value>
+  </data>
+  <data name="Command.Update.Tag.Example.2">
+    <value>update tag --id 10 -l "Docs" -d "Documentation"</value>
+  </data>
 
   <data name="Command.Delete.Project.Example.0">
     <value>delete project EXAMP</value>
@@ -435,6 +514,15 @@
   <data name="Command.Delete.Comment.Example.1">
     <value>delete comment 5</value>
   </data>
+  <data name="Command.Delete.Tag.Example.0">
+    <value>delete tag ABC BUG</value>
+  </data>
+  <data name="Command.Delete.Tag.Example.1">
+    <value>delete tag --project-id 1 BUG</value>
+  </data>
+  <data name="Command.Delete.Tag.Example.2">
+    <value>delete tag --id 10</value>
+  </data>
 
   <!-- ===================== -->
   <!--     Log Messages     -->
@@ -442,47 +530,20 @@
   <data name="Messages.CommandError">
     <value>An error occurred while executing the command: {message}</value>
   </data>
-  <data name="Messages.DeletedProjectWithKey">
-    <value>Deleted project [yellow]{0}[/] [gray]ID={1}[/]</value>
+  <data name="Messages.CreatedProjectComment">
+    <value>Created project comment [gray]ID={0}[/]</value>
   </data>
-  <data name="Messages.DeletedProjectWithId">
-    <value>Deleted project [gray]ID={0}[/]</value>
-  </data>
-  <data name="Messages.DeletedStatusWithKeys">
-    <value>Deleted status [yellow]{0}[/] from project [yellow]{1}[/] [gray]ID={2}[/]</value>
-  </data>
-  <data name="Messages.DeletedStatusWithKey">
-    <value>Deleted status [yellow]{0}[/] [gray]ID={1}[/]</value>
-  </data>
-  <data name="Messages.DeletedStatusWithId">
-    <value>Deleted status [gray]ID={0}[/]</value>
-  </data>
-  <data name="Messages.CreatedProjectWithKey">
+  <data name="Messages.CreatedProject">
     <value>Created project [yellow]{0}[/] [gray]ID={1}[/]</value>
   </data>
-  <data name="Messages.CreatedStatusWithKeys">
-    <value>Created status [yellow]{0}[/] in project [yellow]{1}[/] [gray]ID={2}[/]</value>
-  </data>
-  <data name="Messages.CreatedStatusWithKey">
+  <data name="Messages.CreatedStatus">
     <value>Created status [yellow]{0}[/] [gray]ID={1}[/]</value>
+  </data>
+  <data name="Messages.CreatedTag">
+    <value>Created tag [yellow]{0}[/] in project [yellow]{1}[/] [gray]ID={2}[/]</value>
   </data>
   <data name="Messages.CreatedTicket">
     <value>Created ticket [yellow]{0}[/] [gray]ID={1}[/]</value>
-  </data>
-  <data name="Messages.UpdatedProject">
-    <value>Updated project [gray]ID={0}[/]</value>
-  </data>
-  <data name="Messages.UpdatedTicket">
-    <value>Updated ticket [gray]ID={0}[/]</value>
-  </data>
-  <data name="Messages.DeletedTicket">
-    <value>Deleted ticket [gray]ID={0}[/]</value>
-  </data>
-  <data name="Messages.DeletedComment">
-    <value>Deleted comment [gray]ID={0}[/]</value>
-  </data>
-  <data name="Messages.CreatedProjectComment">
-    <value>Created project comment [gray]ID={0}[/]</value>
   </data>
   <data name="Messages.CreatedTicketComment">
     <value>Created ticket comment [gray]ID={0}[/]</value>
@@ -490,11 +551,32 @@
   <data name="Messages.UpdatedComment">
     <value>Updated comment [gray]ID={0}[/]</value>
   </data>
-  <data name="Messages.UpdatedStatusWithId">
+  <data name="Messages.UpdatedProject">
+    <value>Updated project [gray]ID={0}[/]</value>
+  </data>
+  <data name="Messages.UpdatedStatus">
     <value>Updated status [gray]ID={0}[/]</value>
   </data>
-  <data name="Messages.UpdatedStatusWithKey">
-    <value>Updated status [yellow]{0}[/]</value>
+  <data name="Messages.UpdatedTag">
+    <value>Updated tag [gray]ID={0}[/]</value>
+  </data>
+  <data name="Messages.UpdatedTicket">
+    <value>Updated ticket [gray]ID={0}[/]</value>
+  </data>
+  <data name="Messages.DeletedComment">
+    <value>Deleted comment [gray]ID={0}[/]</value>
+  </data>
+  <data name="Messages.DeletedProject">
+    <value>Deleted project [gray]ID={0}[/]</value>
+  </data>
+  <data name="Messages.DeletedStatus">
+    <value>Deleted status [gray]ID={0}[/]</value>
+  </data>
+  <data name="Messages.DeletedTag">
+    <value>Deleted tag [gray]ID={0}[/]</value>
+  </data>
+  <data name="Messages.DeletedTicket">
+    <value>Deleted ticket [gray]ID={0}[/]</value>
   </data>
 
   <!-- ===================== -->
@@ -596,6 +678,9 @@
   </data>
   <data name="Error.Status.NotFound">
     <value>Status not found.</value>
+  </data>
+  <data name="Error.Tag.NotFound">
+    <value>Tag not found.</value>
   </data>
   <data name="Error.Ticket.NotFound">
     <value>Ticket not found.</value>

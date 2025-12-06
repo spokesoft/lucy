@@ -40,7 +40,6 @@ internal class NewTicketCommandHandler(
         NewTicketCommand command,
         CancellationToken token = default)
     {
-        // Resolve ProjectId
         var projectId = command.ProjectId;
         if (projectId is null)
         {
@@ -53,20 +52,14 @@ internal class NewTicketCommandHandler(
             projectId = await _mediator.Send(projectQuery, token);
         }
 
-        // Resolve StatusId
         var statusId = command.StatusId;
         if (statusId is null)
         {
             if (command.StatusKey is not null)
             {
                 var statusQuery = new GetStatusByKeyQuery(projectId.Value, command.StatusKey);
-                var status = await _mediator.Send(statusQuery, token);
-
-                if (status is null)
-                {
-                    throw new InvalidOperationException($"Status with key '{command.StatusKey}' not found in project.");
-                }
-
+                var status = await _mediator.Send(statusQuery, token)
+                    ?? throw new InvalidOperationException($"Status with key '{command.StatusKey}' not found in project.");
                 statusId = status.Id;
             }
             else

@@ -90,7 +90,7 @@ public class UpdateStatusCommandHandlerTests
 
         // Assert
         Assert.Equal(ExitCode.Success, result);
-        Assert.Contains(statusKey, _console.Output);
+        Assert.Contains(statusId.ToString(), _console.Output);
 
         _mediatorMock.Verify(
             m => m.Send(
@@ -148,7 +148,7 @@ public class UpdateStatusCommandHandlerTests
 
         // Assert
         Assert.Equal(ExitCode.Success, result);
-        Assert.Contains(statusKey, _console.Output);
+        Assert.Contains(statusId.ToString(), _console.Output);
 
         _mediatorMock.Verify(
             m => m.Send(
@@ -244,7 +244,7 @@ public class UpdateStatusCommandHandlerTests
 
         // Assert
         Assert.Equal(ExitCode.Success, result);
-        Assert.Contains(statusKey, _console.Output);
+        Assert.Contains(statusId.ToString(), _console.Output);
 
         _mediatorMock.Verify(
             m => m.Send(

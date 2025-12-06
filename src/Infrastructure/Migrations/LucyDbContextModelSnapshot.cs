@@ -194,7 +194,7 @@ namespace Lucy.Infrastructure.Migrations
                     b.HasIndex("ProjectId", "Key")
                         .IsUnique();
 
-                    b.ToTable("Tag");
+                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("Lucy.Domain.Entities.Ticket", b =>

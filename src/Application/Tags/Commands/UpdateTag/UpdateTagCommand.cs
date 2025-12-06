@@ -1,4 +1,5 @@
 using Lucy.Application.Interfaces;
+using Lucy.Domain.Enums;
 
 namespace Lucy.Application.Tags.Commands.UpdateTag;
 
@@ -9,8 +10,10 @@ namespace Lucy.Application.Tags.Commands.UpdateTag;
 /// <param name="Key">The key of the tag.</param>
 /// <param name="Label">The label of the tag.</param>
 /// <param name="Description">The description of the tag.</param>
+/// <param name="Color">The color of the tag.</param>
 public record UpdateTagCommand(
     long Id,
     string? Key,
     string? Label,
-    string? Description) : IRequest;
+    string? Description,
+    Color? Color) : IRequest;

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lucy.Infrastructure.Migrations
 {
     [DbContext(typeof(LucyDbContext))]
-    [Migration("20251129200051_initTags")]
+    [Migration("20251206182844_initTags")]
     partial class initTags
     {
         /// <inheritdoc />
@@ -197,7 +197,7 @@ namespace Lucy.Infrastructure.Migrations
                     b.HasIndex("ProjectId", "Key")
                         .IsUnique();
 
-                    b.ToTable("Tag");
+                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("Lucy.Domain.Entities.Ticket", b =>

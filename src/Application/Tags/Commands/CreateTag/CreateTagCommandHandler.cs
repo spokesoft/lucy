@@ -20,7 +20,8 @@ public class CreateTagCommandHandler(
             request.ProjectId,
             request.Key,
             request.Label,
-            request.Description);
+            request.Description,
+            request.Color);
 
         await _uow.Tags.AddAsync(tag, token);
         await _uow.SaveChangesAsync(token);

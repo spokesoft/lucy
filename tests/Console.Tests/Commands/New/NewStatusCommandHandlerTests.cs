@@ -81,7 +81,6 @@ public class NewStatusCommandHandlerTests
         Assert.Equal(ExitCode.Success, result);
         var output = _console.Output;
         Assert.Contains(command.Key, output);
-        Assert.Contains(command.ProjectKey, output);
         Assert.Contains(statusId.ToString(), output);
     }
 
@@ -166,7 +165,6 @@ public class NewStatusCommandHandlerTests
         Assert.Equal(ExitCode.Success, result);
         var output = _console.Output;
         Assert.Contains(command.Key, output);
-        Assert.Contains(command.ProjectKey, output);
         Assert.Contains(statusId.ToString(), output);
     }
 }

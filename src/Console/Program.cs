@@ -53,6 +53,7 @@ app.Configure(config =>
             branch.AddAsyncDelegate<NewStatusCommand>("New.Status", executor, localizer);
             branch.AddAsyncDelegate<NewTicketCommand>("New.Ticket", executor, localizer);
             branch.AddAsyncDelegate<NewCommentCommand>("New.Comment", executor, localizer);
+            branch.AddAsyncDelegate<NewTagCommand>("New.Tag", executor, localizer);
         });
 
     #endregion
@@ -65,6 +66,7 @@ app.Configure(config =>
 
             branch.AddAsyncDelegate<ListProjectsCommand>("List.Projects", executor, localizer);
             branch.AddAsyncDelegate<ListStatusesCommand>("List.Statuses", executor, localizer);
+            branch.AddAsyncDelegate<ListTagsCommand>("List.Tags", executor, localizer);
             branch.AddAsyncDelegate<ListTicketsCommand>("List.Tickets", executor, localizer);
             branch.AddAsyncDelegate<ListCommentsCommand>("List.Comments", executor, localizer);
         });
@@ -79,6 +81,7 @@ app.Configure(config =>
         branch.AddAsyncDelegate<ShowBoardCommand>("Show.Board", executor, localizer);
         branch.AddAsyncDelegate<ShowProjectCommand>("Show.Project", executor, localizer);
         branch.AddAsyncDelegate<ShowStatusCommand>("Show.Status", executor, localizer);
+        branch.AddAsyncDelegate<ShowTagCommand>("Show.Tag", executor, localizer);
         branch.AddAsyncDelegate<ShowTicketCommand>("Show.Ticket", executor, localizer);
     });
 
@@ -93,6 +96,7 @@ app.Configure(config =>
         branch.AddAsyncDelegate<UpdateStatusCommand>("Update.Status", executor, localizer);
         branch.AddAsyncDelegate<UpdateTicketCommand>("Update.Ticket", executor, localizer);
         branch.AddAsyncDelegate<UpdateCommentCommand>("Update.Comment", executor, localizer);
+        branch.AddAsyncDelegate<UpdateTagCommand>("Update.Tag", executor, localizer);
     });
 
     #endregion
@@ -106,6 +110,7 @@ app.Configure(config =>
         branch.AddAsyncDelegate<DeleteStatusCommand>("Delete.Status", executor, localizer);
         branch.AddAsyncDelegate<DeleteTicketCommand>("Delete.Ticket", executor, localizer);
         branch.AddAsyncDelegate<DeleteCommentCommand>("Delete.Comment", executor, localizer);
+        branch.AddAsyncDelegate<DeleteTagCommand>("Delete.Tag", executor, localizer);
     });
 
     #endregion

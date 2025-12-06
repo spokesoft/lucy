@@ -24,17 +24,17 @@ public class TagQueryTests
         // Arrange
         var tags = new List<Tag>
         {
-            new Tag(1, "BUG", "Bug", "Bug reports", Color.Red),
-            new Tag(1, "FEATURE", "Feature", "New features", Color.Blue),
-            new Tag(1, "ENHANCEMENT", "Enhancement", "Improvements", Color.Green)
+            new(1, "BUG", "Bug", "Bug reports", Color.Red),
+            new(1, "FEATURE", "Feature", "New features", Color.Blue),
+            new(1, "ENHANCEMENT", "Enhancement", "Improvements", Color.Green)
         };
 
         _readOnlyUnitOfWorkMock
-            .Setup(u => u.Tags.GetAllAsync(It.IsAny<CancellationToken>()))
+            .Setup(u => u.Tags.GetByProjectIdAsync(1, It.IsAny<CancellationToken>()))
             .ReturnsAsync(tags);
 
         var handler = new ListTagsQueryHandler(_readOnlyUnitOfWorkMock.Object);
-        var query = new ListTagsQuery();
+        var query = new ListTagsQuery(1);
 
         // Act
         var result = await handler.HandleAsync(query, CancellationToken.None);

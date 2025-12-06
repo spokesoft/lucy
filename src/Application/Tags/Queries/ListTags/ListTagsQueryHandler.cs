@@ -12,7 +12,7 @@ public class ListTagsQueryHandler(
     private readonly IReadOnlyUnitOfWork _uow = unitOfWork;
 
     public Task<List<TagDto>> HandleAsync(ListTagsQuery request, CancellationToken token = default)
-        => _uow.Tags.GetAllAsync(token)
+        => _uow.Tags.GetByProjectIdAsync(request.ProjectId, token)
             .ContinueWith(task => task.Result.Select(tag => new TagDto
             {
                 Id = tag.Id,

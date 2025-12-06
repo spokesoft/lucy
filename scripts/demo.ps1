@@ -33,6 +33,10 @@ try {
     & $bin update status DEMO REVIEW --name "In Review"
     & $bin update status DEMO REVIEW --description "Tasks that are in review"
 
+    # Define Tags
+    & $bin new tag URGENT --color red --project DEMO
+    & $bin new tag FEATURE --color blue --project DEMO
+
     # Manage Tickets
     & $bin new ticket "Implement authentication for pets" --project DEMO
     & $bin new ticket "Implement purr-based two-factor authentication (P2FA)" --project DEMO

@@ -65,16 +65,8 @@ internal class UpdateStatusCommandHandler(
 
         await _mediator.Send(request, token);
 
-        if (command.StatusKey is null)
-        {
-            var message = _localizer["Messages.UpdatedStatusWithId", statusId];
-            _console.MarkupLine("[green]:check_mark:[/] " + message);
-        }
-        else
-        {
-            var message = _localizer["Messages.UpdatedStatusWithKey", command.StatusKey];
-            _console.MarkupLine("[green]:check_mark:[/] " + message);
-        }
+        var message = _localizer["Messages.UpdatedStatus", statusId];
+        _console.MarkupLine("[green]:check_mark:[/] " + message);
 
         return ExitCode.Success;
     }

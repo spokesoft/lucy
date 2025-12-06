@@ -57,7 +57,7 @@ internal class NewStatusCommandHandler(
 
         var id = await _mediator.Send(request, token);
 
-        _console.MarkupLine("[green]:check_mark:[/] " + _localizer["Messages.CreatedStatusWithKeys", command.Key, command.ProjectKey, id]);
+        _console.MarkupLine("[green]:check_mark:[/] " + _localizer["Messages.CreatedStatus", command.Key, id]);
 
         return ExitCode.Success;
     }

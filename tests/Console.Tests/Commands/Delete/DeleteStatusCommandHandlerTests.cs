@@ -66,7 +66,7 @@ public class DeleteStatusCommandHandlerTests
 
         // Assert
         Assert.Equal(ExitCode.Success, result);
-        Assert.Contains("Messages.DeletedStatusWithKeys", _console.Output);
+        Assert.Contains("Messages.DeletedStatus", _console.Output);
 
         _mediatorMock.Verify(
             m => m.Send(
@@ -101,7 +101,7 @@ public class DeleteStatusCommandHandlerTests
 
         // Assert
         Assert.Equal(ExitCode.Success, result);
-        Assert.Contains("Messages.DeletedStatusWithKey", _console.Output);
+        Assert.Contains("Messages.DeletedStatus", _console.Output);
 
         _mediatorMock.Verify(
             m => m.Send(
@@ -128,7 +128,7 @@ public class DeleteStatusCommandHandlerTests
 
         // Assert
         Assert.Equal(ExitCode.Success, result);
-        Assert.Contains("Messages.DeletedStatusWithId", _console.Output);
+        Assert.Contains("Messages.DeletedStatus", _console.Output);
 
         _mediatorMock.Verify(
             m => m.Send(

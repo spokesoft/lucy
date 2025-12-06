@@ -26,6 +26,8 @@ public class UpdateTagCommandHandler(
             tag.UpdateLabel(request.Label);
         if (request.Description is not null)
             tag.UpdateDescription(request.Description);
+        if (request.Color is not null)
+            tag.UpdateColor(request.Color.Value);
 
         await _uow.SaveChangesAsync(token);
     }
