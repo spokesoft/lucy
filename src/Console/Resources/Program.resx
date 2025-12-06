@@ -14,6 +14,12 @@
   <data name="Command.New">
     <value>new</value>
   </data>
+  <data name="Command.Add">
+    <value>add</value>
+  </data>
+  <data name="Command.Remove">
+    <value>remove</value>
+  </data>
   <data name="Command.List">
     <value>list</value>
   </data>
@@ -32,6 +38,12 @@
   <!-- ===================== -->
   <data name="Command.New.Description">
     <value>Create a new resource.</value>
+  </data>
+  <data name="Command.Add.Description">
+    <value>Add or link resources together.</value>
+  </data>
+  <data name="Command.Remove.Description">
+    <value>Remove or unlink resources.</value>
   </data>
   <data name="Command.List.Description">
     <value>List all resources.</value>
@@ -105,6 +117,12 @@
   </data>
   <data name="Command.Update.Tag.Description">
     <value>Update an existing tag.</value>
+  </data>
+  <data name="Command.Add.Tag.Description">
+    <value>Add a tag to a ticket.</value>
+  </data>
+  <data name="Command.Remove.Tag.Description">
+    <value>Remove a tag from a ticket.</value>
   </data>
   <data name="Command.Delete.Project.Description">
     <value>Delete a project.</value>
@@ -545,6 +563,9 @@
   <data name="Messages.CreatedTicket">
     <value>Created ticket [yellow]{0}[/] [gray]ID={1}[/]</value>
   </data>
+  <data name="Messages.AddedTagToTicket">
+    <value>Added tag [gray]ID={0}[/] to ticket [gray]ID={1}[/]</value>
+  </data>
   <data name="Messages.CreatedTicketComment">
     <value>Created ticket comment [gray]ID={0}[/]</value>
   </data>
@@ -577,6 +598,9 @@
   </data>
   <data name="Messages.DeletedTicket">
     <value>Deleted ticket [gray]ID={0}[/]</value>
+  </data>
+  <data name="Messages.RemovedTagFromTicket">
+    <value>Removed tag [gray]ID={0}[/] from ticket [gray]ID={1}[/]</value>
   </data>
 
   <!-- ===================== -->

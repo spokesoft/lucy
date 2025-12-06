@@ -27,7 +27,7 @@ public class RemoveTicketTagCommandValidator(
             return result;
         }
 
-        if (await _unitOfWork.Tickets.ExistsByIdAsync(request.TicketId, token))
+        if (!await _unitOfWork.Tickets.ExistsByIdAsync(request.TicketId, token))
         {
             result.AddError(ValidationCode.TicketNotFound, "TicketId", request.TicketId);
             return result;

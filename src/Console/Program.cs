@@ -1,4 +1,6 @@
-﻿using Lucy.Console.Commands.Delete;
+﻿using Lucy.Console.Commands.Add;
+using Lucy.Console.Commands.Delete;
+using Lucy.Console.Commands.Remove;
 using Lucy.Console.Commands.List;
 using Lucy.Console.Commands.New;
 using Lucy.Console.Commands.Show;
@@ -57,6 +59,17 @@ app.Configure(config =>
         });
 
     #endregion
+    #region Add Command Branch
+
+    config.AddBranch<AddCommand>(localizer["Command.Add"],
+        branch =>
+        {
+            branch.SetDescription(localizer["Command.Add.Description"]);
+
+            branch.AddAsyncDelegate<AddTagCommand>("Add.Tag", executor, localizer);
+        });
+
+    #endregion
     #region List Command Branch
 
     config.AddBranch<ListCommand>(localizer["Command.List"],
@@ -111,6 +124,16 @@ app.Configure(config =>
         branch.AddAsyncDelegate<DeleteTicketCommand>("Delete.Ticket", executor, localizer);
         branch.AddAsyncDelegate<DeleteCommentCommand>("Delete.Comment", executor, localizer);
         branch.AddAsyncDelegate<DeleteTagCommand>("Delete.Tag", executor, localizer);
+    });
+
+    #endregion
+    #region Remove Command Branch
+
+    config.AddBranch<RemoveCommand>(localizer["Command.Remove"], branch =>
+    {
+        branch.SetDescription(localizer["Command.Remove.Description"]);
+
+        branch.AddAsyncDelegate<RemoveTagCommand>("Remove.Tag", executor, localizer);
     });
 
     #endregion

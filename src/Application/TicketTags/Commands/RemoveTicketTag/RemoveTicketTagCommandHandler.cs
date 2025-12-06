@@ -17,10 +17,10 @@ public class RemoveTicketTagCommandHandler(
     {
         var ticketTag = await _uow.TicketTags.GetByTicketAndTagAsync(request.TicketId, request.TagId, token);
 
-        if (ticketTag is not null)
-        {
-            _uow.TicketTags.Remove(ticketTag);
-            await _uow.SaveChangesAsync(token);
-        }
+        if (ticketTag is null)
+            throw new InvalidOperationException("Tag not found on ticket, cannot remove.");
+
+        _uow.TicketTags.Remove(ticketTag);
+        await _uow.SaveChangesAsync(token);
     }
 }
