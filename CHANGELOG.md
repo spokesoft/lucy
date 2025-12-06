@@ -8,12 +8,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
+- Added tag entity and related migrations.
+- Added tag related commands.
+- Added comprehensive unit tests for tag related features.
+
 ### Changed
 
 - New status command now takes project key first, then status key.
 - New ticket command takes project option instead of ordinal argument.
 - New ticket command defaults to first project status if none specified.
 - Show ticket command now displays status details.
+- Show ticket command now displays associated tags.
+- List tickets command now has option to filter by tag.
 - Show project command now displays key in panel header.
 - Show status command now has option to include tickets.
 - Made adjustments to views to improve layout and readability.
