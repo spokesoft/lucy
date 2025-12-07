@@ -8,6 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+### Security
+
+## [0.0.6] - 2025-12-07
+
+### Added
 
 - Added tag entity and related migrations.
 - Added tag related commands.
@@ -25,14 +34,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Show status command now has option to include tickets.
 - Made adjustments to views to improve layout and readability.
 
-### Deprecated
-### Removed
 ### Fixed
 
 - Fixed missing registration for delete status.
 - Fixed issue with update project command validating project key even when not specified.
-
-### Security
 
 ## [0.0.5] - 2025-11-17
 
@@ -143,7 +148,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Extension methods for common operations and DI registration
 - MIT License
 
-[unreleased]: https://github.com/spokesoft/lucy/compare/v0.0.5...HEAD
+[unreleased]: https://github.com/spokesoft/lucy/compare/v0.0.6...HEAD
+[0.0.6]: https://github.com/spokesoft/lucy/compare/v0.0.5...v0.0.6
 [0.0.5]: https://github.com/spokesoft/lucy/compare/v0.0.4...v0.0.5
 [0.0.4]: https://github.com/spokesoft/lucy/compare/v0.0.3...v0.0.4
 [0.0.3]: https://github.com/spokesoft/lucy/compare/v0.0.2...v0.0.3
