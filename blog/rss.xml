@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="rss.xsl"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+    <channel>
+        <title>Lucy Blog</title>
+        <link>https://spokesoft.github.io/lucy/blog</link>
+        <description>Lucy Blog</description>
+        <lastBuildDate>Sun, 07 Dec 2025 00:00:00 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <language>en</language>
+        <item>
+            <title><![CDATA[Version 0.0.6 Release]]></title>
+            <link>https://spokesoft.github.io/lucy/blog/v0.0.6</link>
+            <guid>https://spokesoft.github.io/lucy/blog/v0.0.6</guid>
+            <pubDate>Sun, 07 Dec 2025 00:00:00 GMT</pubDate>
+            <description><![CDATA[[0.0.6] - 2025-12-07]]></description>
+            <content:encoded><![CDATA[<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="006---2025-12-07">[0.0.6] - 2025-12-07<a href="https://spokesoft.github.io/lucy/blog/v0.0.6#006---2025-12-07" class="hash-link" aria-label="Direct link to [0.0.6] - 2025-12-07" title="Direct link to [0.0.6] - 2025-12-07" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="added">Added<a href="https://spokesoft.github.io/lucy/blog/v0.0.6#added" class="hash-link" aria-label="Direct link to Added" title="Direct link to Added" translate="no">​</a></h3>
+<ul>
+<li class="">Added tag entity and related migrations.</li>
+<li class="">Added tag related commands.</li>
+<li class="">Added comprehensive unit tests for tag related features.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="changed">Changed<a href="https://spokesoft.github.io/lucy/blog/v0.0.6#changed" class="hash-link" aria-label="Direct link to Changed" title="Direct link to Changed" translate="no">​</a></h3>
+<ul>
+<li class="">New status command now takes project key first, then status key.</li>
+<li class="">New ticket command takes project option instead of ordinal argument.</li>
+<li class="">New ticket command defaults to first project status if none specified.</li>
+<li class="">Show ticket command now displays status details.</li>
+<li class="">Show ticket command now displays associated tags.</li>
+<li class="">List tickets command now has option to filter by tag.</li>
+<li class="">Show project command now displays key in panel header.</li>
+<li class="">Show status command now has option to include tickets.</li>
+<li class="">Made adjustments to views to improve layout and readability.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="fixed">Fixed<a href="https://spokesoft.github.io/lucy/blog/v0.0.6#fixed" class="hash-link" aria-label="Direct link to Fixed" title="Direct link to Fixed" translate="no">​</a></h3>
+<ul>
+<li class="">Fixed missing registration for delete status.</li>
+<li class="">Fixed issue with update project command validating project key even when not specified.</li>
+</ul>]]></content:encoded>
+            <category>Release</category>
+        </item>
+        <item>
+            <title><![CDATA[Version 0.0.5 Release]]></title>
+            <link>https://spokesoft.github.io/lucy/blog/v0.0.5</link>
+            <guid>https://spokesoft.github.io/lucy/blog/v0.0.5</guid>
+            <pubDate>Mon, 17 Nov 2025 00:00:00 GMT</pubDate>
+            <description><![CDATA[[0.0.5] - 2025-11-17]]></description>
+            <content:encoded><![CDATA[<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="005---2025-11-17">[0.0.5] - 2025-11-17<a href="https://spokesoft.github.io/lucy/blog/v0.0.5#005---2025-11-17" class="hash-link" aria-label="Direct link to [0.0.5] - 2025-11-17" title="Direct link to [0.0.5] - 2025-11-17" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="added">Added<a href="https://spokesoft.github.io/lucy/blog/v0.0.5#added" class="hash-link" aria-label="Direct link to Added" title="Direct link to Added" translate="no">​</a></h3>
+<ul>
+<li class="">Added comment entity and related migrations.</li>
+<li class="">Added comment related commands.</li>
+<li class="">Added comprehensive unit tests for comment related features.</li>
+<li class="">Added 'show board' command to display project board.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="changed">Changed<a href="https://spokesoft.github.io/lucy/blog/v0.0.5#changed" class="hash-link" aria-label="Direct link to Changed" title="Direct link to Changed" translate="no">​</a></h3>
+<ul>
+<li class="">Changed 'show project' command to include ticket counts by status and comments.</li>
+<li class="">Changed 'show ticket' command to include comments.</li>
+</ul>]]></content:encoded>
+            <category>Release</category>
+        </item>
+        <item>
+            <title><![CDATA[Version 0.0.4 Release]]></title>
+            <link>https://spokesoft.github.io/lucy/blog/v0.0.4</link>
+            <guid>https://spokesoft.github.io/lucy/blog/v0.0.4</guid>
+            <pubDate>Sun, 16 Nov 2025 00:00:00 GMT</pubDate>
+            <description><![CDATA[[0.0.4] - 2025-11-16]]></description>
+            <content:encoded><![CDATA[<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="004---2025-11-16">[0.0.4] - 2025-11-16<a href="https://spokesoft.github.io/lucy/blog/v0.0.4#004---2025-11-16" class="hash-link" aria-label="Direct link to [0.0.4] - 2025-11-16" title="Direct link to [0.0.4] - 2025-11-16" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="added">Added<a href="https://spokesoft.github.io/lucy/blog/v0.0.4#added" class="hash-link" aria-label="Direct link to Added" title="Direct link to Added" translate="no">​</a></h3>
+<ul>
+<li class="">Added ticket entity and related migrations.</li>
+<li class="">Added ticket related commands.</li>
+<li class="">Added comprehensive unit tests for ticket related features.</li>
+<li class="">Added status filtering to the 'list tickets' command.</li>
+<li class="">Added case insensitive handling for project, ticket and status keys.</li>
+<li class="">Added unit tests for queries and repositories.</li>
+</ul>]]></content:encoded>
+            <category>Release</category>
+        </item>
+        <item>
+            <title><![CDATA[Version 0.0.3 Release]]></title>
+            <link>https://spokesoft.github.io/lucy/blog/v0.0.3</link>
+            <guid>https://spokesoft.github.io/lucy/blog/v0.0.3</guid>
+            <pubDate>Sat, 15 Nov 2025 00:00:00 GMT</pubDate>
+            <description><![CDATA[[0.0.3] - 2025-11-15]]></description>
+            <content:encoded><![CDATA[<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="003---2025-11-15">[0.0.3] - 2025-11-15<a href="https://spokesoft.github.io/lucy/blog/v0.0.3#003---2025-11-15" class="hash-link" aria-label="Direct link to [0.0.3] - 2025-11-15" title="Direct link to [0.0.3] - 2025-11-15" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="added">Added<a href="https://spokesoft.github.io/lucy/blog/v0.0.3#added" class="hash-link" aria-label="Direct link to Added" title="Direct link to Added" translate="no">​</a></h3>
+<ul>
+<li class="">Added status entity and related migrations.</li>
+<li class="">Added status related commands.</li>
+<li class="">Added comprehensive unit tests status related features.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="changed">Changed<a href="https://spokesoft.github.io/lucy/blog/v0.0.3#changed" class="hash-link" aria-label="Direct link to Changed" title="Direct link to Changed" translate="no">​</a></h3>
+<ul>
+<li class="">Refactored test file structure and improved test comments.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="fixed">Fixed<a href="https://spokesoft.github.io/lucy/blog/v0.0.3#fixed" class="hash-link" aria-label="Direct link to Fixed" title="Direct link to Fixed" translate="no">​</a></h3>
+<ul>
+<li class="">Adds missing migration for sequence entity.</li>
+<li class="">Fixes issue with request validation in mediation layer.</li>
+</ul>]]></content:encoded>
+            <category>Release</category>
+        </item>
+        <item>
+            <title><![CDATA[Version 0.0.2 Release]]></title>
+            <link>https://spokesoft.github.io/lucy/blog/v0.0.2</link>
+            <guid>https://spokesoft.github.io/lucy/blog/v0.0.2</guid>
+            <pubDate>Tue, 11 Nov 2025 00:00:00 GMT</pubDate>
+            <description><![CDATA[[0.0.2] - 2025-11-11]]></description>
+            <content:encoded><![CDATA[<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="002---2025-11-11">[0.0.2] - 2025-11-11<a href="https://spokesoft.github.io/lucy/blog/v0.0.2#002---2025-11-11" class="hash-link" aria-label="Direct link to [0.0.2] - 2025-11-11" title="Direct link to [0.0.2] - 2025-11-11" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="added">Added<a href="https://spokesoft.github.io/lucy/blog/v0.0.2#added" class="hash-link" aria-label="Direct link to Added" title="Direct link to Added" translate="no">​</a></h3>
+<ul>
+<li class="">Added sequences entity for ticket and iteration numbering.</li>
+<li class="">Added comprehensive unit tests for project sequences.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="changed">Changed<a href="https://spokesoft.github.io/lucy/blog/v0.0.2#changed" class="hash-link" aria-label="Direct link to Changed" title="Direct link to Changed" translate="no">​</a></h3>
+<ul>
+<li class="">Updated project entity to include sequences collection.</li>
+</ul>]]></content:encoded>
+            <category>Release</category>
+        </item>
+        <item>
+            <title><![CDATA[Initial Release of Lucy]]></title>
+            <link>https://spokesoft.github.io/lucy/blog/initial-release</link>
+            <guid>https://spokesoft.github.io/lucy/blog/initial-release</guid>
+            <pubDate>Tue, 28 Oct 2025 00:00:00 GMT</pubDate>
+            <description><![CDATA[[0.0.1]]]></description>
+            <content:encoded><![CDATA[<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="001">[0.0.1]<a href="https://spokesoft.github.io/lucy/blog/initial-release#001" class="hash-link" aria-label="Direct link to [0.0.1]" title="Direct link to [0.0.1]" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="fixed">Fixed<a href="https://spokesoft.github.io/lucy/blog/initial-release#fixed" class="hash-link" aria-label="Direct link to Fixed" title="Direct link to Fixed" translate="no">​</a></h3>
+<ul>
+<li class="">Fixed issue with change log generation script not appending the unreleased link correctly.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="001-beta---2025-11-10">[0.0.1-beta] - 2025-11-10<a href="https://spokesoft.github.io/lucy/blog/initial-release#001-beta---2025-11-10" class="hash-link" aria-label="Direct link to [0.0.1-beta] - 2025-11-10" title="Direct link to [0.0.1-beta] - 2025-11-10" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="added">Added<a href="https://spokesoft.github.io/lucy/blog/initial-release#added" class="hash-link" aria-label="Direct link to Added" title="Direct link to Added" translate="no">​</a></h3>
+<ul>
+<li class="">Added unit tests for project entity</li>
+<li class="">Added unit tests for project command handlers and validators</li>
+<li class="">Added unit tests for project repository</li>
+<li class="">Added unit tests for mediation service</li>
+<li class="">Added unit tests for database logging service</li>
+<li class="">Added unit tests for command execution pipeline</li>
+<li class="">Added unit tests for project commands</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="changed">Changed<a href="https://spokesoft.github.io/lucy/blog/initial-release#changed" class="hash-link" aria-label="Direct link to Changed" title="Direct link to Changed" translate="no">​</a></h3>
+<ul>
+<li class="">Refactored project entity is now immutable with private setters and update methods</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="001-alpha1---2025-10-28">[0.0.1-alpha.1] - 2025-10-28<a href="https://spokesoft.github.io/lucy/blog/initial-release#001-alpha1---2025-10-28" class="hash-link" aria-label="Direct link to [0.0.1-alpha.1] - 2025-10-28" title="Direct link to [0.0.1-alpha.1] - 2025-10-28" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="changed-1">Changed<a href="https://spokesoft.github.io/lucy/blog/initial-release#changed-1" class="hash-link" aria-label="Direct link to Changed" title="Direct link to Changed" translate="no">​</a></h3>
+<ul>
+<li class="">Changed tool command name from "spokesoft" to "lucy".</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="fixed-1">Fixed<a href="https://spokesoft.github.io/lucy/blog/initial-release#fixed-1" class="hash-link" aria-label="Direct link to Fixed" title="Direct link to Fixed" translate="no">​</a></h3>
+<ul>
+<li class="">Fixed issue with release workflow not pushing changes to master branch.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="001-alpha---2025-10-28">[0.0.1-alpha] - 2025-10-28<a href="https://spokesoft.github.io/lucy/blog/initial-release#001-alpha---2025-10-28" class="hash-link" aria-label="Direct link to [0.0.1-alpha] - 2025-10-28" title="Direct link to [0.0.1-alpha] - 2025-10-28" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="added-1">Added<a href="https://spokesoft.github.io/lucy/blog/initial-release#added-1" class="hash-link" aria-label="Direct link to Added" title="Direct link to Added" translate="no">​</a></h3>
+<ul>
+<li class="">Change log file</li>
+<li class="">Configuration for version control and code formatting</li>
+<li class="">Initial project structure (clean architecture)</li>
+<li class="">Foundation for unit testing with xUnit and Moq</li>
+<li class="">Project entity and type configuration</li>
+<li class="">Support for localization and internationalization</li>
+<li class="">Entity framework core integration with sqlite</li>
+<li class="">Unit of work and repository patterns</li>
+<li class="">Database logging service and provider</li>
+<li class="">Initial database migrations (app data and logging)</li>
+<li class="">CQRS pattern implementation (enforced with separate read/write contexts)</li>
+<li class="">Request validation and handling with mediation pattern</li>
+<li class="">Initial command tree structure for CLI commands</li>
+<li class="">Command execution pipeline and integration with Spectre.Console.Cli</li>
+<li class="">Middleware for migrations, timing, validation, and error handling</li>
+<li class="">Basic error handling and user feedback mechanisms</li>
+<li class="">Initial CI/CD pipeline setup and build scripts</li>
+<li class="">Extension methods for common operations and DI registration</li>
+<li class="">MIT License</li>
+</ul>]]></content:encoded>
+            <category>Release</category>
+        </item>
+    </channel>
+</rss>

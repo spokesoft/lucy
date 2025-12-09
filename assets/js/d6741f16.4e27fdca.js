@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkspokesoft_github_io_docs=globalThis.webpackChunkspokesoft_github_io_docs||[]).push([[4888],{5401:e=>{e.exports=JSON.parse('{"tags":[{"label":"Release","permalink":"/lucy/blog/tags/release","description":"Stay updated with the latest releases of Lucy, including new features, improvements, and bug fixes.","count":6}]}')}}]);

@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkspokesoft_github_io_docs=globalThis.webpackChunkspokesoft_github_io_docs||[]).push([[6357],{2075:o=>{o.exports=JSON.parse('{"metadata":{"permalink":"/lucy/blog","page":1,"postsPerPage":10,"totalPages":1,"totalCount":6,"blogDescription":"Blog","blogTitle":"Blog"}}')}}]);
