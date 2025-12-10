@@ -1,5 +1,6 @@
 using Lucy.Application.Comments.Repositories;
 using Lucy.Application.Interfaces;
+using Lucy.Application.Iterations.Repositories;
 using Lucy.Application.Projects.Repositories;
 using Lucy.Application.Sequences.Repositories;
 using Lucy.Application.Statuses.Repositories;
@@ -55,6 +56,11 @@ public class UnitOfWork(
     /// Comment repository
     /// </summary>
     public ICommentRepository Comments { get; } = new CommentRepository(context);
+
+    /// <summary>
+    /// Iteration repository
+    /// </summary>
+    public IIterationRepository Iterations { get; } = new IterationRepository(context);
 
     /// <summary>
     /// Saves changes to the database asynchronously

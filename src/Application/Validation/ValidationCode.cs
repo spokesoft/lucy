@@ -214,4 +214,48 @@ public enum ValidationCode
     CommentContentLength,
 
     #endregion
+
+    #region Iteration Validation Codes
+
+    /// <summary>
+    /// Indicates that the specified iteration was not found.
+    /// </summary>
+    IterationNotFound,
+
+    /// <summary>
+    /// Indicates that the iteration key is required but was not provided.
+    /// </summary>
+    IterationKeyRequired,
+
+    /// <summary>
+    /// Indicates that the iteration key length is invalid.
+    /// </summary>
+    IterationKeyLength,
+
+    /// <summary>
+    /// Indicates that the iteration key already exists.
+    /// </summary>
+    IterationKeyExists,
+
+    /// <summary>
+    /// Indicates that the iteration name length is invalid.
+    /// </summary>
+    IterationNameLength,
+
+    /// <summary>
+    /// Indicates that the iteration description length is invalid.
+    /// </summary>
+    IterationDescriptionLength,
+
+    /// <summary>
+    /// Indicates that the iteration start date is after the end date.
+    /// </summary>
+    IterationStartDateAfterEndDate,
+
+    /// <summary>
+    /// Indicates that no data was provided for updating the iteration.
+    /// </summary>
+    IterationNoDataToUpdate,
+
+    #endregion
 }

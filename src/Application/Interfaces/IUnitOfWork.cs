@@ -1,4 +1,5 @@
 using Lucy.Application.Comments.Repositories;
+using Lucy.Application.Iterations.Repositories;
 using Lucy.Application.Projects.Repositories;
 using Lucy.Application.Sequences.Repositories;
 using Lucy.Application.Statuses.Repositories;
@@ -47,6 +48,11 @@ public interface IUnitOfWork
     /// Repository for Comment entities.
     /// </summary>
     public ICommentRepository Comments { get; }
+
+    /// <summary>
+    /// Repository for Iteration entities.
+    /// </summary>
+    public IIterationRepository Iterations { get; }
 
     /// <summary>
     /// Saves all changes made in the context to the database.

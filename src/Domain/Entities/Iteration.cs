@@ -64,8 +64,9 @@ public class Iteration : DomainEntity<long>
     public Iteration(
         long projectId,
         string key,
-        string name,
-        string description,
+        int number,
+        string? name,
+        string? description,
         DateTime? startDate,
         DateTime? endDate)
     {
@@ -73,6 +74,7 @@ public class Iteration : DomainEntity<long>
         Key = null!;
 
         UpdateKey(key);
+        UpdateNumber(number);
         UpdateName(name);
         UpdateDescription(description);
         UpdateStartDate(startDate);
@@ -84,7 +86,24 @@ public class Iteration : DomainEntity<long>
     /// </summary>
     public void UpdateKey(string key)
     {
+        if (string.IsNullOrWhiteSpace(key))
+            throw new ArgumentException("Project key cannot be null or whitespace.");
+
+        if (key.Length > 50)
+            throw new ArgumentException("Project key cannot exceed 50 characters.");
+
         Key = key;
+    }
+
+    /// <summary>
+    /// Updates the number of the iteration.
+    /// </summary>
+    public void UpdateNumber(int number)
+    {
+        if (number <= 0)
+            throw new ArgumentException("Iteration number must be a positive integer.");
+
+        Number = number;
     }
 
     /// <summary>

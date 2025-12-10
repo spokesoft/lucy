@@ -1,4 +1,5 @@
 using Lucy.Application.Comments.Repositories;
+using Lucy.Application.Iterations.Repositories;
 using Lucy.Application.Projects.Repositories;
 using Lucy.Application.Sequences.Repositories;
 using Lucy.Application.Statuses.Repositories;
@@ -47,4 +48,9 @@ public interface IReadOnlyUnitOfWork
     /// Read-only repository for Comment entities.
     /// </summary>
     public ICommentReadOnlyRepository Comments { get; }
+
+    /// <summary>
+    /// Read-only repository for Iteration entities.
+    /// </summary>
+    public IIterationReadOnlyRepository Iterations { get; }
 }
