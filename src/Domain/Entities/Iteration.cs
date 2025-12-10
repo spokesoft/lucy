@@ -21,6 +21,11 @@ public class Iteration : DomainEntity<long>
     public string Key { get; set; }
 
     /// <summary>
+    /// The sequence number of the iteration.
+    /// </summary>
+    public int Number { get; private set; }
+
+    /// <summary>
     /// The name of the iteration.
     /// </summary>
     public string? Name { get; set; }

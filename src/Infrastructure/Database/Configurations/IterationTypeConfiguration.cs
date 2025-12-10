@@ -17,6 +17,8 @@ public class IterationTypeConfiguration : IEntityTypeConfiguration<Iteration>
             .IsRequired()
             .HasMaxLength(50);
 
+        builder.Property(i => i.ProjectId).IsRequired();
+        builder.Property(i => i.Number).IsRequired();
         builder.Property(i => i.Name).HasMaxLength(100);
         builder.Property(i => i.Description).HasMaxLength(500);
         builder.Property(i => i.StartDate);

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lucy.Infrastructure.Migrations
 {
     [DbContext(typeof(LucyDbContext))]
-    [Migration("20251210171235_initIterations")]
+    [Migration("20251210174128_initIterations")]
     partial class initIterations
     {
         /// <inheritdoc />
@@ -73,6 +73,9 @@ namespace Lucy.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("Number")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("ProjectId")
                         .HasColumnType("INTEGER");

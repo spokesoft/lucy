@@ -25,6 +25,7 @@ namespace Lucy.Infrastructure.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     ProjectId = table.Column<long>(type: "INTEGER", nullable: false),
                     Key = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    Number = table.Column<int>(type: "INTEGER", nullable: false),
                     Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
                     Description = table.Column<string>(type: "TEXT", maxLength: 500, nullable: true),
                     StartDate = table.Column<DateTime>(type: "TEXT", nullable: true),

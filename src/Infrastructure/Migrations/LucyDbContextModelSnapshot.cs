@@ -71,6 +71,9 @@ namespace Lucy.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("Number")
+                        .HasColumnType("INTEGER");
+
                     b.Property<long>("ProjectId")
                         .HasColumnType("INTEGER");
 
