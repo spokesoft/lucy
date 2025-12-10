@@ -56,6 +56,16 @@ public class Ticket : DomainEntity<long>
     public ICollection<TicketTag> TicketTags { get; private set; } = [];
 
     /// <summary>
+    /// The ID of the iteration this ticket is assigned to.
+    /// </summary>
+    public long? IterationId { get; private set; }
+
+    /// <summary>
+    /// The iteration this ticket is assigned to.
+    /// </summary>
+    public Iteration? Iteration { get; private set; }
+
+    /// <summary>
     /// Initializes a new instance of the class.
     /// </summary>
     public Ticket(
@@ -133,4 +143,14 @@ public class Ticket : DomainEntity<long>
     /// Updates the status of the ticket.
     /// </summary>
     public void UpdateStatus(long statusId) => StatusId = statusId;
+
+    /// <summary>
+    /// Assigns the ticket to an iteration.
+    /// </summary>
+    public void SetIteration(long? iterationId) => IterationId = iterationId;
+
+    /// <summary>
+    /// Removes the ticket from its iteration.
+    /// </summary>
+    public void UnsetIteration() => IterationId = null;
 }

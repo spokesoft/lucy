@@ -15,6 +15,11 @@ public class LucyDbContext(DbContextOptions<LucyDbContext> options) : DbContext(
     private const string ConfigurationNamespace = "Lucy.Infrastructure.Database.Configurations";
 
     /// <summary>
+    /// Database set of sequences.
+    /// </summary>
+    public DbSet<Sequence> Sequences { get; set; }
+
+    /// <summary>
     /// Database set of projects.
     /// </summary>
     public DbSet<Project> Projects { get; set; }
@@ -35,14 +40,14 @@ public class LucyDbContext(DbContextOptions<LucyDbContext> options) : DbContext(
     public DbSet<Ticket> Tickets { get; set; }
 
     /// <summary>
-    /// Database set of sequences.
-    /// </summary>
-    public DbSet<Sequence> Sequences { get; set; }
-
-    /// <summary>
     /// Database set of comments (TPH: includes ProjectComment and TicketComment).
     /// </summary>
     public DbSet<Comment> Comments { get; set; }
+
+    /// <summary>
+    /// Database set of iterations.
+    /// </summary>
+    public DbSet<Iteration> Iterations { get; set; }
 
     /// <summary>
     /// Configures the model by applying all entity configurations from the specified namespace.

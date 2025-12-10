@@ -48,6 +48,11 @@ public class Project : DomainEntity<long>
     public ICollection<ProjectComment> Comments { get; private set; } = [];
 
     /// <summary>
+    /// The iterations associated with the project.
+    /// </summary>
+    public ICollection<Iteration> Iterations { get; private set; } = [];
+
+    /// <summary>
     /// Initializes a new instance of the class.
     /// </summary>
     public Project(

@@ -19,33 +19,45 @@ public class ProjectTypeConfiguration : IEntityTypeConfiguration<Project>
         builder.Property(p => p.CreatedAt).IsRequired();
         builder.Property(p => p.UpdatedAt).IsRequired();
 
+        // Configure the sequences relationship
         builder.HasMany(p => p.Sequences)
             .WithOne(s => s.Project)
             .HasForeignKey(s => s.ProjectId)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
 
+        // Configure the statuses relationship
         builder.HasMany(p => p.Statuses)
             .WithOne()
             .HasForeignKey(s => s.ProjectId)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
 
+        // Configure the tags relationship
         builder.HasMany(p => p.Tags)
             .WithOne(t => t.Project)
             .HasForeignKey(t => t.ProjectId)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
 
+        // Configure the tickets relationship
         builder.HasMany(p => p.Tickets)
             .WithOne(t => t.Project)
             .HasForeignKey(t => t.ProjectId)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
 
+        // Configure the comments relationship
         builder.HasMany(p => p.Comments)
             .WithOne(c => c.Project)
             .HasForeignKey(c => c.ProjectId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired();
+
+        // Configure the iterations relationship
+        builder.HasMany(p => p.Iterations)
+            .WithOne(i => i.Project)
+            .HasForeignKey(i => i.ProjectId)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
 
