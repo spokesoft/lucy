@@ -133,6 +133,12 @@
   <data name="Command.Delete.Project.Description">
     <value>Delete a project.</value>
   </data>
+  <data name="Command.Delete.Ticket.Description">
+    <value>Delete a ticket.</value>
+  </data>
+  <data name="Command.Delete.Iteration.Description">
+    <value>Delete an iteration.</value>
+  </data>
   <data name="Command.Delete.Comment.Description">
     <value>Delete a comment.</value>
   </data>
@@ -141,9 +147,6 @@
   </data>
   <data name="Command.Delete.Status.Description">
     <value>Delete a status from a project.</value>
-  </data>
-  <data name="Command.Delete.Ticket.Description">
-    <value>Delete a ticket.</value>
   </data>
 
   <!-- ===================== -->
@@ -553,6 +556,12 @@
   <data name="Command.Delete.Ticket.Example.1">
     <value>delete ticket --id 1</value>
   </data>
+  <data name="Command.Delete.Iteration.Example.0">
+    <value>delete iteration ABC-S1</value>
+  </data>
+  <data name="Command.Delete.Iteration.Example.1">
+    <value>delete iteration --id 1</value>
+  </data>
   <data name="Command.Delete.Comment.Example.0">
     <value>delete comment 1</value>
   </data>
@@ -619,6 +628,9 @@
   </data>
   <data name="Messages.DeletedComment">
     <value>Deleted comment [gray]ID={0}[/]</value>
+  </data>
+  <data name="Messages.DeletedIteration">
+    <value>Deleted iteration [gray]ID={0}[/]</value>
   </data>
   <data name="Messages.DeletedProject">
     <value>Deleted project [gray]ID={0}[/]</value>
