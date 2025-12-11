@@ -67,6 +67,9 @@
   <data name="Command.New.Ticket.Description">
     <value>Create a new ticket.</value>
   </data>
+  <data name="Command.New.Iteration.Description">
+    <value>Create a new iteration.</value>
+  </data>
   <data name="Command.New.Comment.Description">
     <value>Create a new comment on a project or ticket.</value>
   </data>
@@ -381,6 +384,15 @@
     <value>new ticket "Update docs" --project ABC --status IN-PROGRESS --description "Update API
       documentation"</value>
   </data>
+  <data name="Command.New.Iteration.Example.0">
+    <value>new iteration --project ABC --name "Sprint 1"</value>
+  </data>
+  <data name="Command.New.Iteration.Example.1">
+    <value>new iteration --project ABC --name "Q1 2025" --start 2025-01-01 --end 2025-03-31</value>
+  </data>
+  <data name="Command.New.Iteration.Example.2">
+    <value>new iteration --project-id 1 --name "Sprint 2" --description "Second sprint"</value>
+  </data>
   <data name="Command.New.Comment.Example.0">
     <value>new comment ABC --content "This is a project comment"</value>
   </data>
@@ -565,6 +577,9 @@
   </data>
   <data name="Messages.CreatedTicket">
     <value>Created ticket [yellow]{0}[/] [gray]ID={1}[/]</value>
+  </data>
+  <data name="Messages.CreatedIteration">
+    <value>Created iteration [gray]ID={0}[/]</value>
   </data>
   <data name="Messages.AddedTagToTicket">
     <value>Added tag [gray]ID={0}[/] to ticket [gray]ID={1}[/]</value>
