@@ -109,6 +109,7 @@ app.Configure(config =>
         branch.AddAsyncDelegate<UpdateProjectCommand>("Update.Project", executor, localizer);
         branch.AddAsyncDelegate<UpdateStatusCommand>("Update.Status", executor, localizer);
         branch.AddAsyncDelegate<UpdateTicketCommand>("Update.Ticket", executor, localizer);
+        branch.AddAsyncDelegate<UpdateIterationCommand>("Update.Iteration", executor, localizer);
         branch.AddAsyncDelegate<UpdateCommentCommand>("Update.Comment", executor, localizer);
         branch.AddAsyncDelegate<UpdateTagCommand>("Update.Tag", executor, localizer);
     });

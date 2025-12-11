@@ -44,4 +44,33 @@ public enum ConsoleValidationCode
     ProjectKeyOrIdRequiredForStatusKey,
 
     #endregion
+
+    #region Iteration Validation Codes
+
+    /// <summary>
+    /// Indicates that the command requires either an iteration key or ID to be
+    /// specified.
+    /// </summary>
+    IterationKeyOrIdRequired,
+
+    /// <summary>
+    /// Indicates that the iteration could not be found by the specified ID.
+    /// </summary>
+    IterationNotFound,
+
+    /// <summary>
+    /// Indicates that the iteration could not be found by the specified key.
+    /// </summary>
+    IterationKeyNotFound,
+
+    #endregion
+
+    #region General Validation Codes
+
+    /// <summary>
+    /// Indicates that the start date must be before the end date.
+    /// </summary>
+    InvalidDateRange,
+
+    #endregion
 }
