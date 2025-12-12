@@ -68,6 +68,7 @@ app.Configure(config =>
             branch.SetDescription(localizer["Command.Add.Description"]);
 
             branch.AddAsyncDelegate<AddTagCommand>("Add.Tag", executor, localizer);
+            branch.AddAsyncDelegate<AddTicketCommand>("Add.Ticket", executor, localizer);
         });
 
     #endregion
