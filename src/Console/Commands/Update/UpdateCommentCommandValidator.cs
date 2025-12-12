@@ -1,6 +1,7 @@
 using Lucy.Application.Comments.Queries.GetCommentById;
 using Lucy.Application.Interfaces;
 using Lucy.Application.Validation;
+using Lucy.Console.Enums;
 using Lucy.Console.Interfaces;
 using Spectre.Console.Cli;
 
@@ -28,18 +29,18 @@ internal class UpdateCommentCommandValidator(
 
         if (comment is null)
         {
-            result.AddError(new ValidationError(
-                $"Comment with ID {command.Id} not found.",
-                nameof(command.Id)));
+            result.AddError(
+                ConsoleValidationCode.CommentNotFound,
+                nameof(command.Id));
             return result;
         }
 
         // Validate content is provided
         if (string.IsNullOrWhiteSpace(command.Content))
         {
-            result.AddError(new ValidationError(
-                "Comment content is required.",
-                nameof(command.Content)));
+            result.AddError(
+                ConsoleValidationCode.CommentContentRequired,
+                nameof(command.Content));
             return result;
         }
 

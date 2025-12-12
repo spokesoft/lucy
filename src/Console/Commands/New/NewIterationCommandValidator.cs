@@ -1,6 +1,7 @@
 using Lucy.Application.Interfaces;
 using Lucy.Application.Projects.Queries.GetProjectByKey;
 using Lucy.Application.Validation;
+using Lucy.Console.Enums;
 using Lucy.Console.Interfaces;
 using Spectre.Console.Cli;
 
@@ -28,9 +29,9 @@ internal class NewIterationCommandValidator(
         // Validate that either ProjectKey or ProjectId is provided
         if (command.ProjectKey is null && command.ProjectId is null)
         {
-            result.AddError(new ValidationError(
-                "Either --project or --project-id must be provided.",
-                nameof(command.ProjectKey)));
+            result.AddError(
+                ConsoleValidationCode.ProjectKeyOrIdRequired,
+                nameof(command.ProjectKey));
             return result;
         }
 
@@ -42,9 +43,10 @@ internal class NewIterationCommandValidator(
 
             if (project is null)
             {
-                result.AddError(new ValidationError(
-                    $"Project with key '{command.ProjectKey}' not found.",
-                    nameof(command.ProjectKey)));
+                result.AddError(
+                    ConsoleValidationCode.ProjectKeyNotFound,
+                    nameof(command.ProjectKey),
+                    command.ProjectKey);
                 return result;
             }
         }
@@ -52,9 +54,9 @@ internal class NewIterationCommandValidator(
         // Validate date range if both dates are provided
         if (command.StartDate.HasValue && command.EndDate.HasValue && command.StartDate > command.EndDate)
         {
-            result.AddError(new ValidationError(
-                "Start date must be before end date.",
-                nameof(command.StartDate)));
+            result.AddError(
+                ConsoleValidationCode.InvalidDateRange,
+                nameof(command.StartDate));
         }
 
         return result;

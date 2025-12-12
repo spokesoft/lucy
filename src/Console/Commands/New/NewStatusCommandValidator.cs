@@ -1,6 +1,7 @@
 using Lucy.Application.Interfaces;
 using Lucy.Application.Projects.Queries.GetProjectByKey;
 using Lucy.Application.Validation;
+using Lucy.Console.Enums;
 using Lucy.Console.Interfaces;
 using Spectre.Console.Cli;
 
@@ -33,9 +34,10 @@ internal class NewStatusCommandValidator(
 
             if (project is null)
             {
-                result.AddError(new ValidationError(
-                    $"Project with key '{command.ProjectKey}' not found.",
-                    nameof(command.ProjectKey)));
+                result.AddError(
+                    ConsoleValidationCode.ProjectKeyNotFound,
+                    nameof(command.ProjectKey),
+                    command.ProjectKey);
             }
         }
 

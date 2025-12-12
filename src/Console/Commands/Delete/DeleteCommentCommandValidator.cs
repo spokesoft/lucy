@@ -1,6 +1,7 @@
 using Lucy.Application.Comments.Queries.GetCommentById;
 using Lucy.Application.Interfaces;
 using Lucy.Application.Validation;
+using Lucy.Console.Enums;
 using Lucy.Console.Interfaces;
 using Spectre.Console.Cli;
 
@@ -28,9 +29,9 @@ internal class DeleteCommentCommandValidator(
 
         if (comment is null)
         {
-            result.AddError(new ValidationError(
-                $"Comment with ID {command.Id} not found.",
-                nameof(command.Id)));
+            result.AddError(ValidationResult.Error(
+                ConsoleValidationCode.CommentNotFound,
+                nameof(command.Id)).Errors.First());
             return result;
         }
 

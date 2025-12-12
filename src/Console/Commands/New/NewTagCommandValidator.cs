@@ -3,6 +3,7 @@ using Lucy.Application.Interfaces;
 using Lucy.Application.Projects.Queries.ProjectExistsById;
 using Lucy.Application.Projects.Queries.ProjectExistsByKey;
 using Lucy.Application.Validation;
+using Lucy.Console.Enums;
 using Lucy.Console.Interfaces;
 using Spectre.Console.Cli;
 
@@ -29,9 +30,9 @@ internal class NewTagCommandValidator(
 
         if (command.ProjectKey is null && command.ProjectId is null)
         {
-            result.AddError(new ValidationError(
-                "Project key or --project-id is required.",
-                nameof(command.ProjectKey)));
+            result.AddError(
+                ConsoleValidationCode.ProjectKeyOrIdRequired,
+                nameof(command.ProjectKey));
             return result;
         }
 
@@ -43,9 +44,10 @@ internal class NewTagCommandValidator(
 
             if (!exists)
             {
-                result.AddError(new ValidationError(
-                    $"Project with key '{command.ProjectKey}' not found.",
-                    nameof(command.ProjectKey)));
+                result.AddError(
+                    ConsoleValidationCode.ProjectKeyNotFound,
+                    nameof(command.ProjectKey),
+                    command.ProjectKey!);
             }
         }
 

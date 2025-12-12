@@ -59,16 +59,17 @@ public class DeleteTagCommandValidator(
         if (command.TagId is null)
         {
             if (string.IsNullOrWhiteSpace(tagKey))
-                result.AddError(new ValidationError("Tag key or --id is required.", nameof(command.TagKey)));
+                result.AddError(ValidationResult.Error(ConsoleValidationCode.TagKeyOrIdRequired, nameof(command.TagKey)).Errors.First());
 
             if (result.IsValid)
             {
                 var tagExistsQuery = new TagExistsByKeyQuery(projectId!.Value, tagKey!);
                 if (!await _mediator.Send(tagExistsQuery, token))
                 {
-                    result.AddError(new ValidationError(
-                        $"Tag with key '{tagKey}' not found in project.",
-                        nameof(command.TagKey)));
+                    result.AddError(ValidationResult.Error(
+                        ConsoleValidationCode.TagNotFound,
+                        nameof(command.TagKey),
+                        tagKey!).Errors.First());
                 }
             }
         }

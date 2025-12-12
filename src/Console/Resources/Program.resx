@@ -800,4 +800,80 @@
     <value>Iteration not found.</value>
   </data>
 
+  <!-- ===================== -->
+  <!--   Validation Codes    -->
+  <!-- ===================== -->
+  <data name="Validation.Failed">
+    <value>Validation failed:</value>
+  </data>
+  <data name="Validation.ProjectKeyOrIdRequired">
+    <value>Project key or ID is required.</value>
+  </data>
+  <data name="Validation.ProjectKeyRequired">
+    <value>Project key is required.</value>
+  </data>
+  <data name="Validation.ProjectKeyNotFound">
+    <value>Project with key '{0}' not found.</value>
+  </data>
+  <data name="Validation.InvalidProjectKey">
+    <value>Invalid project key.</value>
+  </data>
+  <data name="Validation.ProjectAlreadyExists">
+    <value>Project with key '{0}' already exists.</value>
+  </data>
+  <data name="Validation.StatusKeyOrIdRequired">
+    <value>Status key or ID is required.</value>
+  </data>
+  <data name="Validation.StatusKeyNotFound">
+    <value>Status with key '{0}' not found.</value>
+  </data>
+  <data name="Validation.ProjectKeyOrIdRequiredForStatusKey">
+    <value>Project key or ID is required when using status key.</value>
+  </data>
+  <data name="Validation.IterationKeyOrIdRequired">
+    <value>Iteration key or ID is required.</value>
+  </data>
+  <data name="Validation.IterationNotFound">
+    <value>Iteration not found.</value>
+  </data>
+  <data name="Validation.IterationKeyNotFound">
+    <value>Iteration with key '{0}' not found.</value>
+  </data>
+  <data name="Validation.InvalidDateRange">
+    <value>Start date must be before end date.</value>
+  </data>
+  <data name="Validation.TicketKeyOrIdRequired">
+    <value>Ticket key or ID is required.</value>
+  </data>
+  <data name="Validation.TicketNotFound">
+    <value>Ticket not found.</value>
+  </data>
+  <data name="Validation.TicketKeyAndIdMutuallyExclusive">
+    <value>Cannot specify both ticket key and ID.</value>
+  </data>
+  <data name="Validation.TagKeyOrIdRequired">
+    <value>Tag key or ID is required.</value>
+  </data>
+  <data name="Validation.TagKeyRequired">
+    <value>Tag key is required.</value>
+  </data>
+  <data name="Validation.TagNotFound">
+    <value>Tag not found.</value>
+  </data>
+  <data name="Validation.CommentContentRequired">
+    <value>Comment content is required. Use --content option.</value>
+  </data>
+  <data name="Validation.CommentNotFound">
+    <value>Comment not found.</value>
+  </data>
+  <data name="Validation.CommentTargetRequired">
+    <value>Either Key, ProjectId, or TicketId must be provided.</value>
+  </data>
+  <data name="Validation.CommentTargetNotFound">
+    <value>Could not find ticket or project with key '{0}'.</value>
+  </data>
+  <data name="Validation.IterationKeyAndIdMutuallyExclusive">
+    <value>Cannot specify both iteration key and ID.</value>
+  </data>
+
 </root>

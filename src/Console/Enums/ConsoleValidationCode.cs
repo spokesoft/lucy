@@ -14,6 +14,11 @@ public enum ConsoleValidationCode
     ProjectKeyOrIdRequired,
 
     /// <summary>
+    /// Indicates that the project key is required.
+    /// </summary>
+    ProjectKeyRequired,
+
+    /// <summary>
     /// Indicates that the project could not be found by the specified key.
     /// </summary>
     ProjectKeyNotFound,
@@ -22,6 +27,11 @@ public enum ConsoleValidationCode
     /// Indicates that the provided project key is invalid.
     /// </summary>
     InvalidProjectKey,
+
+    /// <summary>
+    /// Indicates that a project with the specified key already exists.
+    /// </summary>
+    ProjectAlreadyExists,
 
     #endregion
 
@@ -71,6 +81,79 @@ public enum ConsoleValidationCode
     /// Indicates that the start date must be before the end date.
     /// </summary>
     InvalidDateRange,
+
+    #endregion
+
+    #region Ticket Validation Codes
+
+    /// <summary>
+    /// Indicates that the command requires either a ticket key or ID to be
+    /// specified.
+    /// </summary>
+    TicketKeyOrIdRequired,
+
+    /// <summary>
+    /// Indicates that the ticket could not be found.
+    /// </summary>
+    TicketNotFound,
+
+    /// <summary>
+    /// Indicates that both ticket key and ID were specified.
+    /// </summary>
+    TicketKeyAndIdMutuallyExclusive,
+
+    #endregion
+
+    #region Tag Validation Codes
+
+    /// <summary>
+    /// Indicates that the command requires either a tag key or ID to be
+    /// specified.
+    /// </summary>
+    TagKeyOrIdRequired,
+
+    /// <summary>
+    /// Indicates that the tag could not be found.
+    /// </summary>
+    TagNotFound,
+
+    /// <summary>
+    /// Indicates that the tag key is required.
+    /// </summary>
+    TagKeyRequired,
+
+    #endregion
+
+    #region Comment Validation Codes
+
+    /// <summary>
+    /// Indicates that the comment content is required.
+    /// </summary>
+    CommentContentRequired,
+
+    /// <summary>
+    /// Indicates that the comment could not be found.
+    /// </summary>
+    CommentNotFound,
+
+    /// <summary>
+    /// Indicates that a target (Key, ProjectId, or TicketId) is required for the comment.
+    /// </summary>
+    CommentTargetRequired,
+
+    /// <summary>
+    /// Indicates that the target for the comment could not be found.
+    /// </summary>
+    CommentTargetNotFound,
+
+    #endregion
+
+    #region Iteration Validation Codes (Extended)
+
+    /// <summary>
+    /// Indicates that both iteration key and ID were specified.
+    /// </summary>
+    IterationKeyAndIdMutuallyExclusive,
 
     #endregion
 }

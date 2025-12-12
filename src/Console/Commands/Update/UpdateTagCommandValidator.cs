@@ -3,6 +3,7 @@ using Lucy.Application.Projects.Queries.GetProjectIdByKey;
 using Lucy.Application.Projects.Queries.ProjectExistsByKey;
 using Lucy.Application.Tags.Queries.TagExistsByKey;
 using Lucy.Application.Validation;
+using Lucy.Console.Enums;
 using Lucy.Console.Interfaces;
 using Spectre.Console.Cli;
 
@@ -41,25 +42,21 @@ public class UpdateTagCommandValidator(
             }
 
             if (string.IsNullOrWhiteSpace(tagKey))
-                result.AddError(new ValidationError(
-                    "Tag key must be provided.",
-                    nameof(command.TagKey)));
+                result.AddError(ConsoleValidationCode.TagKeyRequired, nameof(command.TagKey));
 
             if (projectId is null && string.IsNullOrWhiteSpace(projectKey))
-                result.AddError(new ValidationError(
-                    "Project key or --project-id is required.",
-                    nameof(command.ProjectKey)));
+                result.AddError(ConsoleValidationCode.ProjectKeyOrIdRequired, nameof(command.ProjectKey));
 
             if (result.IsValid && projectId is null)
             {
                 var projectExistsQuery = new ProjectExistsByKeyQuery(projectKey!);
                 if (!await _mediator.Send(projectExistsQuery, token))
                 {
-                    result.AddError(new ValidationError(
-                        $"Project with key '{projectKey}' not found.",
-                        nameof(command.ProjectKey)));
+                    result.AddError(
+                        ConsoleValidationCode.ProjectKeyNotFound,
+                        nameof(command.ProjectKey),
+                        projectKey!);
                 }
-
                 if (result.IsValid)
                 {
                     var projectIdQuery = new GetProjectIdByKeyQuery(projectKey!);
@@ -74,9 +71,10 @@ public class UpdateTagCommandValidator(
 
                 if (!exists)
                 {
-                    result.AddError(new ValidationError(
-                        $"Tag with key '{tagKey}' not found in project.",
-                        nameof(command.TagKey)));
+                    result.AddError(
+                        ConsoleValidationCode.TagNotFound,
+                        nameof(command.TagKey),
+                        tagKey!);
                 }
             }
         }

@@ -4,6 +4,7 @@ using Lucy.Application.Tags.Queries.TagExistsByKey;
 using Lucy.Application.Tickets.Queries.GetTicketById;
 using Lucy.Application.Tickets.Queries.GetTicketByKey;
 using Lucy.Application.Validation;
+using Lucy.Console.Enums;
 using Lucy.Console.Interfaces;
 using Spectre.Console.Cli;
 
@@ -27,13 +28,13 @@ public class RemoveTagCommandValidator(
 
         if (command.TicketId is null && string.IsNullOrWhiteSpace(command.TicketKey))
         {
-            result.AddError(new ValidationError("Ticket key or --ticket-id is required.", nameof(command.TicketKey)));
+            result.AddError(ConsoleValidationCode.TicketKeyOrIdRequired, nameof(command.TicketKey));
             return result;
         }
 
         if (command.TagId is null && string.IsNullOrWhiteSpace(command.TagKey))
         {
-            result.AddError(new ValidationError("Tag key or --tag-id is required.", nameof(command.TagKey)));
+            result.AddError(ConsoleValidationCode.TagKeyOrIdRequired, nameof(command.TagKey));
             return result;
         }
 
@@ -44,7 +45,7 @@ public class RemoveTagCommandValidator(
 
         if (ticket is null)
         {
-            result.AddError(new ValidationError("Ticket not found.", nameof(command.TicketKey)));
+            result.AddError(ConsoleValidationCode.TicketNotFound, nameof(command.TicketKey));
             return result;
         }
 
@@ -54,7 +55,7 @@ public class RemoveTagCommandValidator(
             var exists = await _mediator.Send(new TagExistsByIdQuery(command.TagId.Value), token);
             if (!exists)
             {
-                result.AddError(new ValidationError("Tag not found.", nameof(command.TagId)));
+                result.AddError(ConsoleValidationCode.TagNotFound, nameof(command.TagId));
             }
             return result;
         }

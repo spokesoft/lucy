@@ -2,7 +2,6 @@ using Lucy.Application.Validation;
 using Lucy.Console.Enums;
 using Lucy.Console.Interfaces;
 using Lucy.Console.Internal;
-using Lucy.Console;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Spectre.Console;
@@ -50,10 +49,24 @@ internal class ErrorHandlerMiddleware(
         {
             if (ex is ValidationException vex)
             {
-                _console.MarkupLine("[red]Validation failed:[/]");
+                _console.MarkupLine($"[red]{_localizer["Validation.Failed"]}[/]");
                 foreach (var error in vex.Errors)
                 {
-                    _console.MarkupLine($"[red]  • {error.Message}[/]");
+                    var message = error.Message;
+                    if (Enum.TryParse<ConsoleValidationCode>(message, out var code))
+                    {
+                        var localizedMessage = _localizer[$"Validation.{code}"];
+                        if (!localizedMessage.ResourceNotFound)
+                        {
+                            message = localizedMessage;
+                            if (error.Parameters != null && error.Parameters.Length > 0)
+                            {
+                                message = string.Format(message, error.Parameters);
+                            }
+                        }
+                    }
+
+                    _console.MarkupLine($"[red] • {message}[/]");
                 }
                 return ExitCode.Invalid;
             }

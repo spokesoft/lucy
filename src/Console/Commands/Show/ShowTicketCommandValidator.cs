@@ -2,6 +2,7 @@ using Lucy.Application.Interfaces;
 using Lucy.Application.Tickets.Queries.GetTicketById;
 using Lucy.Application.Tickets.Queries.GetTicketByKey;
 using Lucy.Application.Validation;
+using Lucy.Console.Enums;
 using Lucy.Console.Interfaces;
 using Spectre.Console.Cli;
 
@@ -29,9 +30,9 @@ internal class ShowTicketCommandValidator(
         // Validate that either key or ID is provided
         if (command.Key is null && command.Id is null)
         {
-            result.AddError(new ValidationError(
-                "Either ticket key or ID must be provided.",
-                nameof(command.Key)));
+            result.AddError(
+                ConsoleValidationCode.TicketKeyOrIdRequired,
+                nameof(command.Key));
             return result;
         }
 
@@ -43,9 +44,9 @@ internal class ShowTicketCommandValidator(
 
             if (ticket is null)
             {
-                result.AddError(new ValidationError(
-                    $"Ticket with ID {command.Id} not found.",
-                    nameof(command.Id)));
+                result.AddError(
+                    ConsoleValidationCode.TicketNotFound,
+                    nameof(command.Id));
             }
         }
         else
@@ -55,9 +56,9 @@ internal class ShowTicketCommandValidator(
 
             if (ticket is null)
             {
-                result.AddError(new ValidationError(
-                    $"Ticket with key '{command.Key}' not found.",
-                    nameof(command.Key)));
+                result.AddError(
+                    ConsoleValidationCode.TicketNotFound,
+                    nameof(command.Key));
             }
         }
 

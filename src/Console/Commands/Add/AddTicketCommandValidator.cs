@@ -1,5 +1,6 @@
 using Lucy.Application.Interfaces;
 using Lucy.Application.Validation;
+using Lucy.Console.Enums;
 using Lucy.Console.Interfaces;
 using Microsoft.Extensions.Localization;
 using Spectre.Console.Cli;
@@ -23,48 +24,48 @@ internal class AddTicketCommandValidator(
         // Validate Ticket
         if (string.IsNullOrWhiteSpace(command.TicketKey) && !command.TicketId.HasValue)
         {
-            result.AddError("Ticket key or ID is required.");
+            result.AddError(ConsoleValidationCode.TicketKeyOrIdRequired);
         }
         else if (!string.IsNullOrWhiteSpace(command.TicketKey) && command.TicketId.HasValue)
         {
-            result.AddError("Cannot specify both ticket key and ID.");
+            result.AddError(ConsoleValidationCode.TicketKeyAndIdMutuallyExclusive);
         }
         else if (!string.IsNullOrWhiteSpace(command.TicketKey))
         {
             if (!await _uow.Tickets.ExistsByKeyAsync(command.TicketKey, token))
             {
-                result.AddError(_localizer["Error.Ticket.NotFound"]);
+                result.AddError(ConsoleValidationCode.TicketNotFound);
             }
         }
         else if (command.TicketId.HasValue)
         {
             if (await _uow.Tickets.GetByIdAsync(command.TicketId.Value, token) is null)
             {
-                result.AddError(_localizer["Error.Ticket.NotFound"]);
+                result.AddError(ConsoleValidationCode.TicketNotFound);
             }
         }
 
         // Validate Iteration
         if (string.IsNullOrWhiteSpace(command.IterationKey) && !command.IterationId.HasValue)
         {
-            result.AddError("Iteration key or ID is required.");
+            result.AddError(ConsoleValidationCode.IterationKeyOrIdRequired);
         }
         else if (!string.IsNullOrWhiteSpace(command.IterationKey) && command.IterationId.HasValue)
         {
-            result.AddError("Cannot specify both iteration key and ID.");
+            result.AddError(ConsoleValidationCode.IterationKeyAndIdMutuallyExclusive);
         }
         else if (!string.IsNullOrWhiteSpace(command.IterationKey))
         {
             if (!await _uow.Iterations.ExistsByKeyAsync(command.IterationKey, token))
             {
-                result.AddError(_localizer["Error.Iteration.NotFound"]);
+                result.AddError(ConsoleValidationCode.IterationNotFound);
             }
         }
         else if (command.IterationId.HasValue)
         {
             if (await _uow.Iterations.GetByIdAsync(command.IterationId.Value, token) is null)
             {
-                result.AddError(_localizer["Error.Iteration.NotFound"]);
+                result.AddError(ConsoleValidationCode.IterationNotFound);
             }
         }
 
