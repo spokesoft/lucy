@@ -812,6 +812,9 @@
   <data name="Validation.ProjectKeyRequired">
     <value>Project key is required.</value>
   </data>
+  <data name="Validation.ProjectNotFound">
+    <value>Project not found.</value>
+  </data>
   <data name="Validation.ProjectKeyNotFound">
     <value>Project with key '{0}' not found.</value>
   </data>
@@ -821,14 +824,71 @@
   <data name="Validation.ProjectAlreadyExists">
     <value>Project with key '{0}' already exists.</value>
   </data>
+  <data name="Validation.ProjectKeyInvalidCharacters">
+    <value>Project key contains invalid characters. Only letters, numbers, hyphens, and underscores are allowed.</value>
+  </data>
+  <data name="Validation.ProjectKeyStartWithLetter">
+    <value>Project key must start with a letter.</value>
+  </data>
+  <data name="Validation.ProjectKeyLength">
+    <value>Project key must be between 3 and 10 characters.</value>
+  </data>
+  <data name="Validation.ProjectKeyExists">
+    <value>Project with key '{0}' already exists.</value>
+  </data>
+  <data name="Validation.ProjectNameLength">
+    <value>Project name must be between 3 and 50 characters.</value>
+  </data>
+  <data name="Validation.ProjectDescriptionLength">
+    <value>Project description cannot exceed 500 characters.</value>
+  </data>
+  <data name="Validation.ProjectNoDataToUpdate">
+    <value>No data provided to update project.</value>
+  </data>
   <data name="Validation.StatusKeyOrIdRequired">
     <value>Status key or ID is required.</value>
+  </data>
+  <data name="Validation.StatusNotFound">
+    <value>Status not found.</value>
   </data>
   <data name="Validation.StatusKeyNotFound">
     <value>Status with key '{0}' not found.</value>
   </data>
   <data name="Validation.ProjectKeyOrIdRequiredForStatusKey">
     <value>Project key or ID is required when using status key.</value>
+  </data>
+  <data name="Validation.StatusKeyRequired">
+    <value>Status key is required.</value>
+  </data>
+  <data name="Validation.StatusKeyInvalidCharacters">
+    <value>Status key contains invalid characters. Only letters, numbers, hyphens, and underscores are allowed.</value>
+  </data>
+  <data name="Validation.StatusKeyStartWithLetter">
+    <value>Status key must start with a letter.</value>
+  </data>
+  <data name="Validation.StatusKeyLength">
+    <value>Status key must be between 3 and 10 characters.</value>
+  </data>
+  <data name="Validation.StatusKeyExists">
+    <value>Status with key '{0}' already exists in project.</value>
+  </data>
+  <data name="Validation.StatusNameLength">
+    <value>Status name must be between 3 and 50 characters.</value>
+  </data>
+  <data name="Validation.StatusDescriptionLength">
+    <value>Status description cannot exceed 500 characters.</value>
+  </data>
+  <data name="Validation.StatusOrderInvalid">
+    <value>Status order must be greater than or equal to 0.</value>
+  </data>
+  <data name="Validation.StatusNoDataToUpdate">
+    <value>No data provided to update status.</value>
+  </data>
+  <data name="Validation.ReassignStatusNotFound">
+    <value>Reassignment status not found.</value>
+  </data>
+  <data name="Validation.ReassignStatusKeyNotFound">
+    <value>Reassignment status with key '{0}' not found.</value>
   </data>
   <data name="Validation.IterationKeyOrIdRequired">
     <value>Iteration key or ID is required.</value>
@@ -838,6 +898,27 @@
   </data>
   <data name="Validation.IterationKeyNotFound">
     <value>Iteration with key '{0}' not found.</value>
+  </data>
+  <data name="Validation.IterationKeyRequired">
+    <value>Iteration key is required.</value>
+  </data>
+  <data name="Validation.IterationKeyLength">
+    <value>Iteration key must be between 3 and 10 characters.</value>
+  </data>
+  <data name="Validation.IterationKeyExists">
+    <value>Iteration with key '{0}' already exists in project.</value>
+  </data>
+  <data name="Validation.IterationNameLength">
+    <value>Iteration name must be between 3 and 50 characters.</value>
+  </data>
+  <data name="Validation.IterationDescriptionLength">
+    <value>Iteration description cannot exceed 500 characters.</value>
+  </data>
+  <data name="Validation.IterationStartDateAfterEndDate">
+    <value>Iteration start date must be before end date.</value>
+  </data>
+  <data name="Validation.IterationNoDataToUpdate">
+    <value>No data provided to update iteration.</value>
   </data>
   <data name="Validation.InvalidDateRange">
     <value>Start date must be before end date.</value>
@@ -851,6 +932,21 @@
   <data name="Validation.TicketKeyAndIdMutuallyExclusive">
     <value>Cannot specify both ticket key and ID.</value>
   </data>
+  <data name="Validation.TicketTitleRequired">
+    <value>Ticket title is required.</value>
+  </data>
+  <data name="Validation.TicketTitleLength">
+    <value>Ticket title must be between 3 and 100 characters.</value>
+  </data>
+  <data name="Validation.TicketDescriptionLength">
+    <value>Ticket description cannot exceed 2000 characters.</value>
+  </data>
+  <data name="Validation.StatusNotInProject">
+    <value>Status does not belong to the project.</value>
+  </data>
+  <data name="Validation.TicketNoDataToUpdate">
+    <value>No data provided to update ticket.</value>
+  </data>
   <data name="Validation.TagKeyOrIdRequired">
     <value>Tag key or ID is required.</value>
   </data>
@@ -860,8 +956,29 @@
   <data name="Validation.TagNotFound">
     <value>Tag not found.</value>
   </data>
+  <data name="Validation.TagKeyInvalidCharacters">
+    <value>Tag key contains invalid characters. Only letters, numbers, hyphens, and underscores are allowed.</value>
+  </data>
+  <data name="Validation.TagKeyStartWithLetter">
+    <value>Tag key must start with a letter.</value>
+  </data>
+  <data name="Validation.TagKeyLength">
+    <value>Tag key must be between 3 and 20 characters.</value>
+  </data>
+  <data name="Validation.TagKeyExists">
+    <value>Tag with key '{0}' already exists in project.</value>
+  </data>
+  <data name="Validation.TagNameLength">
+    <value>Tag name must be between 3 and 50 characters.</value>
+  </data>
+  <data name="Validation.TagDescriptionLength">
+    <value>Tag description cannot exceed 500 characters.</value>
+  </data>
   <data name="Validation.CommentContentRequired">
     <value>Comment content is required. Use --content option.</value>
+  </data>
+  <data name="Validation.CommentContentLength">
+    <value>Comment content cannot exceed 2000 characters.</value>
   </data>
   <data name="Validation.CommentNotFound">
     <value>Comment not found.</value>

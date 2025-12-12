@@ -65,6 +65,18 @@ internal class ErrorHandlerMiddleware(
                             }
                         }
                     }
+                    else if (Enum.TryParse<ValidationCode>(message, out var appCode))
+                    {
+                        var localizedMessage = _localizer[$"Validation.{appCode}"];
+                        if (!localizedMessage.ResourceNotFound)
+                        {
+                            message = localizedMessage;
+                            if (error.Parameters != null && error.Parameters.Length > 0)
+                            {
+                                message = string.Format(message, error.Parameters);
+                            }
+                        }
+                    }
 
                     _console.MarkupLine($"[red] • {message}[/]");
                 }
