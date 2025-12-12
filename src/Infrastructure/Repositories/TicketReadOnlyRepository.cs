@@ -14,6 +14,8 @@ namespace Lucy.Infrastructure.Repositories;
 public class TicketReadOnlyRepository(
     LucyReadContext context) : ReadOnlyRepositoryBase<Ticket, long>(context), ITicketReadOnlyRepository
 {
+    private readonly LucyReadContext _context = context;
+
     /// <summary>
     /// Gets a ticket by its key.
     /// </summary>
@@ -109,6 +111,26 @@ public class TicketReadOnlyRepository(
     {
         return await _set
             .Where(t => t.ProjectId == projectId)
+            .GroupBy(t => t.Status)
+            .Select(g => new TicketCountByStatusDto
+            {
+                StatusId = g.Key.Id,
+                StatusKey = g.Key.Key,
+                StatusName = g.Key.Name,
+                StatusColor = g.Key.Color.ToString(),
+                Count = g.Count()
+            })
+            .OrderBy(x => x.StatusKey)
+            .ToListAsync(token);
+    }
+
+    /// <summary>
+    /// Gets ticket counts by status for a specific iteration.
+    /// </summary>
+    public async Task<IEnumerable<TicketCountByStatusDto>> GetTicketCountsByIterationIdAsync(long iterationId, CancellationToken token = default)
+    {
+        return await _set
+            .Where(t => t.IterationId == iterationId)
             .GroupBy(t => t.Status)
             .Select(g => new TicketCountByStatusDto
             {

@@ -50,6 +50,10 @@ try {
     & $bin add tag DEMO-1 URGENT
     & $bin add tag DEMO-2 FEATURE
 
+    # Create an Iteration
+    & $bin new iteration --project DEMO --name "Sprint 1"
+    & $bin update iteration DEMO-S1 --description "First sprint focusing on core features"
+
     Write-Host "`nDemo setup complete!" -ForegroundColor Green
     & $bin show board DEMO
 }

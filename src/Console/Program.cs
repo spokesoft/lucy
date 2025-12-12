@@ -97,6 +97,7 @@ app.Configure(config =>
         branch.AddAsyncDelegate<ShowStatusCommand>("Show.Status", executor, localizer);
         branch.AddAsyncDelegate<ShowTagCommand>("Show.Tag", executor, localizer);
         branch.AddAsyncDelegate<ShowTicketCommand>("Show.Ticket", executor, localizer);
+        branch.AddAsyncDelegate<ShowIterationCommand>("Show.Iteration", executor, localizer);
     });
 
     #endregion

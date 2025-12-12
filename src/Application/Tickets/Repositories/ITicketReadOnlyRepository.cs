@@ -70,4 +70,9 @@ public interface ITicketReadOnlyRepository : IReadOnlyRepository<Ticket, long>
     /// Gets ticket counts by status for a specific project.
     /// </summary>
     Task<IEnumerable<TicketCountByStatusDto>> GetTicketCountsByProjectIdAsync(long projectId, CancellationToken token = default);
+
+    /// <summary>
+    /// Gets ticket counts by status for a specific iteration.
+    /// </summary>
+    Task<IEnumerable<TicketCountByStatusDto>> GetTicketCountsByIterationIdAsync(long iterationId, CancellationToken token = default);
 }

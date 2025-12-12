@@ -6,13 +6,13 @@ using Lucy.Console.Enums;
 using Lucy.Console.Interfaces;
 using Spectre.Console.Cli;
 
-namespace Lucy.Console.Commands.Delete;
+namespace Lucy.Console.Commands.Show;
 
 /// <summary>
-/// Validator for <see cref="DeleteIterationCommand"/>
+/// Validator for <see cref="ShowIterationCommand"/>
 /// </summary>
-public class DeleteIterationCommandValidator(
-    IMediator mediator) : ICommandValidator<DeleteIterationCommand>
+public class ShowIterationCommandValidator(
+    IMediator mediator) : ICommandValidator<ShowIterationCommand>
 {
     /// <summary>
     /// The mediator instance.
@@ -22,7 +22,7 @@ public class DeleteIterationCommandValidator(
     /// <inheritdoc />
     public async Task<ValidationResult> ValidateAsync(
         CommandContext context,
-        DeleteIterationCommand command,
+        ShowIterationCommand command,
         CancellationToken token = default)
     {
         if (command.Id is null)
