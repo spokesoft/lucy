@@ -139,6 +139,7 @@ app.Configure(config =>
         branch.SetDescription(localizer["Command.Remove.Description"]);
 
         branch.AddAsyncDelegate<RemoveTagCommand>("Remove.Tag", executor, localizer);
+        branch.AddAsyncDelegate<RemoveTicketCommand>("Remove.Ticket", executor, localizer);
     });
 
     #endregion

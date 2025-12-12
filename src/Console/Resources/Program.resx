@@ -644,6 +644,9 @@
   <data name="Messages.AddedTicketToIteration">
     <value>Added ticket [yellow]{0}[/] to iteration [yellow]{1}[/]</value>
   </data>
+  <data name="Messages.RemovedTicketFromIteration">
+    <value>Removed ticket [yellow]{0}[/] from iteration [yellow]{1}[/]</value>
+  </data>
   <data name="Messages.CreatedTicketComment">
     <value>Created ticket comment [gray]ID={0}[/]</value>
   </data>
