@@ -1,4 +1,5 @@
 using Lucy.Application.Interfaces;
+using Lucy.Application.Iterations.Queries.IterationExistsByKey;
 using Lucy.Application.Projects.Queries.ProjectExistsByKey;
 using Lucy.Application.Validation;
 using Lucy.Console.Enums;
@@ -21,8 +22,11 @@ internal class ListTicketsCommandValidator(
         ListTicketsCommand command,
         CancellationToken token = default)
     {
-        // Require either key or ID
-        if (string.IsNullOrWhiteSpace(command.Key) && !command.Id.HasValue)
+        bool hasProject = !string.IsNullOrWhiteSpace(command.Key) || command.Id.HasValue;
+        bool hasIteration = !string.IsNullOrWhiteSpace(command.IterationKey) || command.IterationId.HasValue;
+
+        // Require either project or iteration
+        if (!hasProject && !hasIteration)
         {
             return ValidationResult.Error(ConsoleValidationCode.ProjectKeyOrIdRequired);
         }
@@ -37,6 +41,19 @@ internal class ListTicketsCommandValidator(
                     ConsoleValidationCode.ProjectKeyNotFound,
                     nameof(command.Key),
                     command.Key);
+            }
+        }
+
+        // Validate iteration exists by key
+        if (!string.IsNullOrWhiteSpace(command.IterationKey) && !command.IterationId.HasValue)
+        {
+            var query = new IterationExistsByKeyQuery(command.IterationKey);
+            if (!await _mediator.Send(query, token))
+            {
+                return ValidationResult.Error(
+                    ConsoleValidationCode.IterationKeyNotFound,
+                    nameof(command.IterationKey),
+                    command.IterationKey);
             }
         }
 

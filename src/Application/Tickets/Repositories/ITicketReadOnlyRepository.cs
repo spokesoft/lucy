@@ -22,6 +22,18 @@ public interface ITicketReadOnlyRepository : IReadOnlyRepository<Ticket, long>
     Task<bool> ExistsByKeyAsync(string key, CancellationToken token = default);
 
     /// <summary>
+    /// Searches for tickets with various filters.
+    /// </summary>
+    Task<List<Ticket>> SearchAsync(
+        long projectId,
+        long? statusId = null,
+        long? tagId = null,
+        long? iterationId = null,
+        TicketSortField sortBy = TicketSortField.Id,
+        SortDirection sortDirection = SortDirection.Ascending,
+        CancellationToken token = default);
+
+    /// <summary>
     /// Gets all tickets for a specific project.
     /// </summary>
     Task<List<Ticket>> GetByProjectIdAsync(long projectId, CancellationToken token = default);

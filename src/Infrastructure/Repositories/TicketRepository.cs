@@ -29,6 +29,38 @@ public class TicketRepository(
         => _set.AnyAsync(ticket => ticket.Key.Equals(key), token);
 
     /// <summary>
+    /// Searches for tickets with various filters.
+    /// </summary>
+    public Task<List<Ticket>> SearchAsync(
+        long projectId,
+        long? statusId = null,
+        long? tagId = null,
+        long? iterationId = null,
+        TicketSortField sortBy = TicketSortField.Id,
+        SortDirection sortDirection = SortDirection.Ascending,
+        CancellationToken token = default)
+    {
+        var query = _set.Where(ticket => ticket.ProjectId == projectId);
+
+        if (statusId.HasValue)
+        {
+            query = query.Where(ticket => ticket.StatusId == statusId.Value);
+        }
+
+        if (tagId.HasValue)
+        {
+            query = query.Where(ticket => ticket.TicketTags.Any(tt => tt.TagId == tagId.Value));
+        }
+
+        if (iterationId.HasValue)
+        {
+            query = query.Where(ticket => ticket.IterationId == iterationId.Value);
+        }
+
+        return ApplySort(query, sortBy, sortDirection).ToListAsync(token);
+    }
+
+    /// <summary>
     /// Gets all tickets for a specific project.
     /// </summary>
     public Task<List<Ticket>> GetByProjectIdAsync(long projectId, CancellationToken token = default)

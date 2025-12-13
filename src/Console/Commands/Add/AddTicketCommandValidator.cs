@@ -32,7 +32,7 @@ internal class AddTicketCommandValidator(
         }
         else if (!string.IsNullOrWhiteSpace(command.TicketKey))
         {
-            if (!await _uow.Tickets.ExistsByKeyAsync(command.TicketKey, token))
+            if (!await _uow.Tickets.ExistsByKeyAsync(command.TicketKey.ToUpperInvariant(), token))
             {
                 result.AddError(ConsoleValidationCode.TicketNotFound);
             }
@@ -56,7 +56,7 @@ internal class AddTicketCommandValidator(
         }
         else if (!string.IsNullOrWhiteSpace(command.IterationKey))
         {
-            if (!await _uow.Iterations.ExistsByKeyAsync(command.IterationKey, token))
+            if (!await _uow.Iterations.ExistsByKeyAsync(command.IterationKey.ToUpperInvariant(), token))
             {
                 result.AddError(ConsoleValidationCode.IterationNotFound);
             }

@@ -1,4 +1,6 @@
 using Lucy.Application.Interfaces;
+using Lucy.Application.Iterations.Queries.GetIterationIdByKey;
+using Lucy.Application.Iterations.Queries.GetProjectIdFromIteration;
 using Lucy.Application.Projects.Queries.GetProjectIdByKey;
 using Lucy.Application.Statuses.DTOs;
 using Lucy.Application.Statuses.Queries.ListStatuses;
@@ -241,5 +243,41 @@ public class ListTicketsCommandHandlerTests
                 _localizerMock.Object,
                 It.IsAny<CancellationToken>()),
             Times.Once);
+    }
+
+    [Fact]
+    public async Task HandleAsync_WithIterationKey_ResolvesProjectAndReturnsSuccess()
+    {
+        // Arrange
+        var projectId = 1L;
+        var iterationId = 10L;
+        var command = new ListTicketsCommand
+        {
+            Key = null,
+            Id = null,
+            IterationKey = "ITER-1"
+        };
+        var tickets = new List<TicketDto>();
+        var statuses = new List<StatusDto>();
+
+        _mediatorMock.Setup(m => m.Send(It.IsAny<GetProjectIdFromIterationQuery>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(projectId);
+
+        _mediatorMock.Setup(m => m.Send(It.IsAny<GetIterationIdByKeyQuery>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(iterationId);
+
+        _mediatorMock.Setup(m => m.Send(It.IsAny<ListTicketsQuery>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(tickets);
+
+        _mediatorMock.Setup(m => m.Send(It.IsAny<ListStatusesQuery>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(statuses);
+
+        // Act
+        var result = await _handler.HandleAsync(null!, command, CancellationToken.None);
+
+        // Assert
+        Assert.Equal(ExitCode.Success, result);
+        _mediatorMock.Verify(m => m.Send(It.Is<GetProjectIdFromIterationQuery>(q => q.IterationKey == "ITER-1"), It.IsAny<CancellationToken>()), Times.Once);
+        _mediatorMock.Verify(m => m.Send(It.Is<ListTicketsQuery>(q => q.ProjectId == projectId && q.IterationId == iterationId), It.IsAny<CancellationToken>()), Times.Once);
     }
 }

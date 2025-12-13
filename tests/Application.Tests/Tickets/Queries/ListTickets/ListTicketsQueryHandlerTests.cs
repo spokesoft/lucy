@@ -33,8 +33,11 @@ public class ListTicketsQueryHandlerTests : ApplicationTestBase
         };
 
         _ticketRepositoryMock
-            .Setup(u => u.GetByProjectIdAsync(
+            .Setup(u => u.SearchAsync(
                 1,
+                null,
+                null,
+                null,
                 It.IsAny<TicketSortField>(),
                 It.IsAny<SortDirection>(),
                 It.IsAny<CancellationToken>()))
@@ -58,8 +61,11 @@ public class ListTicketsQueryHandlerTests : ApplicationTestBase
     {
         // Arrange
         _ticketRepositoryMock
-            .Setup(u => u.GetByProjectIdAsync(
+            .Setup(u => u.SearchAsync(
                 1,
+                null,
+                null,
+                null,
                 It.IsAny<TicketSortField>(),
                 It.IsAny<SortDirection>(),
                 It.IsAny<CancellationToken>()))
@@ -80,8 +86,11 @@ public class ListTicketsQueryHandlerTests : ApplicationTestBase
     {
         // Arrange
         _ticketRepositoryMock
-            .Setup(u => u.GetByProjectIdAsync(
+            .Setup(u => u.SearchAsync(
                 1,
+                null,
+                null,
+                null,
                 TicketSortField.Key,
                 SortDirection.Descending,
                 It.IsAny<CancellationToken>()))
@@ -93,8 +102,11 @@ public class ListTicketsQueryHandlerTests : ApplicationTestBase
         await _handler.HandleAsync(query, CancellationToken.None);
 
         // Assert
-        _ticketRepositoryMock.Verify(u => u.GetByProjectIdAsync(
+        _ticketRepositoryMock.Verify(u => u.SearchAsync(
             1,
+            null,
+            null,
+            null,
             TicketSortField.Key,
             SortDirection.Descending,
             It.IsAny<CancellationToken>()), Times.Once);
@@ -105,9 +117,11 @@ public class ListTicketsQueryHandlerTests : ApplicationTestBase
     {
         // Arrange
         _ticketRepositoryMock
-            .Setup(u => u.GetByProjectIdAndTagIdAsync(
+            .Setup(u => u.SearchAsync(
                 1,
+                null,
                 5,
+                null,
                 TicketSortField.Id,
                 SortDirection.Ascending,
                 It.IsAny<CancellationToken>()))
@@ -119,9 +133,11 @@ public class ListTicketsQueryHandlerTests : ApplicationTestBase
         await _handler.HandleAsync(query, CancellationToken.None);
 
         // Assert
-        _ticketRepositoryMock.Verify(u => u.GetByProjectIdAndTagIdAsync(
+        _ticketRepositoryMock.Verify(u => u.SearchAsync(
             1,
+            null,
             5,
+            null,
             TicketSortField.Id,
             SortDirection.Ascending,
             It.IsAny<CancellationToken>()), Times.Once);
@@ -132,10 +148,11 @@ public class ListTicketsQueryHandlerTests : ApplicationTestBase
     {
         // Arrange
         _ticketRepositoryMock
-            .Setup(u => u.GetByProjectIdStatusIdAndTagIdAsync(
+            .Setup(u => u.SearchAsync(
                 1,
                 2,
                 5,
+                null,
                 TicketSortField.Id,
                 SortDirection.Ascending,
                 It.IsAny<CancellationToken>()))
@@ -147,10 +164,42 @@ public class ListTicketsQueryHandlerTests : ApplicationTestBase
         await _handler.HandleAsync(query, CancellationToken.None);
 
         // Assert
-        _ticketRepositoryMock.Verify(u => u.GetByProjectIdStatusIdAndTagIdAsync(
+        _ticketRepositoryMock.Verify(u => u.SearchAsync(
             1,
             2,
             5,
+            null,
+            TicketSortField.Id,
+            SortDirection.Ascending,
+            It.IsAny<CancellationToken>()), Times.Once);
+    }
+
+    [Fact]
+    public async Task HandleAsync_ShouldFilterByIterationId()
+    {
+        // Arrange
+        _ticketRepositoryMock
+            .Setup(u => u.SearchAsync(
+                1,
+                null,
+                null,
+                10,
+                TicketSortField.Id,
+                SortDirection.Ascending,
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new List<Ticket>());
+
+        var query = new ListTicketsQuery(1, IterationId: 10);
+
+        // Act
+        await _handler.HandleAsync(query, CancellationToken.None);
+
+        // Assert
+        _ticketRepositoryMock.Verify(u => u.SearchAsync(
+            1,
+            null,
+            null,
+            10,
             TicketSortField.Id,
             SortDirection.Ascending,
             It.IsAny<CancellationToken>()), Times.Once);

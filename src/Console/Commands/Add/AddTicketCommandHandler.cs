@@ -26,11 +26,11 @@ internal class AddTicketCommandHandler(
     {
         var ticket = command.TicketId.HasValue
             ? await _uow.Tickets.GetByIdAsync(command.TicketId.Value, token)
-            : await _uow.Tickets.GetByKeyAsync(command.TicketKey!, token);
+            : await _uow.Tickets.GetByKeyAsync(command.TicketKey!.ToUpperInvariant(), token);
 
         var iteration = command.IterationId.HasValue
             ? await _uow.Iterations.GetByIdAsync(command.IterationId.Value, token)
-            : await _uow.Iterations.GetByKeyAsync(command.IterationKey!, token);
+            : await _uow.Iterations.GetByKeyAsync(command.IterationKey!.ToUpperInvariant(), token);
 
         // Validator ensures existence, but we check for null safety or race conditions
         if (ticket == null) throw new InvalidOperationException(_localizer["Error.Ticket.NotFound"]);

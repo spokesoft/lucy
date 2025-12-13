@@ -20,44 +20,14 @@ public class ListTicketsQueryHandler(
     /// </summary>
     public async Task<List<TicketDto>> HandleAsync(ListTicketsQuery request, CancellationToken token = default)
     {
-        List<Ticket> tickets;
-
-        if (request.TagId.HasValue && request.StatusId.HasValue)
-        {
-            tickets = await _uow.Tickets.GetByProjectIdStatusIdAndTagIdAsync(
-                request.ProjectId,
-                request.StatusId.Value,
-                request.TagId.Value,
-                request.SortBy,
-                request.SortDirection,
-                token);
-        }
-        else if (request.TagId.HasValue)
-        {
-            tickets = await _uow.Tickets.GetByProjectIdAndTagIdAsync(
-                request.ProjectId,
-                request.TagId.Value,
-                request.SortBy,
-                request.SortDirection,
-                token);
-        }
-        else if (request.StatusId.HasValue)
-        {
-            tickets = await _uow.Tickets.GetByProjectIdAndStatusIdAsync(
-                request.ProjectId,
-                request.StatusId.Value,
-                request.SortBy,
-                request.SortDirection,
-                token);
-        }
-        else
-        {
-            tickets = await _uow.Tickets.GetByProjectIdAsync(
-                request.ProjectId,
-                request.SortBy,
-                request.SortDirection,
-                token);
-        }
+        var tickets = await _uow.Tickets.SearchAsync(
+            request.ProjectId,
+            request.StatusId,
+            request.TagId,
+            request.IterationId,
+            request.SortBy,
+            request.SortDirection,
+            token);
 
         return [.. tickets.Select(ticket => new TicketDto
         {

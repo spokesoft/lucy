@@ -49,4 +49,18 @@ public class ListTicketsCommand : ListCommand
     [CommandOption("--tag-id")]
     [Description("The ID of the tag to filter tickets by.")]
     public long? TagId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the iteration key to filter by.
+    /// </summary>
+    [CommandOption("-i|--iteration")]
+    [Description("The key of the iteration to filter tickets by.")]
+    public string? IterationKey { get; set; }
+
+    /// <summary>
+    /// Gets or sets the iteration ID to filter by.
+    /// </summary>
+    [CommandOption("--iteration-id")]
+    [Description("The ID of the iteration to filter tickets by.")]
+    public long? IterationId { get; set; }
 }

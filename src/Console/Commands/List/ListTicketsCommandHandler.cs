@@ -1,4 +1,6 @@
 using Lucy.Application.Interfaces;
+using Lucy.Application.Iterations.Queries.GetIterationIdByKey;
+using Lucy.Application.Iterations.Queries.GetProjectIdFromIteration;
 using Lucy.Application.Projects.Queries.GetProjectIdByKey;
 using Lucy.Application.Statuses.Queries.GetStatusByKey;
 using Lucy.Application.Statuses.Queries.ListStatuses;
@@ -33,16 +35,37 @@ internal class ListTicketsCommandHandler(
         ListTicketsCommand command,
         CancellationToken token = default)
     {
-        // Resolve project ID from key if needed
-        var projectId = command.Id ?? await _mediator.Send(
-            new GetProjectIdByKeyQuery(command.Key!), token);
+        // Resolve project ID
+        long projectId;
+        if (command.Id.HasValue)
+        {
+            projectId = command.Id.Value;
+        }
+        else if (!string.IsNullOrWhiteSpace(command.Key))
+        {
+            var id = await _mediator.Send(new GetProjectIdByKeyQuery(command.Key), token);
+            projectId = id ?? throw new InvalidOperationException(_localizer["Error.Project.NotFound"]);
+        }
+        else
+        {
+            var projId = await _mediator.Send(
+                new GetProjectIdFromIterationQuery(command.IterationId, command.IterationKey),
+                token);
+
+            if (!projId.HasValue)
+            {
+                throw new InvalidOperationException(_localizer["Error.Project.NotFound"]);
+            }
+
+            projectId = projId.Value;
+        }
 
         // Resolve status ID from key if needed
         long? statusId = command.StatusId;
         if (statusId == null && !string.IsNullOrWhiteSpace(command.StatusKey))
         {
             var status = await _mediator.Send(
-                new GetStatusByKeyQuery(projectId.Value, command.StatusKey), token);
+                new GetStatusByKeyQuery(projectId, command.StatusKey), token);
             statusId = status?.Id;
         }
 
@@ -51,13 +74,25 @@ internal class ListTicketsCommandHandler(
         if (tagId == null && !string.IsNullOrWhiteSpace(command.TagKey))
         {
             tagId = await _mediator.Send(
-                new GetTagIdByKeyQuery(projectId.Value, command.TagKey), token);
+                new GetTagIdByKeyQuery(projectId, command.TagKey), token);
         }
 
-        var ticketsQuery = new ListTicketsQuery(projectId.Value, statusId, TagId: tagId);
+        // Resolve iteration ID from key if needed
+        long? iterationId = command.IterationId;
+        if (iterationId == null && !string.IsNullOrWhiteSpace(command.IterationKey))
+        {
+            iterationId = await _mediator.Send(
+                new GetIterationIdByKeyQuery(command.IterationKey), token);
+        }
+
+        var ticketsQuery = new ListTicketsQuery(
+            projectId,
+            statusId,
+            TagId: tagId,
+            IterationId: iterationId);
         var tickets = await _mediator.Send(ticketsQuery, token);
 
-        var statusesQuery = new ListStatusesQuery(projectId.Value);
+        var statusesQuery = new ListStatusesQuery(projectId);
         var statuses = await _mediator.Send(statusesQuery, token);
         var statusLookup = statuses.ToDictionary(
             s => s.Id,

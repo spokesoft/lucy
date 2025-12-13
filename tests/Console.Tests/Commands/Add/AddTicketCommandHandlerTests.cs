@@ -75,6 +75,34 @@ public class AddTicketCommandHandlerTests
     }
 
     [Fact]
+    public async Task HandleAsync_WithLowerCaseKeys_AssignsTicketToIteration()
+    {
+        // Arrange
+        var ticket = new Ticket(1, 1, "PROJ-10", 10, "Title") { Id = 10 };
+        var iteration = new Iteration(1, "ITER-1", 1, "Name", "Desc", null, null) { Id = 5 };
+
+        _ticketRepoMock.Setup(r => r.GetByKeyAsync("PROJ-10", It.IsAny<CancellationToken>()))
+            .ReturnsAsync(ticket);
+        _iterationRepoMock.Setup(r => r.GetByKeyAsync("ITER-1", It.IsAny<CancellationToken>()))
+            .ReturnsAsync(iteration);
+
+        var command = new AddTicketCommand
+        {
+            TicketKey = "proj-10",
+            IterationKey = "iter-1"
+        };
+
+        // Act
+        var result = await _handler.HandleAsync(null!, command, CancellationToken.None);
+
+        // Assert
+        Assert.Equal(ExitCode.Success, result);
+        _mediatorMock.Verify(m => m.Send(
+            It.Is<AssignTicketToIterationCommand>(c => c.TicketId == 10 && c.IterationId == 5),
+            It.IsAny<CancellationToken>()), Times.Once);
+    }
+
+    [Fact]
     public async Task HandleAsync_WithIds_AssignsTicketToIteration()
     {
         // Arrange
