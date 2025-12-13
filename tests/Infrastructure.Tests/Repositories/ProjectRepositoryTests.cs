@@ -2,30 +2,15 @@ using Lucy.Domain.Entities;
 using Lucy.Infrastructure.Database;
 using Lucy.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 
-namespace Lucy.Tests.Infrastructure.Repositories;
+namespace Lucy.Infrastructure.Tests.Repositories;
 
+/// <summary>
+/// Tests for the ProjectRepository.
+/// </summary>
 [Collection("Database collection")]
-public class ProjectRepositoryTests
+public class ProjectRepositoryTests : RepositoryTestBase
 {
-    private readonly DbContextOptions<LucyDbContext> _writeDbContextOptions;
-    private readonly DbContextOptions<LucyDbContext> _readDbContextOptions;
-
-    public ProjectRepositoryTests()
-    {
-        var dbName = Guid.NewGuid().ToString();
-        var databaseRoot = new InMemoryDatabaseRoot();
-        _writeDbContextOptions = new DbContextOptionsBuilder<LucyDbContext>()
-            .UseInMemoryDatabase(dbName, databaseRoot)
-            .EnableServiceProviderCaching(false)
-            .Options;
-        _readDbContextOptions = new DbContextOptionsBuilder<LucyDbContext>()
-            .UseInMemoryDatabase(dbName, databaseRoot)
-            .EnableServiceProviderCaching(false)
-            .Options;
-    }
-
     private async Task SeedDatabaseAsync(LucyDbContext context)
     {
         var project = new Project("LUCY", "Lucy Project", "The main project.");
@@ -34,13 +19,11 @@ public class ProjectRepositoryTests
         context.ChangeTracker.Clear();
     }
 
-    // --- Tests for ProjectRepository (Write) ---
-
     [Fact]
     public async Task AddAsync_ShouldAddProjectToDatabase()
     {
         // Arrange
-        await using var context = new LucyWriteContext(_writeDbContextOptions);
+        await using var context = new LucyWriteContext(DbContextOptions);
         var repository = new ProjectRepository(context);
         var newProject = new Project("NEW", "New Project", null);
 
@@ -54,15 +37,13 @@ public class ProjectRepositoryTests
         Assert.Equal("New Project", projectInDb.Name);
     }
 
-    // --- Tests for both repositories (Read functionality) ---
-
     [Theory]
     [InlineData(true)]  // Test with ProjectRepository
     [InlineData(false)] // Test with ProjectReadOnlyRepository
     public async Task GetByKeyAsync_ShouldReturnProject_WhenKeyExists(bool useWriteRepo)
     {
         // Arrange
-        await using var writeContext = new LucyWriteContext(_writeDbContextOptions);
+        await using var writeContext = new LucyWriteContext(DbContextOptions);
         await SeedDatabaseAsync(writeContext);
 
         Project? project;
@@ -75,7 +56,7 @@ public class ProjectRepositoryTests
         }
         else
         {
-            await using var readContext = new LucyReadContext(_readDbContextOptions);
+            await using var readContext = new LucyReadContext(DbContextOptions);
             var readOnlyRepo = new ProjectReadOnlyRepository(readContext);
             project = await readOnlyRepo.GetByKeyAsync("LUCY");
         }
@@ -95,13 +76,13 @@ public class ProjectRepositoryTests
         Project? project;
         if (useWriteRepo)
         {
-            await using var context = new LucyWriteContext(_writeDbContextOptions);
+            await using var context = new LucyWriteContext(DbContextOptions);
             var repository = new ProjectRepository(context);
             project = await repository.GetByKeyAsync("UNKNOWN");
         }
         else
         {
-            await using var context = new LucyReadContext(_readDbContextOptions);
+            await using var context = new LucyReadContext(DbContextOptions);
             var repository = new ProjectReadOnlyRepository(context);
             project = await repository.GetByKeyAsync("UNKNOWN");
         }
@@ -116,7 +97,7 @@ public class ProjectRepositoryTests
     public async Task ExistsByKeyAsync_ShouldReturnTrue_WhenKeyExists(bool useWriteRepo)
     {
         // Arrange
-        await using var writeContext = new LucyWriteContext(_writeDbContextOptions);
+        await using var writeContext = new LucyWriteContext(DbContextOptions);
         await SeedDatabaseAsync(writeContext);
 
         bool exists;
@@ -129,7 +110,7 @@ public class ProjectRepositoryTests
         }
         else
         {
-            await using var readContext = new LucyReadContext(_readDbContextOptions);
+            await using var readContext = new LucyReadContext(DbContextOptions);
             var repository = new ProjectReadOnlyRepository(readContext);
             exists = await repository.ExistsByKeyAsync("LUCY");
         }
@@ -147,13 +128,13 @@ public class ProjectRepositoryTests
         bool exists;
         if (useWriteRepo)
         {
-            await using var context = new LucyWriteContext(_writeDbContextOptions);
+            await using var context = new LucyWriteContext(DbContextOptions);
             var repository = new ProjectRepository(context);
             exists = await repository.ExistsByKeyAsync("UNKNOWN");
         }
         else
         {
-            await using var context = new LucyReadContext(_readDbContextOptions);
+            await using var context = new LucyReadContext(DbContextOptions);
             var repository = new ProjectReadOnlyRepository(context);
             exists = await repository.ExistsByKeyAsync("UNKNOWN");
         }

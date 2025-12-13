@@ -4,30 +4,12 @@ using Lucy.Domain.Enums;
 using Lucy.Infrastructure.Database;
 using Lucy.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 
-namespace Lucy.Tests.Infrastructure.Repositories;
+namespace Lucy.Infrastructure.Tests.Repositories;
 
 [Collection("Database collection")]
-public class CommentRepositoryTests
+public class CommentRepositoryTests : RepositoryTestBase
 {
-    private readonly DbContextOptions<LucyDbContext> _writeDbContextOptions;
-    private readonly DbContextOptions<LucyDbContext> _readDbContextOptions;
-
-    public CommentRepositoryTests()
-    {
-        var dbName = Guid.NewGuid().ToString();
-        var databaseRoot = new InMemoryDatabaseRoot();
-        _writeDbContextOptions = new DbContextOptionsBuilder<LucyDbContext>()
-            .UseInMemoryDatabase(dbName, databaseRoot)
-            .EnableServiceProviderCaching(false)
-            .Options;
-        _readDbContextOptions = new DbContextOptionsBuilder<LucyDbContext>()
-            .UseInMemoryDatabase(dbName, databaseRoot)
-            .EnableServiceProviderCaching(false)
-            .Options;
-    }
-
     private async Task<(Project project, Ticket ticket)> SeedDatabaseAsync(LucyDbContext context)
     {
         var project = new Project("TEST", "Test Project", "Test Description");
@@ -54,8 +36,6 @@ public class CommentRepositoryTests
 
         return (project, ticket);
     }
-
-    // --- Tests for CommentRepository (Write) ---
 
     [Fact]
     public async Task AddAsync_ShouldAddProjectCommentToDatabase()
@@ -146,8 +126,6 @@ public class CommentRepositoryTests
         var deletedComment = await context.Comments.FindAsync(commentId);
         Assert.Null(deletedComment);
     }
-
-    // --- Tests for both repositories (Read functionality) ---
 
     [Theory]
     [InlineData(true)]  // Test with CommentRepository

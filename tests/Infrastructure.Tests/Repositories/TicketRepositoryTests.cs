@@ -4,24 +4,15 @@ using Lucy.Domain.Enums;
 using Lucy.Infrastructure.Database;
 using Lucy.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Lucy.Infrastructure.Tests.Repositories;
 
+/// <summary>
+/// Tests for the TicketRepository.
+/// </summary>
 [Collection("Database collection")]
-public class TicketRepositoryTests
+public class TicketRepositoryTests : RepositoryTestBase
 {
-    private static DbContextOptions<LucyDbContext> CreateDbContextOptions()
-    {
-        var databaseName = Guid.NewGuid().ToString();
-        var databaseRoot = new InMemoryDatabaseRoot();
-
-        return new DbContextOptionsBuilder<LucyDbContext>()
-            .UseInMemoryDatabase(databaseName, databaseRoot)
-            .EnableServiceProviderCaching(false)
-            .Options;
-    }
-
     private async Task<(Project project, Status[] statuses, Ticket[] tickets)> SeedDatabaseAsync(LucyDbContext context)
     {
         var project = new Project("TEST", "Test Project", "Test Description");
@@ -31,8 +22,8 @@ public class TicketRepositoryTests
 
         // Project constructor automatically creates 3 default statuses
         var statuses = project.Statuses.OrderBy(s => s.Order).ToArray();
-        var status1 = statuses[0]; // TODO
-        var status2 = statuses[2]; // DONE
+        var status1 = statuses[0];
+        var status2 = statuses[2];
 
         var ticket1 = new Ticket(project.Id, status1.Id, "TEST-1", 1, "First Ticket", "Description 1");
         var ticket2 = new Ticket(project.Id, status1.Id, "TEST-2", 2, "Second Ticket", "Description 2");
@@ -45,14 +36,11 @@ public class TicketRepositoryTests
         return (project, statuses, new[] { ticket1, ticket2, ticket3 });
     }
 
-    // --- Tests for TicketRepository (Write) ---
-
     [Fact]
     public async Task AddAsync_ShouldAddTicketToDatabase()
     {
         // Arrange
-        var options = CreateDbContextOptions();
-        await using var context = new LucyWriteContext(options);
+        await using var context = new LucyWriteContext(DbContextOptions);
         await SeedDatabaseAsync(context);
 
         var repository = new TicketRepository(context);
@@ -72,8 +60,7 @@ public class TicketRepositoryTests
     public async Task Update_ShouldModifyTicket()
     {
         // Arrange
-        var options = CreateDbContextOptions();
-        await using var context = new LucyWriteContext(options);
+        await using var context = new LucyWriteContext(DbContextOptions);
         await SeedDatabaseAsync(context);
 
         var repository = new TicketRepository(context);
@@ -95,8 +82,7 @@ public class TicketRepositoryTests
     public async Task Remove_ShouldDeleteTicket()
     {
         // Arrange
-        var options = CreateDbContextOptions();
-        await using var context = new LucyWriteContext(options);
+        await using var context = new LucyWriteContext(DbContextOptions);
         await SeedDatabaseAsync(context);
 
         var repository = new TicketRepository(context);
@@ -112,16 +98,13 @@ public class TicketRepositoryTests
         Assert.Null(deletedTicket);
     }
 
-    // --- Tests for both repositories (Read functionality) ---
-
     [Theory]
     [InlineData(true)]  // Test with TicketRepository
     [InlineData(false)] // Test with TicketReadOnlyRepository
     public async Task GetByIdAsync_ShouldReturnTicket_WhenIdExists(bool useWriteRepo)
     {
         // Arrange
-        var options = CreateDbContextOptions();
-        await using var writeContext = new LucyWriteContext(options);
+        await using var writeContext = new LucyWriteContext(DbContextOptions);
         await SeedDatabaseAsync(writeContext);
 
         Ticket? ticket;
@@ -134,7 +117,7 @@ public class TicketRepositoryTests
         }
         else
         {
-            await using var readContext = new LucyReadContext(options);
+            await using var readContext = new LucyReadContext(DbContextOptions);
             var readOnlyRepo = new TicketReadOnlyRepository(readContext);
             ticket = await readOnlyRepo.GetByIdAsync(1);
         }
@@ -151,17 +134,16 @@ public class TicketRepositoryTests
     public async Task GetByIdAsync_ShouldReturnNull_WhenIdDoesNotExist(bool useWriteRepo)
     {
         // Arrange & Act
-        var options = CreateDbContextOptions();
         Ticket? ticket;
         if (useWriteRepo)
         {
-            await using var context = new LucyWriteContext(options);
+            await using var context = new LucyWriteContext(DbContextOptions);
             var repository = new TicketRepository(context);
             ticket = await repository.GetByIdAsync(999);
         }
         else
         {
-            await using var context = new LucyReadContext(options);
+            await using var context = new LucyReadContext(DbContextOptions);
             var repository = new TicketReadOnlyRepository(context);
             ticket = await repository.GetByIdAsync(999);
         }
@@ -176,8 +158,7 @@ public class TicketRepositoryTests
     public async Task GetByKeyAsync_ShouldReturnTicket_WhenKeyExists(bool useWriteRepo)
     {
         // Arrange
-        var options = CreateDbContextOptions();
-        await using var writeContext = new LucyWriteContext(options);
+        await using var writeContext = new LucyWriteContext(DbContextOptions);
         await SeedDatabaseAsync(writeContext);
 
         Ticket? ticket;
@@ -190,7 +171,7 @@ public class TicketRepositoryTests
         }
         else
         {
-            await using var readContext = new LucyReadContext(options);
+            await using var readContext = new LucyReadContext(DbContextOptions);
             var readOnlyRepo = new TicketReadOnlyRepository(readContext);
             ticket = await readOnlyRepo.GetByKeyAsync("TEST-1");
         }
@@ -207,17 +188,16 @@ public class TicketRepositoryTests
     public async Task GetByKeyAsync_ShouldReturnNull_WhenKeyDoesNotExist(bool useWriteRepo)
     {
         // Arrange & Act
-        var options = CreateDbContextOptions();
         Ticket? ticket;
         if (useWriteRepo)
         {
-            await using var context = new LucyWriteContext(options);
+            await using var context = new LucyWriteContext(DbContextOptions);
             var repository = new TicketRepository(context);
             ticket = await repository.GetByKeyAsync("UNKNOWN");
         }
         else
         {
-            await using var context = new LucyReadContext(options);
+            await using var context = new LucyReadContext(DbContextOptions);
             var repository = new TicketReadOnlyRepository(context);
             ticket = await repository.GetByKeyAsync("UNKNOWN");
         }
@@ -232,8 +212,7 @@ public class TicketRepositoryTests
     public async Task GetByProjectIdAsync_ShouldReturnAllTicketsForProject(bool useWriteRepo)
     {
         // Arrange
-        var options = CreateDbContextOptions();
-        await using var writeContext = new LucyWriteContext(options);
+        await using var writeContext = new LucyWriteContext(DbContextOptions);
         await SeedDatabaseAsync(writeContext);
 
         List<Ticket> tickets;
@@ -246,7 +225,7 @@ public class TicketRepositoryTests
         }
         else
         {
-            await using var readContext = new LucyReadContext(options);
+            await using var readContext = new LucyReadContext(DbContextOptions);
             var readOnlyRepo = new TicketReadOnlyRepository(readContext);
             tickets = await readOnlyRepo.GetByProjectIdAsync(1);
         }
@@ -265,8 +244,7 @@ public class TicketRepositoryTests
     public async Task GetByProjectIdAsync_WithSorting_ShouldReturnSortedTickets(bool useWriteRepo)
     {
         // Arrange
-        var options = CreateDbContextOptions();
-        await using var writeContext = new LucyWriteContext(options);
+        await using var writeContext = new LucyWriteContext(DbContextOptions);
         await SeedDatabaseAsync(writeContext);
 
         List<Ticket> tickets;
@@ -279,7 +257,7 @@ public class TicketRepositoryTests
         }
         else
         {
-            await using var readContext = new LucyReadContext(options);
+            await using var readContext = new LucyReadContext(DbContextOptions);
             var readOnlyRepo = new TicketReadOnlyRepository(readContext);
             tickets = await readOnlyRepo.GetByProjectIdAsync(1, TicketSortField.Key, Application.Queries.SortDirection.Descending);
         }
@@ -298,8 +276,7 @@ public class TicketRepositoryTests
     public async Task GetByStatusIdAsync_ShouldReturnAllTicketsForStatus(bool useWriteRepo)
     {
         // Arrange
-        var options = CreateDbContextOptions();
-        await using var writeContext = new LucyWriteContext(options);
+        await using var writeContext = new LucyWriteContext(DbContextOptions);
         var (project, statuses, tickets) = await SeedDatabaseAsync(writeContext);
 
         List<Ticket> resultTickets;
@@ -312,7 +289,7 @@ public class TicketRepositoryTests
         }
         else
         {
-            await using var readContext = new LucyReadContext(options);
+            await using var readContext = new LucyReadContext(DbContextOptions);
             var readOnlyRepo = new TicketReadOnlyRepository(readContext);
             resultTickets = await readOnlyRepo.GetByStatusIdAsync(statuses[0].Id);
         }
@@ -330,8 +307,7 @@ public class TicketRepositoryTests
     public async Task GetByStatusIdAsync_WithSorting_ShouldReturnSortedTickets(bool useWriteRepo)
     {
         // Arrange
-        var options = CreateDbContextOptions();
-        await using var writeContext = new LucyWriteContext(options);
+        await using var writeContext = new LucyWriteContext(DbContextOptions);
         var (project, statuses, tickets) = await SeedDatabaseAsync(writeContext);
 
         List<Ticket> resultTickets;
@@ -344,7 +320,7 @@ public class TicketRepositoryTests
         }
         else
         {
-            await using var readContext = new LucyReadContext(options);
+            await using var readContext = new LucyReadContext(DbContextOptions);
             var readOnlyRepo = new TicketReadOnlyRepository(readContext);
             resultTickets = await readOnlyRepo.GetByStatusIdAsync(statuses[0].Id, TicketSortField.Title, Application.Queries.SortDirection.Ascending);
         }
@@ -362,8 +338,7 @@ public class TicketRepositoryTests
     public async Task ExistsByIdAsync_ShouldReturnTrue_WhenIdExists(bool useWriteRepo)
     {
         // Arrange
-        var options = CreateDbContextOptions();
-        await using var writeContext = new LucyWriteContext(options);
+        await using var writeContext = new LucyWriteContext(DbContextOptions);
         await SeedDatabaseAsync(writeContext);
 
         bool exists;
@@ -376,7 +351,7 @@ public class TicketRepositoryTests
         }
         else
         {
-            await using var readContext = new LucyReadContext(options);
+            await using var readContext = new LucyReadContext(DbContextOptions);
             var repository = new TicketReadOnlyRepository(readContext);
             exists = await repository.ExistsByIdAsync(1);
         }
@@ -391,17 +366,16 @@ public class TicketRepositoryTests
     public async Task ExistsByIdAsync_ShouldReturnFalse_WhenIdDoesNotExist(bool useWriteRepo)
     {
         // Arrange & Act
-        var options = CreateDbContextOptions();
         bool exists;
         if (useWriteRepo)
         {
-            await using var context = new LucyWriteContext(options);
+            await using var context = new LucyWriteContext(DbContextOptions);
             var repository = new TicketRepository(context);
             exists = await repository.ExistsByIdAsync(999);
         }
         else
         {
-            await using var context = new LucyReadContext(options);
+            await using var context = new LucyReadContext(DbContextOptions);
             var repository = new TicketReadOnlyRepository(context);
             exists = await repository.ExistsByIdAsync(999);
         }
@@ -416,8 +390,7 @@ public class TicketRepositoryTests
     public async Task ExistsByKeyAsync_ShouldReturnTrue_WhenKeyExists(bool useWriteRepo)
     {
         // Arrange
-        var options = CreateDbContextOptions();
-        await using var writeContext = new LucyWriteContext(options);
+        await using var writeContext = new LucyWriteContext(DbContextOptions);
         await SeedDatabaseAsync(writeContext);
 
         bool exists;
@@ -430,7 +403,7 @@ public class TicketRepositoryTests
         }
         else
         {
-            await using var readContext = new LucyReadContext(options);
+            await using var readContext = new LucyReadContext(DbContextOptions);
             var repository = new TicketReadOnlyRepository(readContext);
             exists = await repository.ExistsByKeyAsync("TEST-1");
         }
@@ -445,17 +418,16 @@ public class TicketRepositoryTests
     public async Task ExistsByKeyAsync_ShouldReturnFalse_WhenKeyDoesNotExist(bool useWriteRepo)
     {
         // Arrange & Act
-        var options = CreateDbContextOptions();
         bool exists;
         if (useWriteRepo)
         {
-            await using var context = new LucyWriteContext(options);
+            await using var context = new LucyWriteContext(DbContextOptions);
             var repository = new TicketRepository(context);
             exists = await repository.ExistsByKeyAsync("UNKNOWN");
         }
         else
         {
-            await using var context = new LucyReadContext(options);
+            await using var context = new LucyReadContext(DbContextOptions);
             var repository = new TicketReadOnlyRepository(context);
             exists = await repository.ExistsByKeyAsync("UNKNOWN");
         }

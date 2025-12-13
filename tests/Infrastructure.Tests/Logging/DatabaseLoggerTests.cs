@@ -3,8 +3,11 @@ using Lucy.Infrastructure.Logging;
 using Lucy.Infrastructure.Logging.Database;
 using Microsoft.Extensions.Logging;
 
-namespace Lucy.Tests.Infrastructure.Logging;
+namespace Lucy.Infrastructure.Tests.Logging;
 
+/// <summary>
+/// Tests for the DatabaseLogger.
+/// </summary>
 public class DatabaseLoggerTests
 {
     [Fact]

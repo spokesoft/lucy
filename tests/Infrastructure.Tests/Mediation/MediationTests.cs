@@ -3,8 +3,11 @@ using Lucy.Infrastructure.Mediation;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 
-namespace Lucy.Infrastructure.Tests;
+namespace Lucy.Infrastructure.Tests.Mediation;
 
+/// <summary>
+/// Tests for the Mediator.
+/// </summary>
 public class MediationTests
 {
     private readonly Mock<IServiceProvider> _serviceProviderMock;
@@ -26,7 +29,12 @@ public class MediationTests
     // Define handlers for the test requests
     public class TestRequestHandler : IRequestHandler<TestRequest>
     {
-        public Task HandleAsync(TestRequest request, CancellationToken cancellationToken) => Task.CompletedTask;
+        public bool WasCalled { get; private set; }
+        public Task HandleAsync(TestRequest request, CancellationToken cancellationToken)
+        {
+            WasCalled = true;
+            return Task.CompletedTask;
+        }
     }
 
     public class TestRequestWithResponseHandler : IRequestHandler<TestRequestWithResponse, string>
@@ -70,8 +78,7 @@ public class MediationTests
         await _mediator.Send(request);
 
         // Assert
-        // No assertion needed if the goal is to ensure no exception is thrown.
-        // You could add mock verification if the handler had dependencies.
+        Assert.True(handler.WasCalled);
     }
 
     [Fact]

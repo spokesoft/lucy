@@ -3,29 +3,16 @@ using Lucy.Domain.Enums;
 using Lucy.Infrastructure.Database;
 using Lucy.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 
-namespace Lucy.Tests.Infrastructure.Repositories;
+namespace Lucy.Infrastructure.Tests.Repositories;
 
 [Collection("Database collection")]
-public class TicketTagRepositoryTests
+public class TicketTagRepositoryTests : RepositoryTestBase
 {
-    private static DbContextOptions<LucyDbContext> CreateDbContextOptions()
-    {
-        var databaseName = Guid.NewGuid().ToString();
-        var databaseRoot = new InMemoryDatabaseRoot();
-
-        return new DbContextOptionsBuilder<LucyDbContext>()
-            .UseInMemoryDatabase(databaseName, databaseRoot)
-            .EnableServiceProviderCaching(false)
-            .Options;
-    }
-
     private async Task<(LucyWriteContext writeContext, LucyReadContext readContext)> CreateSeededContextsAsync()
     {
-        var options = CreateDbContextOptions();
-        var writeContext = new LucyWriteContext(options);
-        var readContext = new LucyReadContext(options);
+        var writeContext = new LucyWriteContext(_writeDbContextOptions);
+        var readContext = new LucyReadContext(_readDbContextOptions);
         await SeedDatabaseAsync(writeContext);
         return (writeContext, readContext);
     }
@@ -136,16 +123,15 @@ public class TicketTagRepositoryTests
     {
         // Arrange & Act
         TicketTag? tt;
-        var options = CreateDbContextOptions();
         if (useWriteRepo)
         {
-            await using var context = new LucyWriteContext(options);
+            await using var context = new LucyWriteContext(_writeDbContextOptions);
             var repository = new TicketTagRepository(context);
             tt = await repository.GetByIdAsync(999);
         }
         else
         {
-            await using var context = new LucyReadContext(options);
+            await using var context = new LucyReadContext(_readDbContextOptions);
             var repository = new TicketTagReadOnlyRepository(context);
             tt = await repository.GetByIdAsync(999);
         }

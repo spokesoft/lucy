@@ -4,41 +4,12 @@ using Lucy.Domain.Enums;
 using Lucy.Infrastructure.Database;
 using Lucy.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 
-namespace Lucy.Tests.Infrastructure.Repositories;
+namespace Lucy.Infrastructure.Tests.Repositories;
 
 [Collection("Database collection")]
-public class StatusRepositoryTests
+public class StatusRepositoryTests : RepositoryTestBase
 {
-    private static DbContextOptions<LucyDbContext> CreateDbContextOptions()
-    {
-        var databaseName = Guid.NewGuid().ToString();
-        var databaseRoot = new InMemoryDatabaseRoot();
-
-        return new DbContextOptionsBuilder<LucyDbContext>()
-            .UseInMemoryDatabase(databaseName, databaseRoot)
-            .EnableServiceProviderCaching(false)
-            .Options;
-    }
-
-    private async Task<LucyWriteContext> CreateSeededWriteContextAsync()
-    {
-        var options = CreateDbContextOptions();
-        var context = new LucyWriteContext(options);
-        await SeedDatabaseAsync(context);
-        return context;
-    }
-
-    private async Task<(LucyWriteContext writeContext, LucyReadContext readContext)> CreateSeededContextsAsync()
-    {
-        var options = CreateDbContextOptions();
-        var writeContext = new LucyWriteContext(options);
-        var readContext = new LucyReadContext(options);
-        await SeedDatabaseAsync(writeContext);
-        return (writeContext, readContext);
-    }
-
     private async Task<(Project project, Status[] statuses)> SeedDatabaseAsync(LucyDbContext context)
     {
         var project = new Project("TEST", "Test Project", "Test Description");
@@ -52,14 +23,11 @@ public class StatusRepositoryTests
         return (project, statuses);
     }
 
-    // --- Tests for StatusRepository (Write) ---
-
     [Fact]
     public async Task AddAsync_ShouldAddStatusToDatabase()
     {
         // Arrange
-        var options = CreateDbContextOptions();
-        await using var context = new LucyWriteContext(options);
+        await using var context = new LucyWriteContext(_writeDbContextOptions);
         var (project, statuses) = await SeedDatabaseAsync(context);
 
         var repository = new StatusRepository(context);
@@ -79,8 +47,7 @@ public class StatusRepositoryTests
     public async Task Update_ShouldModifyStatus()
     {
         // Arrange
-        var options = CreateDbContextOptions();
-        await using var context = new LucyWriteContext(options);
+        await using var context = new LucyWriteContext(_writeDbContextOptions);
         var (project, statuses) = await SeedDatabaseAsync(context);
 
         var repository = new StatusRepository(context);
@@ -102,8 +69,7 @@ public class StatusRepositoryTests
     public async Task Remove_ShouldDeleteStatus()
     {
         // Arrange
-        var options = CreateDbContextOptions();
-        await using var context = new LucyWriteContext(options);
+        await using var context = new LucyWriteContext(_writeDbContextOptions);
         var (project, statuses) = await SeedDatabaseAsync(context);
 
         var repository = new StatusRepository(context);
@@ -119,16 +85,13 @@ public class StatusRepositoryTests
         Assert.Null(deletedStatus);
     }
 
-    // --- Tests for both repositories (Read functionality) ---
-
     [Theory]
     [InlineData(true)]  // Test with StatusRepository
     [InlineData(false)] // Test with StatusReadOnlyRepository
     public async Task GetByIdAsync_ShouldReturnStatus_WhenIdExists(bool useWriteRepo)
     {
         // Arrange
-        var options = CreateDbContextOptions();
-        await using var writeContext = new LucyWriteContext(options);
+        await using var writeContext = new LucyWriteContext(_writeDbContextOptions);
         var (project, statuses) = await SeedDatabaseAsync(writeContext);
 
         Status? status;
@@ -141,7 +104,7 @@ public class StatusRepositoryTests
         }
         else
         {
-            await using var readContext = new LucyReadContext(options);
+            await using var readContext = new LucyReadContext(_readDbContextOptions);
             var readOnlyRepo = new StatusReadOnlyRepository(readContext);
             status = await readOnlyRepo.GetByIdAsync(statuses[0].Id);
         }
@@ -158,17 +121,16 @@ public class StatusRepositoryTests
     public async Task GetByIdAsync_ShouldReturnNull_WhenIdDoesNotExist(bool useWriteRepo)
     {
         // Arrange & Act
-        var options = CreateDbContextOptions();
         Status? status;
         if (useWriteRepo)
         {
-            await using var context = new LucyWriteContext(options);
+            await using var context = new LucyWriteContext(_writeDbContextOptions);
             var repository = new StatusRepository(context);
             status = await repository.GetByIdAsync(999);
         }
         else
         {
-            await using var context = new LucyReadContext(options);
+            await using var context = new LucyReadContext(_readDbContextOptions);
             var repository = new StatusReadOnlyRepository(context);
             status = await repository.GetByIdAsync(999);
         }
@@ -183,8 +145,7 @@ public class StatusRepositoryTests
     public async Task GetByKeyAsync_ShouldReturnStatus_WhenKeyExists(bool useWriteRepo)
     {
         // Arrange
-        var options = CreateDbContextOptions();
-        await using var writeContext = new LucyWriteContext(options);
+        await using var writeContext = new LucyWriteContext(_writeDbContextOptions);
         var (project, statuses) = await SeedDatabaseAsync(writeContext);
 
         Status? status;
@@ -197,7 +158,7 @@ public class StatusRepositoryTests
         }
         else
         {
-            await using var readContext = new LucyReadContext(options);
+            await using var readContext = new LucyReadContext(_readDbContextOptions);
             var readOnlyRepo = new StatusReadOnlyRepository(readContext);
             status = await readOnlyRepo.GetByKeyAsync(1, "TODO");
         }
@@ -214,17 +175,16 @@ public class StatusRepositoryTests
     public async Task GetByKeyAsync_ShouldReturnNull_WhenKeyDoesNotExist(bool useWriteRepo)
     {
         // Arrange & Act
-        var options = CreateDbContextOptions();
         Status? status;
         if (useWriteRepo)
         {
-            await using var context = new LucyWriteContext(options);
+            await using var context = new LucyWriteContext(_writeDbContextOptions);
             var repository = new StatusRepository(context);
             status = await repository.GetByKeyAsync(1, "UNKNOWN");
         }
         else
         {
-            await using var context = new LucyReadContext(options);
+            await using var context = new LucyReadContext(_readDbContextOptions);
             var repository = new StatusReadOnlyRepository(context);
             status = await repository.GetByKeyAsync(1, "UNKNOWN");
         }
@@ -239,8 +199,7 @@ public class StatusRepositoryTests
     public async Task GetByProjectIdAsync_ShouldReturnAllStatusesForProject(bool useWriteRepo)
     {
         // Arrange
-        var options = CreateDbContextOptions();
-        await using var writeContext = new LucyWriteContext(options);
+        await using var writeContext = new LucyWriteContext(_writeDbContextOptions);
         var (project, seededStatuses) = await SeedDatabaseAsync(writeContext);
 
         IEnumerable<Status> statuses;
@@ -253,7 +212,7 @@ public class StatusRepositoryTests
         }
         else
         {
-            await using var readContext = new LucyReadContext(options);
+            await using var readContext = new LucyReadContext(_readDbContextOptions);
             var readOnlyRepo = new StatusReadOnlyRepository(readContext);
             statuses = await readOnlyRepo.GetByProjectIdAsync(project.Id);
         }
@@ -272,8 +231,7 @@ public class StatusRepositoryTests
     public async Task GetByProjectIdAsync_WithSorting_ShouldReturnSortedStatuses(bool useWriteRepo)
     {
         // Arrange
-        var options = CreateDbContextOptions();
-        await using var writeContext = new LucyWriteContext(options);
+        await using var writeContext = new LucyWriteContext(_writeDbContextOptions);
         var (project, seededStatuses) = await SeedDatabaseAsync(writeContext);
 
         List<Status> statuses;
@@ -286,7 +244,7 @@ public class StatusRepositoryTests
         }
         else
         {
-            await using var readContext = new LucyReadContext(options);
+            await using var readContext = new LucyReadContext(_readDbContextOptions);
             var readOnlyRepo = new StatusReadOnlyRepository(readContext);
             statuses = await readOnlyRepo.GetByProjectIdAsync(project.Id, StatusSortField.Order, Application.Queries.SortDirection.Descending);
         }
@@ -305,8 +263,7 @@ public class StatusRepositoryTests
     public async Task ExistsByIdAsync_ShouldReturnTrue_WhenIdExists(bool useWriteRepo)
     {
         // Arrange
-        var options = CreateDbContextOptions();
-        await using var writeContext = new LucyWriteContext(options);
+        await using var writeContext = new LucyWriteContext(_writeDbContextOptions);
         var (project, statuses) = await SeedDatabaseAsync(writeContext);
 
         bool exists;
@@ -319,7 +276,7 @@ public class StatusRepositoryTests
         }
         else
         {
-            await using var readContext = new LucyReadContext(options);
+            await using var readContext = new LucyReadContext(_readDbContextOptions);
             var repository = new StatusReadOnlyRepository(readContext);
             exists = await repository.ExistsByIdAsync(1);
         }
@@ -334,17 +291,16 @@ public class StatusRepositoryTests
     public async Task ExistsByIdAsync_ShouldReturnFalse_WhenIdDoesNotExist(bool useWriteRepo)
     {
         // Arrange & Act
-        var options = CreateDbContextOptions();
         bool exists;
         if (useWriteRepo)
         {
-            await using var context = new LucyWriteContext(options);
+            await using var context = new LucyWriteContext(_writeDbContextOptions);
             var repository = new StatusRepository(context);
             exists = await repository.ExistsByIdAsync(999);
         }
         else
         {
-            await using var context = new LucyReadContext(options);
+            await using var context = new LucyReadContext(_readDbContextOptions);
             var repository = new StatusReadOnlyRepository(context);
             exists = await repository.ExistsByIdAsync(999);
         }
@@ -359,8 +315,7 @@ public class StatusRepositoryTests
     public async Task ExistsByKeyAsync_ShouldReturnTrue_WhenKeyExists(bool useWriteRepo)
     {
         // Arrange
-        var options = CreateDbContextOptions();
-        await using var writeContext = new LucyWriteContext(options);
+        await using var writeContext = new LucyWriteContext(_writeDbContextOptions);
         var (project, statuses) = await SeedDatabaseAsync(writeContext);
 
         bool exists;
@@ -373,7 +328,7 @@ public class StatusRepositoryTests
         }
         else
         {
-            await using var readContext = new LucyReadContext(options);
+            await using var readContext = new LucyReadContext(_readDbContextOptions);
             var repository = new StatusReadOnlyRepository(readContext);
             exists = await repository.ExistsByKeyAsync(1, "TODO");
         }
@@ -388,17 +343,16 @@ public class StatusRepositoryTests
     public async Task ExistsByKeyAsync_ShouldReturnFalse_WhenKeyDoesNotExist(bool useWriteRepo)
     {
         // Arrange & Act
-        var options = CreateDbContextOptions();
         bool exists;
         if (useWriteRepo)
         {
-            await using var context = new LucyWriteContext(options);
+            await using var context = new LucyWriteContext(_writeDbContextOptions);
             var repository = new StatusRepository(context);
             exists = await repository.ExistsByKeyAsync(1, "UNKNOWN");
         }
         else
         {
-            await using var context = new LucyReadContext(options);
+            await using var context = new LucyReadContext(_readDbContextOptions);
             var repository = new StatusReadOnlyRepository(context);
             exists = await repository.ExistsByKeyAsync(1, "UNKNOWN");
         }

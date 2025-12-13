@@ -3,37 +3,16 @@ using Lucy.Domain.Enums;
 using Lucy.Infrastructure.Database;
 using Lucy.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 
-namespace Lucy.Tests.Infrastructure.Repositories;
+namespace Lucy.Infrastructure.Tests.Repositories;
 
 [Collection("Database collection")]
-public class TagRepositoryTests
+public class TagRepositoryTests : RepositoryTestBase
 {
-    private static DbContextOptions<LucyDbContext> CreateDbContextOptions()
-    {
-        var databaseName = Guid.NewGuid().ToString();
-        var databaseRoot = new InMemoryDatabaseRoot();
-
-        return new DbContextOptionsBuilder<LucyDbContext>()
-            .UseInMemoryDatabase(databaseName, databaseRoot)
-            .EnableServiceProviderCaching(false)
-            .Options;
-    }
-
-    private async Task<LucyWriteContext> CreateSeededWriteContextAsync()
-    {
-        var options = CreateDbContextOptions();
-        var context = new LucyWriteContext(options);
-        await SeedDatabaseAsync(context);
-        return context;
-    }
-
     private async Task<(LucyWriteContext writeContext, LucyReadContext readContext)> CreateSeededContextsAsync()
     {
-        var options = CreateDbContextOptions();
-        var writeContext = new LucyWriteContext(options);
-        var readContext = new LucyReadContext(options);
+        var writeContext = new LucyWriteContext(_writeDbContextOptions);
+        var readContext = new LucyReadContext(_readDbContextOptions);
         await SeedDatabaseAsync(writeContext);
         return (writeContext, readContext);
     }
@@ -60,8 +39,7 @@ public class TagRepositoryTests
     public async Task AddAsync_ShouldAddTagToDatabase()
     {
         // Arrange
-        var options = CreateDbContextOptions();
-        await using var context = new LucyWriteContext(options);
+        await using var context = new LucyWriteContext(_writeDbContextOptions);
         var project = new Project("NEW", "New Project", "Desc");
         context.Projects.Add(project);
         await context.SaveChangesAsync();
@@ -85,8 +63,7 @@ public class TagRepositoryTests
     public async Task Update_ShouldModifyTag()
     {
         // Arrange
-        var options = CreateDbContextOptions();
-        await using var context = new LucyWriteContext(options);
+        await using var context = new LucyWriteContext(_writeDbContextOptions);
         var (project, tags) = await SeedDatabaseAsync(context);
 
         var repository = new TagRepository(context);
@@ -114,8 +91,7 @@ public class TagRepositoryTests
     public async Task Remove_ShouldDeleteTag()
     {
         // Arrange
-        var options = CreateDbContextOptions();
-        await using var context = new LucyWriteContext(options);
+        await using var context = new LucyWriteContext(_writeDbContextOptions);
         var (project, tags) = await SeedDatabaseAsync(context);
 
         var repository = new TagRepository(context);
@@ -168,16 +144,15 @@ public class TagRepositoryTests
     {
         // Arrange & Act
         Tag? tag;
-        var options = CreateDbContextOptions();
         if (useWriteRepo)
         {
-            await using var context = new LucyWriteContext(options);
+            await using var context = new LucyWriteContext(_writeDbContextOptions);
             var repository = new TagRepository(context);
             tag = await repository.GetByIdAsync(999);
         }
         else
         {
-            await using var context = new LucyReadContext(options);
+            await using var context = new LucyReadContext(_readDbContextOptions);
             var repository = new TagReadOnlyRepository(context);
             tag = await repository.GetByIdAsync(999);
         }
@@ -221,16 +196,15 @@ public class TagRepositoryTests
     {
         // Arrange & Act
         Tag? tag;
-        var options = CreateDbContextOptions();
         if (useWriteRepo)
         {
-            await using var context = new LucyWriteContext(options);
+            await using var context = new LucyWriteContext(_writeDbContextOptions);
             var repository = new TagRepository(context);
             tag = await repository.GetByKeyAsync(1, "unknown");
         }
         else
         {
-            await using var context = new LucyReadContext(options);
+            await using var context = new LucyReadContext(_readDbContextOptions);
             var repository = new TagReadOnlyRepository(context);
             tag = await repository.GetByKeyAsync(1, "unknown");
         }
@@ -302,17 +276,16 @@ public class TagRepositoryTests
     public async Task ExistsByIdAsync_ShouldReturnFalse_WhenIdDoesNotExist(bool useWriteRepo)
     {
         // Arrange & Act
-        var options = CreateDbContextOptions();
         bool exists;
         if (useWriteRepo)
         {
-            await using var context = new LucyWriteContext(options);
+            await using var context = new LucyWriteContext(_writeDbContextOptions);
             var repository = new TagRepository(context);
             exists = await repository.ExistsByIdAsync(999);
         }
         else
         {
-            await using var context = new LucyReadContext(options);
+            await using var context = new LucyReadContext(_readDbContextOptions);
             var repository = new TagReadOnlyRepository(context);
             exists = await repository.ExistsByIdAsync(999);
         }
@@ -353,17 +326,16 @@ public class TagRepositoryTests
     public async Task ExistsByKeyAsync_ShouldReturnFalse_WhenKeyDoesNotExist(bool useWriteRepo)
     {
         // Arrange & Act
-        var options = CreateDbContextOptions();
         bool exists;
         if (useWriteRepo)
         {
-            await using var context = new LucyWriteContext(options);
+            await using var context = new LucyWriteContext(_writeDbContextOptions);
             var repository = new TagRepository(context);
             exists = await repository.ExistsByKeyAsync(1, "unknown");
         }
         else
         {
-            await using var context = new LucyReadContext(options);
+            await using var context = new LucyReadContext(_readDbContextOptions);
             var repository = new TagReadOnlyRepository(context);
             exists = await repository.ExistsByKeyAsync(1, "unknown");
         }
