@@ -88,6 +88,9 @@
   <data name="Command.List.Tickets.Description">
     <value>List all tickets for a project.</value>
   </data>
+  <data name="Command.List.Iterations.Description">
+    <value>List all iterations for a project.</value>
+  </data>
   <data name="Command.List.Comments.Description">
     <value>List all comments for a project or ticket.</value>
   </data>
@@ -130,8 +133,14 @@
   <data name="Command.Add.Tag.Description">
     <value>Add a tag to a ticket.</value>
   </data>
+  <data name="Command.Add.Ticket.Description">
+    <value>Add a ticket to an iteration.</value>
+  </data>
   <data name="Command.Remove.Tag.Description">
     <value>Remove a tag from a ticket.</value>
+  </data>
+  <data name="Command.Remove.Ticket.Description">
+    <value>Remove a ticket from an iteration.</value>
   </data>
   <data name="Command.Delete.Project.Description">
     <value>Delete a project.</value>
@@ -395,6 +404,19 @@
   <!--   Command Examples    -->
   <!-- ===================== -->
 
+  <data name="Command.Add.Tag.Example.0">
+    <value>add tag ABC-1 BUG</value>
+  </data>
+  <data name="Command.Add.Tag.Example.1">
+    <value>add tag --ticket-id 1 --tag-id 5</value>
+  </data>
+  <data name="Command.Add.Ticket.Example.0">
+    <value>add ticket ABC-1 ABC-S1</value>
+  </data>
+  <data name="Command.Add.Ticket.Example.1">
+    <value>add ticket --ticket-id 1 --iteration-id 2</value>
+  </data>
+
   <data name="Command.New.Project.Example.0">
     <value>new project EXAMP --name Example</value>
   </data>
@@ -465,6 +487,12 @@
   </data>
   <data name="Command.List.Tickets.Example.1">
     <value>list tickets --project-id 1</value>
+  </data>
+  <data name="Command.List.Iterations.Example.0">
+    <value>list iterations ABC</value>
+  </data>
+  <data name="Command.List.Iterations.Example.1">
+    <value>list iterations --project-id 1</value>
   </data>
   <data name="Command.List.Comments.Example.0">
     <value>list comments DEMO</value>
@@ -612,6 +640,19 @@
   </data>
   <data name="Command.Delete.Tag.Example.2">
     <value>delete tag --id 10</value>
+  </data>
+
+  <data name="Command.Remove.Tag.Example.0">
+    <value>remove tag ABC-1 BUG</value>
+  </data>
+  <data name="Command.Remove.Tag.Example.1">
+    <value>remove tag --ticket-id 1 --tag-id 5</value>
+  </data>
+  <data name="Command.Remove.Ticket.Example.0">
+    <value>remove ticket ABC-1 ABC-S1</value>
+  </data>
+  <data name="Command.Remove.Ticket.Example.1">
+    <value>remove ticket --ticket-id 1 --iteration-id 2</value>
   </data>
 
   <!-- ===================== -->
