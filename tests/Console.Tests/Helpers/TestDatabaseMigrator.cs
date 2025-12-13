@@ -1,6 +1,6 @@
 using Lucy.Application.Interfaces;
 
-namespace Lucy.Console.Tests.Commands;
+namespace Lucy.Console.Tests.Helpers;
 
 /// <summary>
 /// Test database migrator for unit testing purposes.

@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using Spectre.Console.Cli;
 
-namespace Lucy.Console.Tests.Commands;
+namespace Lucy.Console.Tests.Helpers;
 
 /// <summary>
 /// Test command for unit testing purposes.

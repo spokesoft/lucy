@@ -1,7 +1,7 @@
 using Lucy.Console.Enums;
 using Lucy.Console.Internal;
 using Lucy.Console.Interfaces;
-using Lucy.Console.Tests.Commands;
+using Lucy.Console.Tests.Helpers;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Spectre.Console.Cli;

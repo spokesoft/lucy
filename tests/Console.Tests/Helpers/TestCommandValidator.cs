@@ -1,25 +1,25 @@
-using Lucy.Console.Enums;
+using Lucy.Application.Validation;
 using Lucy.Console.Interfaces;
 using Spectre.Console.Cli;
 
-namespace Lucy.Console.Tests.Commands;
+namespace Lucy.Console.Tests.Helpers;
 
 /// <summary>
-/// Test command handler for unit testing purposes.
+/// Test command validator for unit testing purposes.
 /// </summary>
-public class TestCommandHandler : ICommandHandler<TestCommand>
+public class TestCommandValidator : ICommandValidator<TestCommand>
 {
     public bool WasCalled { get; private set; }
     public TestCommand? LastCommand { get; private set; }
     public CommandContext? LastContext { get; private set; }
-    public ExitCode ReturnValue { get; set; } = ExitCode.Success;
+    public ValidationResult ResultToReturn { get; set; } = new();
     public Exception? ExceptionToThrow { get; set; }
     public TimeSpan Delay { get; set; } = TimeSpan.Zero;
 
-    public async Task<ExitCode> HandleAsync(CommandContext context, TestCommand command, CancellationToken token = default)
+    public async Task<ValidationResult> ValidateAsync(CommandContext context, TestCommand settings, CancellationToken token = default)
     {
         WasCalled = true;
-        LastCommand = command;
+        LastCommand = settings;
         LastContext = context;
 
         if (Delay > TimeSpan.Zero)
@@ -32,7 +32,7 @@ public class TestCommandHandler : ICommandHandler<TestCommand>
             throw ExceptionToThrow;
         }
 
-        return ReturnValue;
+        return ResultToReturn;
     }
 
     public void Reset()
@@ -40,7 +40,7 @@ public class TestCommandHandler : ICommandHandler<TestCommand>
         WasCalled = false;
         LastCommand = null;
         LastContext = null;
-        ReturnValue = ExitCode.Success;
+        ResultToReturn = new ValidationResult();
         ExceptionToThrow = null;
         Delay = TimeSpan.Zero;
     }

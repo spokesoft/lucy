@@ -1,7 +1,7 @@
 using Lucy.Application.Interfaces;
 using Lucy.Console.Enums;
 using Lucy.Console.Middleware;
-using Lucy.Console.Tests.Commands;
+using Lucy.Console.Tests.Helpers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;

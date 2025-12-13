@@ -1,7 +1,7 @@
 using Lucy.Application.Validation;
 using Lucy.Console.Enums;
 using Lucy.Console.Middleware;
-using Lucy.Console.Tests.Commands;
+using Lucy.Console.Tests.Helpers;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Moq;

@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Localization;
 using System.Globalization;
 
-namespace Lucy.Console.Tests.Commands;
+namespace Lucy.Console.Tests.Helpers;
 
 /// <summary>
 /// Test string localizer for unit testing purposes.

@@ -2,7 +2,7 @@ using Lucy.Application.Interfaces;
 using Lucy.Infrastructure.Logging.Services;
 using Moq;
 
-namespace Lucy.Console.Tests.Commands;
+namespace Lucy.Console.Tests.Helpers;
 
 /// <summary>
 /// Test database logging service for unit testing purposes.
