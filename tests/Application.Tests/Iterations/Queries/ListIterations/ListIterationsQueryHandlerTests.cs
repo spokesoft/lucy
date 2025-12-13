@@ -36,10 +36,10 @@ public class ListIterationsQueryHandlerTests
         };
 
         _iterationRepositoryMock
-            .Setup(r => r.GetAllAsync(IterationSortField.Id, SortDirection.Ascending, It.IsAny<CancellationToken>()))
+            .Setup(r => r.GetByProjectIdAsync(1, IterationSortField.Id, SortDirection.Ascending, It.IsAny<CancellationToken>()))
             .ReturnsAsync(iterations);
 
-        var query = new ListIterationsQuery(IterationSortField.Id, SortDirection.Ascending);
+        var query = new ListIterationsQuery(1, IterationSortField.Id, SortDirection.Ascending);
 
         // Act
         var result = await _handler.HandleAsync(query, CancellationToken.None);

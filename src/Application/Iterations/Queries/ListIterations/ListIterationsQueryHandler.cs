@@ -18,7 +18,7 @@ public class ListIterationsQueryHandler(
     /// Handles the query to list all iterations.
     /// </summary>
     public Task<List<IterationDto>> HandleAsync(ListIterationsQuery request, CancellationToken token = default)
-        => _uow.Iterations.GetAllAsync(request.SortBy, request.SortDirection, token)
+        => _uow.Iterations.GetByProjectIdAsync(request.ProjectId, request.SortBy, request.SortDirection, token)
             .ContinueWith(task => task.Result.Select(iteration => new IterationDto
             {
                 Id = iteration.Id,

@@ -992,5 +992,29 @@
   <data name="Validation.IterationKeyAndIdMutuallyExclusive">
     <value>Cannot specify both iteration key and ID.</value>
   </data>
+  <data name="View.IterationList.NoIterations">
+    <value>No iterations found.</value>
+  </data>
+  <data name="Property.Iteration.Key">
+    <value>Key</value>
+  </data>
+  <data name="Property.Iteration.Name">
+    <value>Name</value>
+  </data>
+  <data name="Property.Iteration.StartDate">
+    <value>Start Date</value>
+  </data>
+  <data name="Property.Iteration.EndDate">
+    <value>End Date</value>
+  </data>
+  <data name="Link.Iterations">
+    <value>Iterations</value>
+  </data>
+  <data name="View.IterationList.Title">
+    <value>Iterations</value>
+  </data>
+  <data name="View.IterationList.Caption">
+    <value>Displaying {0}-{1} of {2} iterations</value>
+  </data>
 
 </root>

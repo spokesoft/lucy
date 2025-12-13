@@ -83,6 +83,7 @@ app.Configure(config =>
             branch.AddAsyncDelegate<ListStatusesCommand>("List.Statuses", executor, localizer);
             branch.AddAsyncDelegate<ListTagsCommand>("List.Tags", executor, localizer);
             branch.AddAsyncDelegate<ListTicketsCommand>("List.Tickets", executor, localizer);
+            branch.AddAsyncDelegate<ListIterationsCommand>("List.Iterations", executor, localizer);
             branch.AddAsyncDelegate<ListCommentsCommand>("List.Comments", executor, localizer);
         });
 

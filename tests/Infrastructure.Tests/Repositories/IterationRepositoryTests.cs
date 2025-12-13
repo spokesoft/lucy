@@ -219,13 +219,13 @@ public class IterationRepositoryTests : RepositoryTestBase
         if (useWriteRepo)
         {
             var repository = new IterationRepository(writeContext);
-            result = await repository.GetByProjectIdAsync(project.Id);
+            result = await repository.GetByProjectIdAsync(project.Id, IterationSortField.Id, SortDirection.Ascending);
         }
         else
         {
             await using var readContext = new LucyReadContext(_readDbContextOptions);
             var repository = new IterationReadOnlyRepository(readContext);
-            result = await repository.GetByProjectIdAsync(project.Id);
+            result = await repository.GetByProjectIdAsync(project.Id, IterationSortField.Id, SortDirection.Ascending);
         }
 
         // Assert

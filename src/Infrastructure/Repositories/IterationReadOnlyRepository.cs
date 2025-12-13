@@ -28,8 +28,38 @@ public class IterationReadOnlyRepository(
     /// <summary>
     /// Gets all iterations for a specific project.
     /// </summary>
-    public Task<List<Iteration>> GetByProjectIdAsync(long projectId, CancellationToken token = default)
-        => _set.Where(iteration => iteration.ProjectId == projectId).ToListAsync(token);
+    public Task<List<Iteration>> GetByProjectIdAsync(long projectId, IterationSortField sortBy, SortDirection sortDirection, CancellationToken token = default)
+    {
+        var query = _set.Where(iteration => iteration.ProjectId == projectId);
+
+        query = sortBy switch
+        {
+            IterationSortField.Id => sortDirection == SortDirection.Ascending
+                ? query.OrderBy(i => i.Id)
+                : query.OrderByDescending(i => i.Id),
+            IterationSortField.Key => sortDirection == SortDirection.Ascending
+                ? query.OrderBy(i => i.Key)
+                : query.OrderByDescending(i => i.Key),
+            IterationSortField.Name => sortDirection == SortDirection.Ascending
+                ? query.OrderBy(i => i.Name)
+                : query.OrderByDescending(i => i.Name),
+            IterationSortField.StartDate => sortDirection == SortDirection.Ascending
+                ? query.OrderBy(i => i.StartDate)
+                : query.OrderByDescending(i => i.StartDate),
+            IterationSortField.EndDate => sortDirection == SortDirection.Ascending
+                ? query.OrderBy(i => i.EndDate)
+                : query.OrderByDescending(i => i.EndDate),
+            IterationSortField.CreatedAt => sortDirection == SortDirection.Ascending
+                ? query.OrderBy(i => i.CreatedAt)
+                : query.OrderByDescending(i => i.CreatedAt),
+            IterationSortField.UpdatedAt => sortDirection == SortDirection.Ascending
+                ? query.OrderBy(i => i.UpdatedAt)
+                : query.OrderByDescending(i => i.UpdatedAt),
+            _ => query.OrderBy(i => i.Id)
+        };
+
+        return query.ToListAsync(token);
+    }
 
     /// <summary>
     /// Gets all iterations with sorting.

@@ -33,6 +33,16 @@ public enum ConsoleValidationCode
     /// </summary>
     ProjectAlreadyExists,
 
+    /// <summary>
+    /// Indicates that the project could not be found by the specified ID.
+    /// </summary>
+    ProjectIdNotFound,
+
+    /// <summary>
+    /// Indicates that both project key and ID cannot be specified together.
+    /// </summary>
+    ProjectKeyAndIdMutuallyExclusive,
+
     #endregion
 
     #region Status Validation Codes
