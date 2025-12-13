@@ -37,6 +37,16 @@ public class TicketTag : DomainEntity<long>
     /// </summary>
     public TicketTag(Ticket ticket, Tag tag)
     {
+        if (ticket is null)
+        {
+            throw new ArgumentNullException(nameof(ticket));
+        }
+
+        if (tag is null)
+        {
+            throw new ArgumentNullException(nameof(tag));
+        }
+
         Ticket = ticket;
         TicketId = ticket.Id;
         Tag = tag;

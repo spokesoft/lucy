@@ -3,47 +3,72 @@ using Lucy.Domain.Enums;
 
 namespace Lucy.Domain.Tests;
 
+/// <summary>
+/// Tests for the Project domain entity.
+/// </summary>
 public class ProjectTests
 {
     [Fact]
     public void Constructor_ShouldSetProperties_WhenValidArgumentsAreProvided()
     {
+        // Arrange
         var key = "project1";
         var name = "Test Project";
         var description = "This is a test project.";
 
+        // Act
         var project = new Project(key, name, description);
 
+        // Assert
         Assert.Equal(key.ToUpperInvariant(), project.Key);
         Assert.Equal(name, project.Name);
         Assert.Equal(description, project.Description);
     }
 
     [Fact]
-    public void Constructor_ShouldThrowException_WhenKeyIsNullOrEmpty()
+    public void Constructor_ShouldThrowException_WhenKeyIsNull()
     {
+        // Arrange & Act & Assert
         Assert.Throws<ArgumentException>(() => new Project(null!));
+    }
+
+    [Fact]
+    public void Constructor_ShouldThrowException_WhenKeyIsEmpty()
+    {
+        // Arrange & Act & Assert
         Assert.Throws<ArgumentException>(() => new Project(string.Empty));
+    }
+
+    [Fact]
+    public void Constructor_ShouldThrowException_WhenKeyIsWhitespace()
+    {
+        // Arrange & Act & Assert
         Assert.Throws<ArgumentException>(() => new Project("   "));
     }
 
     [Fact]
     public void Constructor_ShouldConvertKeyToUpperCase()
     {
+        // Arrange
         var key = "project1";
 
+        // Act
         var project = new Project(key);
 
+        // Assert
         Assert.Equal("PROJECT1", project.Key);
     }
 
     [Fact]
     public void Constructor_ShouldAllowNullNameAndDescription()
     {
+        // Arrange
         var key = "project1";
 
+        // Act
         var project = new Project(key, null, null);
 
+        // Assert
         Assert.Null(project.Name);
         Assert.Null(project.Description);
     }
@@ -51,10 +76,13 @@ public class ProjectTests
     [Fact]
     public void Constructor_ShouldCreateDefaultSequences()
     {
+        // Arrange
         var key = "TEST";
 
+        // Act
         var project = new Project(key);
 
+        // Assert
         Assert.NotNull(project.Sequences);
         Assert.Equal(2, project.Sequences.Count);
 
@@ -70,10 +98,13 @@ public class ProjectTests
     [Fact]
     public void Constructor_ShouldSetSequenceTemplatesBasedOnKey()
     {
+        // Arrange
         var key = "MYPROJ";
 
+        // Act
         var project = new Project(key);
 
+        // Assert
         var ticketSequence = project.Sequences.First(s => s.Type == SequenceType.Ticket);
         var iterationSequence = project.Sequences.First(s => s.Type == SequenceType.Iteration);
 
@@ -84,6 +115,7 @@ public class ProjectTests
     [Fact]
     public void UpdateKey_ShouldUpdateKeyAndSequenceTemplates()
     {
+        // Arrange
         var project = new Project("OLD");
         var oldTicketTemplate = project.Sequences.First(s => s.Type == SequenceType.Ticket).Template;
         var oldIterationTemplate = project.Sequences.First(s => s.Type == SequenceType.Iteration).Template;
@@ -91,8 +123,10 @@ public class ProjectTests
         Assert.Equal("OLD-{0}", oldTicketTemplate);
         Assert.Equal("OLD-S{0}", oldIterationTemplate);
 
+        // Act
         project.UpdateKey("NEW");
 
+        // Assert
         Assert.Equal("NEW", project.Key);
 
         var ticketSequence = project.Sequences.First(s => s.Type == SequenceType.Ticket);
@@ -103,20 +137,42 @@ public class ProjectTests
     }
 
     [Fact]
-    public void UpdateKey_ShouldThrowException_WhenKeyIsNullOrEmpty()
+    public void UpdateKey_ShouldThrowException_WhenKeyIsNull()
     {
+        // Arrange
         var project = new Project("TEST");
 
+        // Act & Assert
         Assert.Throws<ArgumentException>(() => project.UpdateKey(null!));
+    }
+
+    [Fact]
+    public void UpdateKey_ShouldThrowException_WhenKeyIsEmpty()
+    {
+        // Arrange
+        var project = new Project("TEST");
+
+        // Act & Assert
         Assert.Throws<ArgumentException>(() => project.UpdateKey(string.Empty));
+    }
+
+    [Fact]
+    public void UpdateKey_ShouldThrowException_WhenKeyIsWhitespace()
+    {
+        // Arrange
+        var project = new Project("TEST");
+
+        // Act & Assert
         Assert.Throws<ArgumentException>(() => project.UpdateKey("   "));
     }
 
     [Fact]
     public void UpdateKey_ShouldThrowException_WhenKeyDoesNotStartWithLetter()
     {
+        // Arrange
         var project = new Project("TEST");
 
+        // Act & Assert
         Assert.Throws<ArgumentException>(() => project.UpdateKey("1TEST"));
         Assert.Throws<ArgumentException>(() => project.UpdateKey("-TEST"));
         Assert.Throws<ArgumentException>(() => project.UpdateKey("_TEST"));
@@ -125,8 +181,10 @@ public class ProjectTests
     [Fact]
     public void UpdateKey_ShouldThrowException_WhenKeyContainsInvalidCharacters()
     {
+        // Arrange
         var project = new Project("TEST");
 
+        // Act & Assert
         Assert.Throws<ArgumentException>(() => project.UpdateKey("TEST@"));
         Assert.Throws<ArgumentException>(() => project.UpdateKey("TEST#"));
         Assert.Throws<ArgumentException>(() => project.UpdateKey("TEST PROJECT"));
@@ -136,8 +194,10 @@ public class ProjectTests
     [Fact]
     public void UpdateKey_ShouldAllowValidCharacters()
     {
+        // Arrange
         var project = new Project("TEST");
 
+        // Act & Assert
         project.UpdateKey("TEST-123");
         Assert.Equal("TEST-123", project.Key);
 
@@ -151,102 +211,130 @@ public class ProjectTests
     [Fact]
     public void UpdateKey_ShouldConvertToUpperCase()
     {
+        // Arrange
         var project = new Project("test");
 
+        // Act
         project.UpdateKey("newkey");
 
+        // Assert
         Assert.Equal("NEWKEY", project.Key);
     }
 
     [Fact]
     public void UpdateName_ShouldUpdateName()
     {
+        // Arrange
         var project = new Project("TEST");
 
+        // Act
         project.UpdateName("New Name");
 
+        // Assert
         Assert.Equal("New Name", project.Name);
     }
 
     [Fact]
     public void UpdateName_ShouldAllowNull()
     {
+        // Arrange
         var project = new Project("TEST", "Original Name");
 
+        // Act
         project.UpdateName(null);
 
+        // Assert
         Assert.Null(project.Name);
     }
 
     [Fact]
     public void UpdateName_ShouldThrowException_WhenNameExceeds100Characters()
     {
+        // Arrange
         var project = new Project("TEST");
         var longName = new string('A', 101);
 
+        // Act & Assert
         Assert.Throws<ArgumentException>(() => project.UpdateName(longName));
     }
 
     [Fact]
     public void UpdateName_ShouldAcceptNameWith100Characters()
     {
+        // Arrange
         var project = new Project("TEST");
         var maxName = new string('A', 100);
 
+        // Act
         project.UpdateName(maxName);
 
+        // Assert
         Assert.Equal(maxName, project.Name);
     }
 
     [Fact]
     public void UpdateDescription_ShouldUpdateDescription()
     {
+        // Arrange
         var project = new Project("TEST");
 
+        // Act
         project.UpdateDescription("New Description");
 
+        // Assert
         Assert.Equal("New Description", project.Description);
     }
 
     [Fact]
     public void UpdateDescription_ShouldAllowNull()
     {
+        // Arrange
         var project = new Project("TEST", description: "Original Description");
 
+        // Act
         project.UpdateDescription(null);
 
+        // Assert
         Assert.Null(project.Description);
     }
 
     [Fact]
     public void UpdateDescription_ShouldThrowException_WhenDescriptionExceeds500Characters()
     {
+        // Arrange
         var project = new Project("TEST");
         var longDescription = new string('A', 501);
 
+        // Act & Assert
         Assert.Throws<ArgumentException>(() => project.UpdateDescription(longDescription));
     }
 
     [Fact]
     public void UpdateDescription_ShouldAcceptDescriptionWith500Characters()
     {
+        // Arrange
         var project = new Project("TEST");
         var maxDescription = new string('A', 500);
 
+        // Act
         project.UpdateDescription(maxDescription);
 
+        // Assert
         Assert.Equal(maxDescription, project.Description);
     }
 
     [Fact]
     public void Sequences_ShouldMaintainReferenceWhenKeyIsUpdated()
     {
+        // Arrange
         var project = new Project("ORIG");
         var originalTicketSequence = project.Sequences.First(s => s.Type == SequenceType.Ticket);
         var originalIterationSequence = project.Sequences.First(s => s.Type == SequenceType.Iteration);
 
+        // Act
         project.UpdateKey("UPDATED");
 
+        // Assert
         var updatedTicketSequence = project.Sequences.First(s => s.Type == SequenceType.Ticket);
         var updatedIterationSequence = project.Sequences.First(s => s.Type == SequenceType.Iteration);
 

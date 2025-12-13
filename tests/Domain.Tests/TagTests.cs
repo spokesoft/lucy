@@ -3,19 +3,25 @@ using Lucy.Domain.Enums;
 
 namespace Lucy.Domain.Tests;
 
+/// <summary>
+/// Tests for the Tag domain entity.
+/// </summary>
 public class TagTests
 {
     [Fact]
-    public void Tag_Constructor_ShouldSetProperties_WhenValidArgumentsAreProvided()
+    public void Constructor_ShouldSetProperties_WhenValidArgumentsAreProvided()
     {
+        // Arrange
         var projectId = 1L;
         var key = "test-key";
         var label = "Test Label";
         var description = "Test Description";
         var color = Color.Red;
 
+        // Act
         var tag = new Tag(projectId, key, label, description, color);
 
+        // Assert
         Assert.Equal(projectId, tag.ProjectId);
         Assert.Equal("TEST-KEY", tag.Key);
         Assert.Equal(label, tag.Label);
@@ -24,124 +30,155 @@ public class TagTests
     }
 
     [Fact]
-    public void Tag_Constructor_ShouldUseDefaultColor_WhenColorIsNotProvided()
+    public void Constructor_ShouldUseDefaultColor_WhenColorIsNotProvided()
     {
+        // Arrange
         var projectId = 1L;
         var key = "test-key";
 
+        // Act
         var tag = new Tag(projectId, key);
 
+        // Assert
         Assert.Equal(Color.Gray, tag.Color);
     }
 
     [Fact]
-    public void Tag_UpdateKey_ShouldUpdateKey_WhenValidKeyIsProvided()
+    public void UpdateKey_ShouldUpdateKey_WhenValidKeyIsProvided()
     {
+        // Arrange
         var tag = new Tag(1L, "old-key");
         var newKey = "new-key";
 
+        // Act
         tag.UpdateKey(newKey);
 
+        // Assert
         Assert.Equal("NEW-KEY", tag.Key);
     }
 
     [Fact]
-    public void Tag_UpdateKey_ShouldThrowException_WhenKeyIsNull()
+    public void UpdateKey_ShouldThrowException_WhenKeyIsNull()
     {
+        // Arrange
         var tag = new Tag(1L, "old-key");
 
+        // Act & Assert
         Assert.Throws<ArgumentException>(() => tag.UpdateKey(null!));
     }
 
     [Fact]
-    public void Tag_UpdateKey_ShouldThrowException_WhenKeyIsEmpty()
+    public void UpdateKey_ShouldThrowException_WhenKeyIsEmpty()
     {
+        // Arrange
         var tag = new Tag(1L, "old-key");
 
+        // Act & Assert
         Assert.Throws<ArgumentException>(() => tag.UpdateKey(string.Empty));
     }
 
     [Fact]
-    public void Tag_UpdateKey_ShouldThrowException_WhenKeyIsWhitespace()
+    public void UpdateKey_ShouldThrowException_WhenKeyIsWhitespace()
     {
+        // Arrange
         var tag = new Tag(1L, "old-key");
 
+        // Act & Assert
         Assert.Throws<ArgumentException>(() => tag.UpdateKey("   "));
     }
 
     [Fact]
-    public void Tag_UpdateKey_ShouldThrowException_WhenKeyDoesNotStartWithLetter()
+    public void UpdateKey_ShouldThrowException_WhenKeyDoesNotStartWithLetter()
     {
+        // Arrange
         var tag = new Tag(1L, "old-key");
 
+        // Act & Assert
         Assert.Throws<ArgumentException>(() => tag.UpdateKey("1key"));
     }
 
     [Fact]
-    public void Tag_UpdateKey_ShouldThrowException_WhenKeyContainsInvalidCharacters()
+    public void UpdateKey_ShouldThrowException_WhenKeyContainsInvalidCharacters()
     {
+        // Arrange
         var tag = new Tag(1L, "old-key");
 
+        // Act & Assert
         Assert.Throws<ArgumentException>(() => tag.UpdateKey("key@invalid"));
     }
 
     [Fact]
-    public void Tag_UpdateKey_ShouldThrowException_WhenKeyIsTooLong()
+    public void UpdateKey_ShouldThrowException_WhenKeyIsTooLong()
     {
+        // Arrange
         var tag = new Tag(1L, "old-key");
         var longKey = new string('a', 16);
 
+        // Act & Assert
         Assert.Throws<ArgumentException>(() => tag.UpdateKey(longKey));
     }
 
     [Fact]
-    public void Tag_UpdateLabel_ShouldUpdateLabel_WhenValidLabelIsProvided()
+    public void UpdateLabel_ShouldUpdateLabel_WhenValidLabelIsProvided()
     {
+        // Arrange
         var tag = new Tag(1L, "key");
         var newLabel = "New Label";
 
+        // Act
         tag.UpdateLabel(newLabel);
 
+        // Assert
         Assert.Equal(newLabel, tag.Label);
     }
 
     [Fact]
-    public void Tag_UpdateLabel_ShouldThrowException_WhenLabelIsTooLong()
+    public void UpdateLabel_ShouldThrowException_WhenLabelIsTooLong()
     {
+        // Arrange
         var tag = new Tag(1L, "key");
         var longLabel = new string('a', 51);
 
+        // Act & Assert
         Assert.Throws<ArgumentException>(() => tag.UpdateLabel(longLabel));
     }
 
     [Fact]
-    public void Tag_UpdateDescription_ShouldUpdateDescription_WhenValidDescriptionIsProvided()
+    public void UpdateDescription_ShouldUpdateDescription_WhenValidDescriptionIsProvided()
     {
+        // Arrange
         var tag = new Tag(1L, "key");
         var newDescription = "New Description";
 
+        // Act
         tag.UpdateDescription(newDescription);
 
+        // Assert
         Assert.Equal(newDescription, tag.Description);
     }
 
     [Fact]
-    public void Tag_UpdateDescription_ShouldThrowException_WhenDescriptionIsTooLong()
+    public void UpdateDescription_ShouldThrowException_WhenDescriptionIsTooLong()
     {
+        // Arrange
         var tag = new Tag(1L, "key");
         var longDescription = new string('a', 101);
 
+        // Act & Assert
         Assert.Throws<ArgumentException>(() => tag.UpdateDescription(longDescription));
     }
 
     [Fact]
-    public void Tag_UpdateColor_ShouldUpdateColor()
+    public void UpdateColor_ShouldUpdateColor()
     {
+        // Arrange
         var tag = new Tag(1L, "key");
         var newColor = Color.Blue;
 
+        // Act
         tag.UpdateColor(newColor);
 
+        // Assert
         Assert.Equal(newColor, tag.Color);
     }
 }
