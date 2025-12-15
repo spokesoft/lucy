@@ -3,7 +3,7 @@
   <PropertyGroup>
     <AssemblyName>Lucy.Domain</AssemblyName>
     <RootNamespace>Lucy.Domain</RootNamespace>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
