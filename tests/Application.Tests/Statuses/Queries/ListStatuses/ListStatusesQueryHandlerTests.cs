@@ -35,7 +35,7 @@ public class ListStatusesQueryHandlerTests : ApplicationTestBase
         _statusRepositoryMock
             .Setup(u => u.GetByProjectIdAsync(
                 1,
-                It.IsAny<StatusSortField>(),
+                It.IsAny<StatusField>(),
                 It.IsAny<SortDirection>(),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(statuses);
@@ -60,7 +60,7 @@ public class ListStatusesQueryHandlerTests : ApplicationTestBase
         _statusRepositoryMock
             .Setup(u => u.GetByProjectIdAsync(
                 1,
-                It.IsAny<StatusSortField>(),
+                It.IsAny<StatusField>(),
                 It.IsAny<SortDirection>(),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(new List<Status>());
@@ -82,12 +82,12 @@ public class ListStatusesQueryHandlerTests : ApplicationTestBase
         _statusRepositoryMock
             .Setup(u => u.GetByProjectIdAsync(
                 1,
-                StatusSortField.Key,
+                StatusField.Key,
                 SortDirection.Descending,
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(new List<Status>());
 
-        var query = new ListStatusesQuery(1, StatusSortField.Key, SortDirection.Descending);
+        var query = new ListStatusesQuery(1, StatusField.Key, SortDirection.Descending);
 
         // Act
         await _handler.HandleAsync(query, CancellationToken.None);
@@ -95,7 +95,7 @@ public class ListStatusesQueryHandlerTests : ApplicationTestBase
         // Assert
         _statusRepositoryMock.Verify(u => u.GetByProjectIdAsync(
             1,
-            StatusSortField.Key,
+            StatusField.Key,
             SortDirection.Descending,
             It.IsAny<CancellationToken>()), Times.Once);
     }

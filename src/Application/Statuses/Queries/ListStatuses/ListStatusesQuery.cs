@@ -12,5 +12,5 @@ namespace Lucy.Application.Statuses.Queries.ListStatuses;
 /// <param name="SortDirection">The direction to sort.</param>
 public record ListStatusesQuery(
     long ProjectId,
-    StatusSortField SortBy = StatusSortField.Order,
+    StatusField SortBy = StatusField.Order,
     SortDirection SortDirection = SortDirection.Ascending) : IRequest<List<StatusDto>>;

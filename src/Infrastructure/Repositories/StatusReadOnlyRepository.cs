@@ -34,28 +34,28 @@ public class StatusReadOnlyRepository(
     /// <summary>
     /// Gets all statuses for a specific project with sorting.
     /// </summary>
-    public Task<List<Status>> GetByProjectIdAsync(long projectId, StatusSortField sortBy, SortDirection sortDirection, CancellationToken token = default)
+    public Task<List<Status>> GetByProjectIdAsync(long projectId, StatusField sortBy, SortDirection sortDirection, CancellationToken token = default)
     {
         var query = _set.Where(status => status.ProjectId == projectId);
 
         query = sortBy switch
         {
-            StatusSortField.Id => sortDirection == SortDirection.Ascending
+            StatusField.Id => sortDirection == SortDirection.Ascending
                 ? query.OrderBy(s => s.Id)
                 : query.OrderByDescending(s => s.Id),
-            StatusSortField.Order => sortDirection == SortDirection.Ascending
+            StatusField.Order => sortDirection == SortDirection.Ascending
                 ? query.OrderBy(s => s.Order)
                 : query.OrderByDescending(s => s.Order),
-            StatusSortField.Key => sortDirection == SortDirection.Ascending
+            StatusField.Key => sortDirection == SortDirection.Ascending
                 ? query.OrderBy(s => s.Key)
                 : query.OrderByDescending(s => s.Key),
-            StatusSortField.Name => sortDirection == SortDirection.Ascending
+            StatusField.Name => sortDirection == SortDirection.Ascending
                 ? query.OrderBy(s => s.Name)
                 : query.OrderByDescending(s => s.Name),
-            StatusSortField.CreatedAt => sortDirection == SortDirection.Ascending
+            StatusField.CreatedAt => sortDirection == SortDirection.Ascending
                 ? query.OrderBy(s => s.CreatedAt)
                 : query.OrderByDescending(s => s.CreatedAt),
-            StatusSortField.UpdatedAt => sortDirection == SortDirection.Ascending
+            StatusField.UpdatedAt => sortDirection == SortDirection.Ascending
                 ? query.OrderBy(s => s.UpdatedAt)
                 : query.OrderByDescending(s => s.UpdatedAt),
             _ => query.OrderBy(s => s.Id)

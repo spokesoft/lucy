@@ -10,5 +10,5 @@ namespace Lucy.Application.Projects.Queries.ListProjects;
 /// <param name="SortBy">The field to sort by.</param>
 /// <param name="SortDirection">The direction to sort.</param>
 public record ListProjectsQuery(
-    ProjectSortField SortBy = ProjectSortField.Id,
+    ProjectField SortBy = ProjectField.Id,
     SortDirection SortDirection = SortDirection.Ascending) : IRequest<List<ProjectDto>>;

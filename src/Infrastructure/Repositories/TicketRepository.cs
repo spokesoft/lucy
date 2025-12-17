@@ -36,7 +36,7 @@ public class TicketRepository(
         long? statusId = null,
         long? tagId = null,
         long? iterationId = null,
-        TicketSortField sortBy = TicketSortField.Id,
+        TicketField sortBy = TicketField.Id,
         SortDirection sortDirection = SortDirection.Ascending,
         CancellationToken token = default)
     {
@@ -69,7 +69,7 @@ public class TicketRepository(
     /// <summary>
     /// Gets all tickets for a specific project with sorting.
     /// </summary>
-    public Task<List<Ticket>> GetByProjectIdAsync(long projectId, TicketSortField sortBy, SortDirection sortDirection, CancellationToken token = default)
+    public Task<List<Ticket>> GetByProjectIdAsync(long projectId, TicketField sortBy, SortDirection sortDirection, CancellationToken token = default)
     {
         var query = _set.Where(ticket => ticket.ProjectId == projectId);
         return ApplySort(query, sortBy, sortDirection).ToListAsync(token);
@@ -84,7 +84,7 @@ public class TicketRepository(
     /// <summary>
     /// Gets all tickets for a specific project and status with sorting.
     /// </summary>
-    public Task<List<Ticket>> GetByProjectIdAndStatusIdAsync(long projectId, long statusId, TicketSortField sortBy, SortDirection sortDirection, CancellationToken token = default)
+    public Task<List<Ticket>> GetByProjectIdAndStatusIdAsync(long projectId, long statusId, TicketField sortBy, SortDirection sortDirection, CancellationToken token = default)
     {
         var query = _set.Where(ticket => ticket.ProjectId == projectId && ticket.StatusId == statusId);
         return ApplySort(query, sortBy, sortDirection).ToListAsync(token);
@@ -93,7 +93,7 @@ public class TicketRepository(
     /// <summary>
     /// Gets all tickets for a specific project and tag with sorting.
     /// </summary>
-    public Task<List<Ticket>> GetByProjectIdAndTagIdAsync(long projectId, long tagId, TicketSortField sortBy, SortDirection sortDirection, CancellationToken token = default)
+    public Task<List<Ticket>> GetByProjectIdAndTagIdAsync(long projectId, long tagId, TicketField sortBy, SortDirection sortDirection, CancellationToken token = default)
     {
         var query = _set
             .Where(ticket => ticket.ProjectId == projectId && ticket.TicketTags.Any(tt => tt.TagId == tagId));
@@ -104,7 +104,7 @@ public class TicketRepository(
     /// <summary>
     /// Gets all tickets for a specific project, status, and tag with sorting.
     /// </summary>
-    public Task<List<Ticket>> GetByProjectIdStatusIdAndTagIdAsync(long projectId, long statusId, long tagId, TicketSortField sortBy, SortDirection sortDirection, CancellationToken token = default)
+    public Task<List<Ticket>> GetByProjectIdStatusIdAndTagIdAsync(long projectId, long statusId, long tagId, TicketField sortBy, SortDirection sortDirection, CancellationToken token = default)
     {
         var query = _set
             .Where(ticket => ticket.ProjectId == projectId && ticket.StatusId == statusId && ticket.TicketTags.Any(tt => tt.TagId == tagId));
@@ -121,7 +121,7 @@ public class TicketRepository(
     /// <summary>
     /// Gets all tickets for a specific status with sorting.
     /// </summary>
-    public Task<List<Ticket>> GetByStatusIdAsync(long statusId, TicketSortField sortBy, SortDirection sortDirection, CancellationToken token = default)
+    public Task<List<Ticket>> GetByStatusIdAsync(long statusId, TicketField sortBy, SortDirection sortDirection, CancellationToken token = default)
     {
         var query = _set.Where(ticket => ticket.StatusId == statusId);
         return ApplySort(query, sortBy, sortDirection).ToListAsync(token);
@@ -130,7 +130,7 @@ public class TicketRepository(
     /// <summary>
     /// Gets all tickets with sorting.
     /// </summary>
-    public Task<List<Ticket>> GetAllAsync(TicketSortField sortBy, SortDirection sortDirection, CancellationToken token = default)
+    public Task<List<Ticket>> GetAllAsync(TicketField sortBy, SortDirection sortDirection, CancellationToken token = default)
     {
         var query = _set.AsQueryable();
         return ApplySort(query, sortBy, sortDirection).ToListAsync(token);
@@ -179,29 +179,29 @@ public class TicketRepository(
     /// <summary>
     /// Applies sorting to a ticket query.
     /// </summary>
-    private static IQueryable<Ticket> ApplySort(IQueryable<Ticket> query, TicketSortField sortBy, SortDirection sortDirection)
+    private static IQueryable<Ticket> ApplySort(IQueryable<Ticket> query, TicketField sortBy, SortDirection sortDirection)
     {
         return sortBy switch
         {
-            TicketSortField.Id => sortDirection == SortDirection.Ascending
+            TicketField.Id => sortDirection == SortDirection.Ascending
                 ? query.OrderBy(t => t.Id)
                 : query.OrderByDescending(t => t.Id),
-            TicketSortField.Key => sortDirection == SortDirection.Ascending
+            TicketField.Key => sortDirection == SortDirection.Ascending
                 ? query.OrderBy(t => t.Key)
                 : query.OrderByDescending(t => t.Key),
-            TicketSortField.Title => sortDirection == SortDirection.Ascending
+            TicketField.Title => sortDirection == SortDirection.Ascending
                 ? query.OrderBy(t => t.Title)
                 : query.OrderByDescending(t => t.Title),
-            TicketSortField.ProjectId => sortDirection == SortDirection.Ascending
+            TicketField.ProjectId => sortDirection == SortDirection.Ascending
                 ? query.OrderBy(t => t.ProjectId)
                 : query.OrderByDescending(t => t.ProjectId),
-            TicketSortField.StatusId => sortDirection == SortDirection.Ascending
+            TicketField.StatusId => sortDirection == SortDirection.Ascending
                 ? query.OrderBy(t => t.StatusId)
                 : query.OrderByDescending(t => t.StatusId),
-            TicketSortField.CreatedAt => sortDirection == SortDirection.Ascending
+            TicketField.CreatedAt => sortDirection == SortDirection.Ascending
                 ? query.OrderBy(t => t.CreatedAt)
                 : query.OrderByDescending(t => t.CreatedAt),
-            TicketSortField.UpdatedAt => sortDirection == SortDirection.Ascending
+            TicketField.UpdatedAt => sortDirection == SortDirection.Ascending
                 ? query.OrderBy(t => t.UpdatedAt)
                 : query.OrderByDescending(t => t.UpdatedAt),
             _ => query.OrderBy(t => t.Id)

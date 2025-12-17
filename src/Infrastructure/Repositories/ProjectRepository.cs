@@ -28,25 +28,25 @@ public class ProjectRepository(
     /// <summary>
     /// Gets all projects with sorting.
     /// </summary>
-    public Task<List<Project>> GetAllAsync(ProjectSortField sortBy, SortDirection sortDirection, CancellationToken token = default)
+    public Task<List<Project>> GetAllAsync(ProjectField sortBy, SortDirection sortDirection, CancellationToken token = default)
     {
         var query = _set.AsQueryable();
 
         query = sortBy switch
         {
-            ProjectSortField.Id => sortDirection == SortDirection.Ascending
+            ProjectField.Id => sortDirection == SortDirection.Ascending
                 ? query.OrderBy(p => p.Id)
                 : query.OrderByDescending(p => p.Id),
-            ProjectSortField.Key => sortDirection == SortDirection.Ascending
+            ProjectField.Key => sortDirection == SortDirection.Ascending
                 ? query.OrderBy(p => p.Key)
                 : query.OrderByDescending(p => p.Key),
-            ProjectSortField.Name => sortDirection == SortDirection.Ascending
+            ProjectField.Name => sortDirection == SortDirection.Ascending
                 ? query.OrderBy(p => p.Name)
                 : query.OrderByDescending(p => p.Name),
-            ProjectSortField.CreatedAt => sortDirection == SortDirection.Ascending
+            ProjectField.CreatedAt => sortDirection == SortDirection.Ascending
                 ? query.OrderBy(p => p.CreatedAt)
                 : query.OrderByDescending(p => p.CreatedAt),
-            ProjectSortField.UpdatedAt => sortDirection == SortDirection.Ascending
+            ProjectField.UpdatedAt => sortDirection == SortDirection.Ascending
                 ? query.OrderBy(p => p.UpdatedAt)
                 : query.OrderByDescending(p => p.UpdatedAt),
             _ => query.OrderBy(p => p.Id)

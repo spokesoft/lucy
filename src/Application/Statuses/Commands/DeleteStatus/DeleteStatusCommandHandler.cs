@@ -43,7 +43,7 @@ public class DeleteStatusCommandHandler(
             {
                 var statuses = await _uow.Statuses.GetByProjectIdAsync(
                     status.ProjectId,
-                    StatusSortField.Order,
+                    StatusField.Order,
                     SortDirection.Ascending,
                     token);
 

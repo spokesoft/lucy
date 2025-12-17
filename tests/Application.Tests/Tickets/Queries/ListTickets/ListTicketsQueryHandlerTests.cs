@@ -38,7 +38,7 @@ public class ListTicketsQueryHandlerTests : ApplicationTestBase
                 null,
                 null,
                 null,
-                It.IsAny<TicketSortField>(),
+                It.IsAny<TicketField>(),
                 It.IsAny<SortDirection>(),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(tickets);
@@ -66,7 +66,7 @@ public class ListTicketsQueryHandlerTests : ApplicationTestBase
                 null,
                 null,
                 null,
-                It.IsAny<TicketSortField>(),
+                It.IsAny<TicketField>(),
                 It.IsAny<SortDirection>(),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(new List<Ticket>());
@@ -91,12 +91,12 @@ public class ListTicketsQueryHandlerTests : ApplicationTestBase
                 null,
                 null,
                 null,
-                TicketSortField.Key,
+                TicketField.Key,
                 SortDirection.Descending,
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(new List<Ticket>());
 
-        var query = new ListTicketsQuery(1, null, TicketSortField.Key, SortDirection.Descending);
+        var query = new ListTicketsQuery(1, null, TicketField.Key, SortDirection.Descending);
 
         // Act
         await _handler.HandleAsync(query, CancellationToken.None);
@@ -107,7 +107,7 @@ public class ListTicketsQueryHandlerTests : ApplicationTestBase
             null,
             null,
             null,
-            TicketSortField.Key,
+            TicketField.Key,
             SortDirection.Descending,
             It.IsAny<CancellationToken>()), Times.Once);
     }
@@ -122,7 +122,7 @@ public class ListTicketsQueryHandlerTests : ApplicationTestBase
                 null,
                 5,
                 null,
-                TicketSortField.Id,
+                TicketField.Id,
                 SortDirection.Ascending,
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(new List<Ticket>());
@@ -138,7 +138,7 @@ public class ListTicketsQueryHandlerTests : ApplicationTestBase
             null,
             5,
             null,
-            TicketSortField.Id,
+            TicketField.Id,
             SortDirection.Ascending,
             It.IsAny<CancellationToken>()), Times.Once);
     }
@@ -153,7 +153,7 @@ public class ListTicketsQueryHandlerTests : ApplicationTestBase
                 2,
                 5,
                 null,
-                TicketSortField.Id,
+                TicketField.Id,
                 SortDirection.Ascending,
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(new List<Ticket>());
@@ -169,7 +169,7 @@ public class ListTicketsQueryHandlerTests : ApplicationTestBase
             2,
             5,
             null,
-            TicketSortField.Id,
+            TicketField.Id,
             SortDirection.Ascending,
             It.IsAny<CancellationToken>()), Times.Once);
     }
@@ -184,7 +184,7 @@ public class ListTicketsQueryHandlerTests : ApplicationTestBase
                 null,
                 null,
                 10,
-                TicketSortField.Id,
+                TicketField.Id,
                 SortDirection.Ascending,
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(new List<Ticket>());
@@ -200,7 +200,7 @@ public class ListTicketsQueryHandlerTests : ApplicationTestBase
             null,
             null,
             10,
-            TicketSortField.Id,
+            TicketField.Id,
             SortDirection.Ascending,
             It.IsAny<CancellationToken>()), Times.Once);
     }

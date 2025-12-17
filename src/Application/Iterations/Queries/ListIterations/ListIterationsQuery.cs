@@ -12,5 +12,5 @@ namespace Lucy.Application.Iterations.Queries.ListIterations;
 /// <param name="SortDirection">The direction to sort.</param>
 public record ListIterationsQuery(
     long ProjectId,
-    IterationSortField SortBy = IterationSortField.Id,
+    IterationField SortBy = IterationField.Id,
     SortDirection SortDirection = SortDirection.Ascending) : IRequest<List<IterationDto>>;

@@ -29,7 +29,7 @@ public interface ITicketReadOnlyRepository : IReadOnlyRepository<Ticket, long>
         long? statusId = null,
         long? tagId = null,
         long? iterationId = null,
-        TicketSortField sortBy = TicketSortField.Id,
+        TicketField sortBy = TicketField.Id,
         SortDirection sortDirection = SortDirection.Ascending,
         CancellationToken token = default);
 
@@ -41,7 +41,7 @@ public interface ITicketReadOnlyRepository : IReadOnlyRepository<Ticket, long>
     /// <summary>
     /// Gets all tickets for a specific project with sorting.
     /// </summary>
-    Task<List<Ticket>> GetByProjectIdAsync(long projectId, TicketSortField sortBy, SortDirection sortDirection, CancellationToken token = default);
+    Task<List<Ticket>> GetByProjectIdAsync(long projectId, TicketField sortBy, SortDirection sortDirection, CancellationToken token = default);
 
     /// <summary>
     /// Gets all tickets for a specific project and status.
@@ -51,17 +51,17 @@ public interface ITicketReadOnlyRepository : IReadOnlyRepository<Ticket, long>
     /// <summary>
     /// Gets all tickets for a specific project and status with sorting.
     /// </summary>
-    Task<List<Ticket>> GetByProjectIdAndStatusIdAsync(long projectId, long statusId, TicketSortField sortBy, SortDirection sortDirection, CancellationToken token = default);
+    Task<List<Ticket>> GetByProjectIdAndStatusIdAsync(long projectId, long statusId, TicketField sortBy, SortDirection sortDirection, CancellationToken token = default);
 
     /// <summary>
     /// Gets all tickets for a specific project and tag with sorting.
     /// </summary>
-    Task<List<Ticket>> GetByProjectIdAndTagIdAsync(long projectId, long tagId, TicketSortField sortBy, SortDirection sortDirection, CancellationToken token = default);
+    Task<List<Ticket>> GetByProjectIdAndTagIdAsync(long projectId, long tagId, TicketField sortBy, SortDirection sortDirection, CancellationToken token = default);
 
     /// <summary>
     /// Gets all tickets for a specific project, status, and tag with sorting.
     /// </summary>
-    Task<List<Ticket>> GetByProjectIdStatusIdAndTagIdAsync(long projectId, long statusId, long tagId, TicketSortField sortBy, SortDirection sortDirection, CancellationToken token = default);
+    Task<List<Ticket>> GetByProjectIdStatusIdAndTagIdAsync(long projectId, long statusId, long tagId, TicketField sortBy, SortDirection sortDirection, CancellationToken token = default);
 
     /// <summary>
     /// Gets all tickets for a specific status.
@@ -71,12 +71,12 @@ public interface ITicketReadOnlyRepository : IReadOnlyRepository<Ticket, long>
     /// <summary>
     /// Gets all tickets for a specific status with sorting.
     /// </summary>
-    Task<List<Ticket>> GetByStatusIdAsync(long statusId, TicketSortField sortBy, SortDirection sortDirection, CancellationToken token = default);
+    Task<List<Ticket>> GetByStatusIdAsync(long statusId, TicketField sortBy, SortDirection sortDirection, CancellationToken token = default);
 
     /// <summary>
     /// Gets all tickets with sorting.
     /// </summary>
-    Task<List<Ticket>> GetAllAsync(TicketSortField sortBy, SortDirection sortDirection, CancellationToken token = default);
+    Task<List<Ticket>> GetAllAsync(TicketField sortBy, SortDirection sortDirection, CancellationToken token = default);
 
     /// <summary>
     /// Gets ticket counts by status for a specific project.

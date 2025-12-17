@@ -28,5 +28,5 @@ public interface IStatusReadOnlyRepository : IReadOnlyRepository<Status, long>
     /// <summary>
     /// Gets all statuses for a specific project with sorting.
     /// </summary>
-    Task<List<Status>> GetByProjectIdAsync(long projectId, StatusSortField sortBy, SortDirection sortDirection, CancellationToken token = default);
+    Task<List<Status>> GetByProjectIdAsync(long projectId, StatusField sortBy, SortDirection sortDirection, CancellationToken token = default);
 }

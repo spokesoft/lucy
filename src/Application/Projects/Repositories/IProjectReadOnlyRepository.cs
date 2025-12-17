@@ -23,5 +23,5 @@ public interface IProjectReadOnlyRepository : IReadOnlyRepository<Project, long>
     /// <summary>
     /// Gets all projects with sorting.
     /// </summary>
-    Task<List<Project>> GetAllAsync(ProjectSortField sortBy, SortDirection sortDirection, CancellationToken token = default);
+    Task<List<Project>> GetAllAsync(ProjectField sortBy, SortDirection sortDirection, CancellationToken token = default);
 }

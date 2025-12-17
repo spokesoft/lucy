@@ -16,7 +16,7 @@ namespace Lucy.Application.Tickets.Queries.ListTickets;
 public record ListTicketsQuery(
     long ProjectId,
     long? StatusId = null,
-    TicketSortField SortBy = TicketSortField.Id,
+    TicketField SortBy = TicketField.Id,
     SortDirection SortDirection = SortDirection.Ascending,
     long? TagId = null,
     long? IterationId = null) : IRequest<List<TicketDto>>;

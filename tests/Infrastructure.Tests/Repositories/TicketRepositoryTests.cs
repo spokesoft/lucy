@@ -253,13 +253,13 @@ public class TicketRepositoryTests : RepositoryTestBase
         if (useWriteRepo)
         {
             var repository = new TicketRepository(writeContext);
-            tickets = await repository.GetByProjectIdAsync(1, TicketSortField.Key, Application.Queries.SortDirection.Descending);
+            tickets = await repository.GetByProjectIdAsync(1, TicketField.Key, Application.Queries.SortDirection.Descending);
         }
         else
         {
             await using var readContext = new LucyReadContext(DbContextOptions);
             var readOnlyRepo = new TicketReadOnlyRepository(readContext);
-            tickets = await readOnlyRepo.GetByProjectIdAsync(1, TicketSortField.Key, Application.Queries.SortDirection.Descending);
+            tickets = await readOnlyRepo.GetByProjectIdAsync(1, TicketField.Key, Application.Queries.SortDirection.Descending);
         }
 
         // Assert
@@ -316,13 +316,13 @@ public class TicketRepositoryTests : RepositoryTestBase
         if (useWriteRepo)
         {
             var repository = new TicketRepository(writeContext);
-            resultTickets = await repository.GetByStatusIdAsync(statuses[0].Id, TicketSortField.Title, Application.Queries.SortDirection.Ascending);
+            resultTickets = await repository.GetByStatusIdAsync(statuses[0].Id, TicketField.Title, Application.Queries.SortDirection.Ascending);
         }
         else
         {
             await using var readContext = new LucyReadContext(DbContextOptions);
             var readOnlyRepo = new TicketReadOnlyRepository(readContext);
-            resultTickets = await readOnlyRepo.GetByStatusIdAsync(statuses[0].Id, TicketSortField.Title, Application.Queries.SortDirection.Ascending);
+            resultTickets = await readOnlyRepo.GetByStatusIdAsync(statuses[0].Id, TicketField.Title, Application.Queries.SortDirection.Ascending);
         }
 
         // Assert

@@ -33,7 +33,7 @@ public class ListProjectsQueryHandlerTests : ApplicationTestBase
 
         _projectRepositoryMock
             .Setup(u => u.GetAllAsync(
-                It.IsAny<ProjectSortField>(),
+                It.IsAny<ProjectField>(),
                 It.IsAny<SortDirection>(),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(projects);
@@ -57,7 +57,7 @@ public class ListProjectsQueryHandlerTests : ApplicationTestBase
         // Arrange
         _projectRepositoryMock
             .Setup(u => u.GetAllAsync(
-                It.IsAny<ProjectSortField>(),
+                It.IsAny<ProjectField>(),
                 It.IsAny<SortDirection>(),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(new List<Project>());
@@ -78,19 +78,19 @@ public class ListProjectsQueryHandlerTests : ApplicationTestBase
         // Arrange
         _projectRepositoryMock
             .Setup(u => u.GetAllAsync(
-                ProjectSortField.Key,
+                ProjectField.Key,
                 SortDirection.Descending,
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(new List<Project>());
 
-        var query = new ListProjectsQuery(ProjectSortField.Key, SortDirection.Descending);
+        var query = new ListProjectsQuery(ProjectField.Key, SortDirection.Descending);
 
         // Act
         await _handler.HandleAsync(query, CancellationToken.None);
 
         // Assert
         _projectRepositoryMock.Verify(u => u.GetAllAsync(
-            ProjectSortField.Key,
+            ProjectField.Key,
             SortDirection.Descending,
             It.IsAny<CancellationToken>()), Times.Once);
     }

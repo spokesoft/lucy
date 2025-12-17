@@ -23,10 +23,10 @@ public interface IIterationReadOnlyRepository : IReadOnlyRepository<Iteration, l
     /// <summary>
     /// Gets all iterations for a specific project.
     /// </summary>
-    Task<List<Iteration>> GetByProjectIdAsync(long projectId, IterationSortField sortBy, SortDirection sortDirection, CancellationToken token = default);
+    Task<List<Iteration>> GetByProjectIdAsync(long projectId, IterationField sortBy, SortDirection sortDirection, CancellationToken token = default);
 
     /// <summary>
     /// Gets all iterations with sorting.
     /// </summary>
-    Task<List<Iteration>> GetAllAsync(IterationSortField sortBy, SortDirection sortDirection, CancellationToken token = default);
+    Task<List<Iteration>> GetAllAsync(IterationField sortBy, SortDirection sortDirection, CancellationToken token = default);
 }

@@ -219,13 +219,13 @@ public class IterationRepositoryTests : RepositoryTestBase
         if (useWriteRepo)
         {
             var repository = new IterationRepository(writeContext);
-            result = await repository.GetByProjectIdAsync(project.Id, IterationSortField.Id, SortDirection.Ascending);
+            result = await repository.GetByProjectIdAsync(project.Id, IterationField.Id, SortDirection.Ascending);
         }
         else
         {
             await using var readContext = new LucyReadContext(_readDbContextOptions);
             var repository = new IterationReadOnlyRepository(readContext);
-            result = await repository.GetByProjectIdAsync(project.Id, IterationSortField.Id, SortDirection.Ascending);
+            result = await repository.GetByProjectIdAsync(project.Id, IterationField.Id, SortDirection.Ascending);
         }
 
         // Assert
@@ -356,13 +356,13 @@ public class IterationRepositoryTests : RepositoryTestBase
         if (useWriteRepo)
         {
             var repository = new IterationRepository(writeContext);
-            result = await repository.GetAllAsync(IterationSortField.Name, SortDirection.Descending);
+            result = await repository.GetAllAsync(IterationField.Name, SortDirection.Descending);
         }
         else
         {
             await using var readContext = new LucyReadContext(_readDbContextOptions);
             var repository = new IterationReadOnlyRepository(readContext);
-            result = await repository.GetAllAsync(IterationSortField.Name, SortDirection.Descending);
+            result = await repository.GetAllAsync(IterationField.Name, SortDirection.Descending);
         }
 
         // Assert

@@ -28,31 +28,31 @@ public class IterationReadOnlyRepository(
     /// <summary>
     /// Gets all iterations for a specific project.
     /// </summary>
-    public Task<List<Iteration>> GetByProjectIdAsync(long projectId, IterationSortField sortBy, SortDirection sortDirection, CancellationToken token = default)
+    public Task<List<Iteration>> GetByProjectIdAsync(long projectId, IterationField sortBy, SortDirection sortDirection, CancellationToken token = default)
     {
         var query = _set.Where(iteration => iteration.ProjectId == projectId);
 
         query = sortBy switch
         {
-            IterationSortField.Id => sortDirection == SortDirection.Ascending
+            IterationField.Id => sortDirection == SortDirection.Ascending
                 ? query.OrderBy(i => i.Id)
                 : query.OrderByDescending(i => i.Id),
-            IterationSortField.Key => sortDirection == SortDirection.Ascending
+            IterationField.Key => sortDirection == SortDirection.Ascending
                 ? query.OrderBy(i => i.Key)
                 : query.OrderByDescending(i => i.Key),
-            IterationSortField.Name => sortDirection == SortDirection.Ascending
+            IterationField.Name => sortDirection == SortDirection.Ascending
                 ? query.OrderBy(i => i.Name)
                 : query.OrderByDescending(i => i.Name),
-            IterationSortField.StartDate => sortDirection == SortDirection.Ascending
+            IterationField.StartDate => sortDirection == SortDirection.Ascending
                 ? query.OrderBy(i => i.StartDate)
                 : query.OrderByDescending(i => i.StartDate),
-            IterationSortField.EndDate => sortDirection == SortDirection.Ascending
+            IterationField.EndDate => sortDirection == SortDirection.Ascending
                 ? query.OrderBy(i => i.EndDate)
                 : query.OrderByDescending(i => i.EndDate),
-            IterationSortField.CreatedAt => sortDirection == SortDirection.Ascending
+            IterationField.CreatedAt => sortDirection == SortDirection.Ascending
                 ? query.OrderBy(i => i.CreatedAt)
                 : query.OrderByDescending(i => i.CreatedAt),
-            IterationSortField.UpdatedAt => sortDirection == SortDirection.Ascending
+            IterationField.UpdatedAt => sortDirection == SortDirection.Ascending
                 ? query.OrderBy(i => i.UpdatedAt)
                 : query.OrderByDescending(i => i.UpdatedAt),
             _ => query.OrderBy(i => i.Id)
@@ -64,31 +64,31 @@ public class IterationReadOnlyRepository(
     /// <summary>
     /// Gets all iterations with sorting.
     /// </summary>
-    public Task<List<Iteration>> GetAllAsync(IterationSortField sortBy, SortDirection sortDirection, CancellationToken token = default)
+    public Task<List<Iteration>> GetAllAsync(IterationField sortBy, SortDirection sortDirection, CancellationToken token = default)
     {
         var query = _set.AsQueryable();
 
         query = sortBy switch
         {
-            IterationSortField.Id => sortDirection == SortDirection.Ascending
+            IterationField.Id => sortDirection == SortDirection.Ascending
                 ? query.OrderBy(i => i.Id)
                 : query.OrderByDescending(i => i.Id),
-            IterationSortField.Key => sortDirection == SortDirection.Ascending
+            IterationField.Key => sortDirection == SortDirection.Ascending
                 ? query.OrderBy(i => i.Key)
                 : query.OrderByDescending(i => i.Key),
-            IterationSortField.Name => sortDirection == SortDirection.Ascending
+            IterationField.Name => sortDirection == SortDirection.Ascending
                 ? query.OrderBy(i => i.Name)
                 : query.OrderByDescending(i => i.Name),
-            IterationSortField.StartDate => sortDirection == SortDirection.Ascending
+            IterationField.StartDate => sortDirection == SortDirection.Ascending
                 ? query.OrderBy(i => i.StartDate)
                 : query.OrderByDescending(i => i.StartDate),
-            IterationSortField.EndDate => sortDirection == SortDirection.Ascending
+            IterationField.EndDate => sortDirection == SortDirection.Ascending
                 ? query.OrderBy(i => i.EndDate)
                 : query.OrderByDescending(i => i.EndDate),
-            IterationSortField.CreatedAt => sortDirection == SortDirection.Ascending
+            IterationField.CreatedAt => sortDirection == SortDirection.Ascending
                 ? query.OrderBy(i => i.CreatedAt)
                 : query.OrderByDescending(i => i.CreatedAt),
-            IterationSortField.UpdatedAt => sortDirection == SortDirection.Ascending
+            IterationField.UpdatedAt => sortDirection == SortDirection.Ascending
                 ? query.OrderBy(i => i.UpdatedAt)
                 : query.OrderByDescending(i => i.UpdatedAt),
             _ => query.OrderBy(i => i.Id)

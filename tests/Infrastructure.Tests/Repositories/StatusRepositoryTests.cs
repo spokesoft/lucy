@@ -240,13 +240,13 @@ public class StatusRepositoryTests : RepositoryTestBase
         if (useWriteRepo)
         {
             var repository = new StatusRepository(writeContext);
-            statuses = await repository.GetByProjectIdAsync(project.Id, StatusSortField.Order, Application.Queries.SortDirection.Descending);
+            statuses = await repository.GetByProjectIdAsync(project.Id, StatusField.Order, Application.Queries.SortDirection.Descending);
         }
         else
         {
             await using var readContext = new LucyReadContext(_readDbContextOptions);
             var readOnlyRepo = new StatusReadOnlyRepository(readContext);
-            statuses = await readOnlyRepo.GetByProjectIdAsync(project.Id, StatusSortField.Order, Application.Queries.SortDirection.Descending);
+            statuses = await readOnlyRepo.GetByProjectIdAsync(project.Id, StatusField.Order, Application.Queries.SortDirection.Descending);
         }
 
         // Assert
