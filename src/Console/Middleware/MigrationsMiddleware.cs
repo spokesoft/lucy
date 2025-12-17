@@ -1,5 +1,5 @@
 using System.Diagnostics;
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Console.Enums;
 using Lucy.Console.Extensions;
 using Lucy.Console.Interfaces;

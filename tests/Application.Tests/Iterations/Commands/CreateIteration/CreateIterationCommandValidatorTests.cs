@@ -1,7 +1,7 @@
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.Iterations.Commands.CreateIteration;
 using Lucy.Application.Projects.Repositories;
-using Lucy.Application.Validation;
+using Lucy.Application.Common.Validation;
 using Moq;
 
 namespace Lucy.Application.Tests.Iterations.Commands.CreateIteration;

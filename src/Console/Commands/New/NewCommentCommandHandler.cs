@@ -1,6 +1,6 @@
 using AppCreateProjectCommentCommand = Lucy.Application.Comments.Commands.CreateProjectComment.CreateProjectCommentCommand;
 using AppCreateTicketCommentCommand = Lucy.Application.Comments.Commands.CreateTicketComment.CreateTicketCommentCommand;
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.Projects.Queries.GetProjectIdByKey;
 using Lucy.Application.Tickets.Queries.GetTicketByKey;
 using Lucy.Console.Enums;

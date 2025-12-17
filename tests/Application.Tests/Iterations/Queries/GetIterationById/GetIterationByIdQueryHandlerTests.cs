@@ -1,4 +1,4 @@
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.Iterations.Queries.GetIterationById;
 using Lucy.Application.Iterations.Repositories;
 using Lucy.Domain.Entities;

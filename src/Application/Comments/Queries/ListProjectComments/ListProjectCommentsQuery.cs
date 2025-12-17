@@ -1,5 +1,5 @@
 using Lucy.Application.Comments.DTOs;
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 
 namespace Lucy.Application.Comments.Queries.ListProjectComments;
 

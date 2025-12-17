@@ -1,4 +1,4 @@
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Console.Enums;
 using Lucy.Console.Interfaces;
 using Lucy.Console.Internal;
@@ -100,8 +100,8 @@ public class CommandExecutorTests
         var context = CreateCommandContext();
         var command = new TestCommand { Name = "test" };
 
-        var validationResult = new Lucy.Application.Validation.ValidationResult();
-        validationResult.AddError(new Lucy.Application.Validation.ValidationError(
+        var validationResult = new Lucy.Application.Common.Validation.ValidationResult();
+        validationResult.AddError(new Lucy.Application.Common.Validation.ValidationError(
             "Name is required"));
         _commandValidator.ResultToReturn = validationResult;
 

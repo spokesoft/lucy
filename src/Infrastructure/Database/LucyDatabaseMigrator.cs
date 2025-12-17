@@ -1,4 +1,4 @@
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Lucy.Infrastructure.Database;

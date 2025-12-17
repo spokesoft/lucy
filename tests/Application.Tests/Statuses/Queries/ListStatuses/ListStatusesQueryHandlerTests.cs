@@ -1,4 +1,4 @@
-using Lucy.Application.Queries;
+using Lucy.Application.Common.Queries;
 using Lucy.Application.Statuses.Queries;
 using Lucy.Application.Statuses.Queries.ListStatuses;
 using Lucy.Application.Statuses.Repositories;

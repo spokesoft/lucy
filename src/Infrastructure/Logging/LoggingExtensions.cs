@@ -1,5 +1,5 @@
 using System.Threading.Channels;
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Infrastructure.Logging.Database;
 using Lucy.Infrastructure.Logging.Options;
 using Lucy.Infrastructure.Logging.Services;

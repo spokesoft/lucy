@@ -1,5 +1,5 @@
-using Lucy.Application.Interfaces;
-using Lucy.Application.Queries;
+using Lucy.Application.Common.Interfaces;
+using Lucy.Application.Common.Queries;
 using Lucy.Application.Tickets.DTOs;
 
 namespace Lucy.Application.Tickets.Queries.ListTickets;

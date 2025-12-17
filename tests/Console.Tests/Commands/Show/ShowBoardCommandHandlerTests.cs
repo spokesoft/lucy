@@ -1,5 +1,5 @@
 using System.Linq;
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.Projects.Queries.GetProjectIdByKey;
 using Lucy.Application.Statuses.DTOs;
 using Lucy.Application.Statuses.Queries.ListStatuses;

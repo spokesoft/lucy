@@ -1,5 +1,5 @@
 using AppCreateTicketCommand = Lucy.Application.Tickets.Commands.CreateTicket.CreateTicketCommand;
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.Projects.Queries.GetProjectIdByKey;
 using Lucy.Application.Statuses.Queries.GetStatusByKey;
 using Lucy.Application.Statuses.Queries.ListStatuses;

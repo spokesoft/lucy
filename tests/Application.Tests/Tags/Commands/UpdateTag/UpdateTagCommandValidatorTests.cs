@@ -1,7 +1,7 @@
 using Lucy.Application.Tags.Commands.UpdateTag;
 using Lucy.Application.Tags.Repositories;
 using Lucy.Application.Tests.Infrastructure;
-using Lucy.Application.Validation;
+using Lucy.Application.Common.Validation;
 using Lucy.Domain.Entities;
 using Lucy.Domain.Enums;
 using Moq;

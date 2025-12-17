@@ -1,5 +1,5 @@
 using Lucy.Application.Comments.Repositories;
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.Iterations.Repositories;
 using Lucy.Application.Projects.Repositories;
 using Lucy.Application.Sequences.Repositories;

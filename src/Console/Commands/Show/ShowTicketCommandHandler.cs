@@ -1,6 +1,6 @@
 using Lucy.Application.Comments.DTOs;
 using Lucy.Application.Comments.Queries.ListTicketComments;
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.Statuses.DTOs;
 using Lucy.Application.Statuses.Queries.GetStatusById;
 using Lucy.Application.Tickets.DTOs;

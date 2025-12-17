@@ -1,5 +1,5 @@
 using AppRemoveTicketTagCommand = Lucy.Application.TicketTags.Commands.RemoveTicketTag.RemoveTicketTagCommand;
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.Tags.Queries.GetTagIdByKey;
 using Lucy.Application.Tickets.Queries.GetTicketById;
 using Lucy.Application.Tickets.Queries.GetTicketByKey;

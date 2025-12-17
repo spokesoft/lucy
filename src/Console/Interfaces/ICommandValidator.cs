@@ -1,4 +1,4 @@
-using Lucy.Application.Validation;
+using Lucy.Application.Common.Validation;
 using Spectre.Console.Cli;
 
 namespace Lucy.Console.Interfaces;

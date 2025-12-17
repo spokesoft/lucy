@@ -1,5 +1,5 @@
 using Lucy.Application.Comments.DTOs;
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Domain.Entities;
 
 namespace Lucy.Application.Comments.Repositories;

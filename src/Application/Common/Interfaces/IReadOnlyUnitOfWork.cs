@@ -7,7 +7,7 @@ using Lucy.Application.Tags.Repositories;
 using Lucy.Application.Tickets.Repositories;
 using Lucy.Application.TicketTags.Repositories;
 
-namespace Lucy.Application.Interfaces;
+namespace Lucy.Application.Common.Interfaces;
 
 /// <summary>
 /// Read-only Unit of Work interface for managing read-only repositories.

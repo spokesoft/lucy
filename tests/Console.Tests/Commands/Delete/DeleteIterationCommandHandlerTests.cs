@@ -1,4 +1,4 @@
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.Iterations.Queries.GetIterationIdByKey;
 using Lucy.Console.Enums;
 using Microsoft.Extensions.Localization;

@@ -1,6 +1,6 @@
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.Iterations.Queries;
-using Lucy.Application.Queries;
+using Lucy.Application.Common.Queries;
 using Lucy.Domain.Entities;
 
 namespace Lucy.Application.Iterations.Repositories;

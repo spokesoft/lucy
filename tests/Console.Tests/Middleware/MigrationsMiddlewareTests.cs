@@ -1,4 +1,4 @@
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Console.Enums;
 using Lucy.Console.Middleware;
 using Lucy.Console.Tests.Helpers;

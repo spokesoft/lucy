@@ -1,4 +1,4 @@
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.Statuses.DTOs;
 
 namespace Lucy.Application.Statuses.Queries.ListStatuses;

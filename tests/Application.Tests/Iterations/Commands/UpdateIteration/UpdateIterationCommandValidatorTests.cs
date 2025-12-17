@@ -1,7 +1,7 @@
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.Iterations.Commands.UpdateIteration;
 using Lucy.Application.Iterations.Repositories;
-using Lucy.Application.Validation;
+using Lucy.Application.Common.Validation;
 using Lucy.Domain.Entities;
 using Moq;
 

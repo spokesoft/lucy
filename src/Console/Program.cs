@@ -1,4 +1,4 @@
-﻿using Lucy.Console.Commands.Add;
+using Lucy.Console.Commands.Add;
 using Lucy.Console.Commands.Delete;
 using Lucy.Console.Commands.Remove;
 using Lucy.Console.Commands.List;

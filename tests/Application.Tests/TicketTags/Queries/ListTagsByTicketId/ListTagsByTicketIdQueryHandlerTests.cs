@@ -1,4 +1,4 @@
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.TicketTags.Queries.ListTagsByTicketId;
 using Lucy.Application.TicketTags.Repositories;
 using Lucy.Domain.Entities;

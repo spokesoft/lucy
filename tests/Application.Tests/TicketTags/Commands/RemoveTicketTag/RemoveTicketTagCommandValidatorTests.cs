@@ -1,8 +1,8 @@
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.TicketTags.Commands.RemoveTicketTag;
 using Lucy.Application.Tags.Repositories;
 using Lucy.Application.Tickets.Repositories;
-using Lucy.Application.Validation;
+using Lucy.Application.Common.Validation;
 using Moq;
 
 namespace Lucy.Application.Tests.TicketTags.Commands.RemoveTicketTag;

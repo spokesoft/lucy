@@ -1,5 +1,5 @@
 using AppUpdateTicketCommand = Lucy.Application.Tickets.Commands.UpdateTicket.UpdateTicketCommand;
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.Statuses.Queries.GetStatusByKey;
 using Lucy.Application.Tickets.Queries.GetTicketById;
 using Lucy.Application.Tickets.Queries.GetTicketByKey;

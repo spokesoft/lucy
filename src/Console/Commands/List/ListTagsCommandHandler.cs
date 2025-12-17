@@ -1,4 +1,4 @@
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.Projects.Queries.GetProjectIdByKey;
 using Lucy.Application.Tags.DTOs;
 using Lucy.Application.Tags.Queries.ListTags;

@@ -1,5 +1,5 @@
 using AppCreateIterationCommand = Lucy.Application.Iterations.Commands.CreateIteration.CreateIterationCommand;
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.Projects.Queries.GetProjectIdByKey;
 using Lucy.Console.Enums;
 using Lucy.Console.Interfaces;

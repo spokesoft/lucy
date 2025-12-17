@@ -1,6 +1,6 @@
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.Iterations.DTOs;
-using Lucy.Application.Queries;
+using Lucy.Application.Common.Queries;
 
 namespace Lucy.Application.Iterations.Queries.ListIterations;
 

@@ -7,7 +7,7 @@ using Lucy.Application.Tags.Repositories;
 using Lucy.Application.Tickets.Repositories;
 using Lucy.Application.TicketTags.Repositories;
 
-namespace Lucy.Application.Interfaces;
+namespace Lucy.Application.Common.Interfaces;
 
 /// <summary>
 /// Unit of Work interface for managing repositories and committing changes.

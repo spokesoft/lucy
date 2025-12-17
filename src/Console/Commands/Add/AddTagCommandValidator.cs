@@ -1,9 +1,9 @@
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.Tags.Queries.TagExistsById;
 using Lucy.Application.Tags.Queries.TagExistsByKey;
 using Lucy.Application.Tickets.Queries.GetTicketById;
 using Lucy.Application.Tickets.Queries.GetTicketByKey;
-using Lucy.Application.Validation;
+using Lucy.Application.Common.Validation;
 using Lucy.Console.Enums;
 using Lucy.Console.Interfaces;
 using Spectre.Console.Cli;

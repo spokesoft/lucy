@@ -1,7 +1,7 @@
 using Lucy.Application.Projects.Queries;
 using Lucy.Application.Projects.Queries.ListProjects;
 using Lucy.Application.Projects.Repositories;
-using Lucy.Application.Queries;
+using Lucy.Application.Common.Queries;
 using Lucy.Application.Tests.Infrastructure;
 using Lucy.Domain.Entities;
 using Moq;

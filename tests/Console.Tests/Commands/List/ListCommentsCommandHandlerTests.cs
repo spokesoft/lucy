@@ -1,7 +1,7 @@
 using Lucy.Application.Comments.DTOs;
 using Lucy.Application.Comments.Queries.ListProjectComments;
 using Lucy.Application.Comments.Queries.ListTicketComments;
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.Projects.Queries.GetProjectIdByKey;
 using Lucy.Application.Tickets.DTOs;
 using Lucy.Application.Tickets.Queries.GetTicketByKey;

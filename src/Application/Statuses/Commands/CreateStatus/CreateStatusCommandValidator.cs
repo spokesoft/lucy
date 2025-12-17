@@ -1,6 +1,6 @@
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.Statuses.Validators;
-using Lucy.Application.Validation;
+using Lucy.Application.Common.Validation;
 
 namespace Lucy.Application.Statuses.Commands.CreateStatus;
 

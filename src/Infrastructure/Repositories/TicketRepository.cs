@@ -1,4 +1,4 @@
-using Lucy.Application.Queries;
+using Lucy.Application.Common.Queries;
 using Lucy.Application.Tickets.DTOs;
 using Lucy.Application.Tickets.Queries;
 using Lucy.Application.Tickets.Repositories;

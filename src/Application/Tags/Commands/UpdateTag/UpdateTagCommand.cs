@@ -1,4 +1,4 @@
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Domain.Enums;
 
 namespace Lucy.Application.Tags.Commands.UpdateTag;

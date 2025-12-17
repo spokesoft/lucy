@@ -3,7 +3,7 @@ using Lucy.Console.Enums;
 using Lucy.Console.Interfaces;
 using Spectre.Console.Cli;
 using Spectre.Console;
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.Projects.Queries.GetProjectIdByKey;
 using Lucy.Application.Statuses.Queries.GetStatusByKey;
 using Microsoft.Extensions.Localization;

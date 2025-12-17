@@ -1,5 +1,5 @@
 using Lucy.Application.Iterations.Queries;
-using Lucy.Application.Queries;
+using Lucy.Application.Common.Queries;
 using Lucy.Domain.Entities;
 using Lucy.Infrastructure.Database;
 using Lucy.Infrastructure.Repositories;

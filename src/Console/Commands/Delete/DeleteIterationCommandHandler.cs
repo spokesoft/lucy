@@ -3,7 +3,7 @@ using Lucy.Console.Enums;
 using Lucy.Console.Interfaces;
 using Spectre.Console.Cli;
 using Lucy.Application.Iterations.Queries.GetIterationIdByKey;
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Spectre.Console;
 using Microsoft.Extensions.Localization;
 

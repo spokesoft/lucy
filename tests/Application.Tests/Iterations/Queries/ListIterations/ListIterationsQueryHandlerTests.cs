@@ -1,8 +1,8 @@
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.Iterations.Queries;
 using Lucy.Application.Iterations.Queries.ListIterations;
 using Lucy.Application.Iterations.Repositories;
-using Lucy.Application.Queries;
+using Lucy.Application.Common.Queries;
 using Lucy.Domain.Entities;
 using Lucy.Domain.Enums;
 using Moq;

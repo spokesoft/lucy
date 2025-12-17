@@ -1,4 +1,4 @@
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.Iterations.DTOs;
 
 namespace Lucy.Application.Iterations.Queries.GetIterationByKey;

@@ -1,7 +1,7 @@
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.Projects.Queries.ProjectExistsById;
 using Lucy.Application.Projects.Queries.ProjectExistsByKey;
-using Lucy.Application.Validation;
+using Lucy.Application.Common.Validation;
 using Lucy.Console.Enums;
 using Lucy.Console.Interfaces;
 using Spectre.Console.Cli;

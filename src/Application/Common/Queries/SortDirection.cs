@@ -1,4 +1,4 @@
-namespace Lucy.Application.Queries;
+namespace Lucy.Application.Common.Queries;
 
 /// <summary>
 /// Defines the sort direction for query results.

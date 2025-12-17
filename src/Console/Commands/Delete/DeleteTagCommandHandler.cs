@@ -1,5 +1,5 @@
 using AppDeleteTagCommand = Lucy.Application.Tags.Commands.DeleteTag.DeleteTagCommand;
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.Projects.Queries.GetProjectIdByKey;
 using Lucy.Application.Tags.Queries.GetTagIdByKey;
 using Lucy.Console.Enums;

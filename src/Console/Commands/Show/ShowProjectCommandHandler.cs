@@ -1,6 +1,6 @@
 using Lucy.Application.Comments.DTOs;
 using Lucy.Application.Comments.Queries.ListProjectComments;
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.Projects.DTOs;
 using Lucy.Application.Projects.Queries.GetProjectById;
 using Lucy.Application.Projects.Queries.GetProjectIdByKey;

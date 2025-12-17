@@ -1,5 +1,5 @@
 using AppUpdateCommentCommand = Lucy.Application.Comments.Commands.UpdateComment.UpdateCommentCommand;
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Console.Enums;
 using Lucy.Console.Interfaces;
 using Microsoft.Extensions.Localization;

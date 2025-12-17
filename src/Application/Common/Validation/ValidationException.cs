@@ -1,4 +1,4 @@
-namespace Lucy.Application.Validation;
+namespace Lucy.Application.Common.Validation;
 
 /// <summary>
 /// Exception thrown when validation errors occur.

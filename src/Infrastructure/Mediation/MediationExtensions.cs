@@ -1,5 +1,5 @@
 using System.Reflection;
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Infrastructure.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 

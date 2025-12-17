@@ -1,4 +1,4 @@
-using Lucy.Application.Validation;
+using Lucy.Application.Common.Validation;
 using Lucy.Console.Enums;
 using Lucy.Console.Interfaces;
 using Lucy.Console.Internal;

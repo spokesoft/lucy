@@ -1,5 +1,5 @@
 using AppDeleteCommentCommand = Lucy.Application.Comments.Commands.DeleteComment.DeleteCommentCommand;
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Console.Enums;
 using Lucy.Console.Interfaces;
 using Microsoft.Extensions.Localization;

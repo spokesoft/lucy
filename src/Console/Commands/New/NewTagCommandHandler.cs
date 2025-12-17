@@ -1,5 +1,5 @@
 using AppCreateTagCommand = Lucy.Application.Tags.Commands.CreateTag.CreateTagCommand;
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.Projects.Queries.GetProjectIdByKey;
 using Lucy.Console.Enums;
 using Lucy.Console.Interfaces;

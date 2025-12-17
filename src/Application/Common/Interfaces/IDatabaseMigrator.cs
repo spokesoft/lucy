@@ -1,4 +1,4 @@
-namespace Lucy.Application.Interfaces;
+namespace Lucy.Application.Common.Interfaces;
 
 /// <summary>
 /// Interface for database migration operations.

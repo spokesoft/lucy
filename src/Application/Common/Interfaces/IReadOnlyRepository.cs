@@ -1,6 +1,6 @@
 using Lucy.Domain.Entities;
 
-namespace Lucy.Application.Interfaces;
+namespace Lucy.Application.Common.Interfaces;
 
 /// <summary>
 /// Read-only repository interface.

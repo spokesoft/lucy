@@ -1,4 +1,4 @@
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.Iterations.Repositories;
 using Lucy.Application.Tickets.Commands.AssignTicketToIteration;
 using Lucy.Application.Tickets.Repositories;

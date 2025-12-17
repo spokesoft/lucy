@@ -1,5 +1,5 @@
 using AppUpdateIterationCommand = Lucy.Application.Iterations.Commands.UpdateIteration.UpdateIterationCommand;
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.Iterations.Queries.GetIterationByKey;
 using Lucy.Console.Enums;
 using Lucy.Console.Interfaces;

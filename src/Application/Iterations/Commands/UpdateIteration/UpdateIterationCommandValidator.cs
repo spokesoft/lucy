@@ -1,6 +1,6 @@
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.Iterations.Validators;
-using Lucy.Application.Validation;
+using Lucy.Application.Common.Validation;
 
 namespace Lucy.Application.Iterations.Commands.UpdateIteration;
 

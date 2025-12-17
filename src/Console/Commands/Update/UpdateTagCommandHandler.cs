@@ -1,5 +1,5 @@
 using AppUpdateTagCommand = Lucy.Application.Tags.Commands.UpdateTag.UpdateTagCommand;
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.Projects.Queries.GetProjectIdByKey;
 using Lucy.Application.Tags.Queries.GetTagIdByKey;
 using Lucy.Console.Enums;

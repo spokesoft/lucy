@@ -1,6 +1,6 @@
-using Lucy.Application.Validation;
+using Lucy.Application.Common.Validation;
 
-namespace Lucy.Application.Interfaces;
+namespace Lucy.Application.Common.Interfaces;
 
 /// <summary>
 /// Generic validator interface.

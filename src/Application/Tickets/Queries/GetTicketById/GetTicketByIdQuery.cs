@@ -1,4 +1,4 @@
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.Tickets.DTOs;
 
 namespace Lucy.Application.Tickets.Queries.GetTicketById;

@@ -1,5 +1,5 @@
-using Lucy.Application.Interfaces;
-using Lucy.Application.Validation;
+using Lucy.Application.Common.Interfaces;
+using Lucy.Application.Common.Validation;
 
 namespace Lucy.Application.Comments.Validators;
 

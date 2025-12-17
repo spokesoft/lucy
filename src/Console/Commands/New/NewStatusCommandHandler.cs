@@ -1,5 +1,5 @@
 using AppCreateStatusCommand = Lucy.Application.Statuses.Commands.CreateStatus.CreateStatusCommand;
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.Projects.Queries.GetProjectIdByKey;
 using Lucy.Console.Enums;
 using Lucy.Console.Interfaces;

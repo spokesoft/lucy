@@ -1,4 +1,4 @@
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.Iterations.Commands.CreateIteration;
 using Lucy.Application.Projects.Queries.GetProjectIdByKey;
 using Lucy.Console.Commands.New;

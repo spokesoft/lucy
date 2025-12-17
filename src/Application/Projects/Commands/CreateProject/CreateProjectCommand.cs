@@ -1,4 +1,4 @@
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 
 namespace Lucy.Application.Projects.Commands.CreateProject;
 

@@ -1,6 +1,6 @@
-using Lucy.Application.Interfaces;
+using Lucy.Application.Common.Interfaces;
 using Lucy.Application.Projects.DTOs;
-using Lucy.Application.Queries;
+using Lucy.Application.Common.Queries;
 
 namespace Lucy.Application.Projects.Queries.ListProjects;
 
